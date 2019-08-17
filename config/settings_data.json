@@ -399,9 +399,9 @@
       "password-header": {
         "type": "password-header",
         "settings": {
-          "logo": "",
+          "logo": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_c8b41e97-ec05-4754-8b0d-086e0f15f46c.png",
           "logo_max_width": "600",
-          "header": "Coming Soon"
+          "header": "Beep boop boop beep!"
         }
       },
       "password-footer": {
