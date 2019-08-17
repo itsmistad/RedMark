@@ -1,19 +1,6 @@
-<style>
-    @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-    article.markdown-body.entry-content.p-5 {
-        font-family:'Roboto', sans-serif;
-    }
-    .redmark__logo {
-        transition: 0.2s ease;
-    }
-    .redmark__logo:hover {
-        width: 450px;
-        height: 169px;
-    }
-</style>
-<div style="width:100%; display:flex; justify-content:space-around; align-items:center; flex-flow: column wrap;">
+<div align="center">
     <img class="redmark__logo" src="https://cdn.redmarkdeals.com/redmark_logo-full.png" alt="RedMark Logo"/>
-    <h3 style="color:#A9A9A9; font-weight:bold; font-style:italic;">A premium Shopify theme with built-in apps</h3>
+    <p>A premium Shopify theme with built-in apps</p>
 </div>
 
 ___
