@@ -387,7 +387,7 @@
       "1544593914681": {
         "type": "featured-product",
         "settings": {
-          "featured_product": "",
+          "featured_product": "test-product",
           "image_size": "medium",
           "show_quantity_selector": true,
           "show_variant_labels": true,
