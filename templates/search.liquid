@@ -1,0 +1,96 @@
+{% paginate search.results by 10 %}
+
+<div class="page-width">
+  {% if search.results_count == 0 or search.performed == false %}
+    <div class="empty-page-content text-center">
+      <h1 class="h2">{{ 'general.search.title' | t }}</h1>
+  {% else %}
+    <div class="section-header text-center">
+      <h1 class="h2">{{ 'general.search.results_with_count' | t: terms: search.terms, count: search.results_count }}</h1>
+  {% endif %}
+        <div class="grid">
+          <div class="grid__item medium-up--three-fifths medium-up--push-two-tenths">
+            <form action="/search" method="get" role="search" class="search">
+              <div class="input-group">
+                <input type="search"
+                  id="SearchInput"
+                  class="input-group__field search__input"
+                  name="q"
+                  value="{{ search.terms | escape }}"
+                  placeholder="{{ 'general.search.placeholder' | t }}"
+                  aria-label="{{ 'general.search.placeholder' | t }}"
+                  autofocus>
+                <span class="input-group__btn">
+                  <button class="btn search__submit" type="submit">{{ 'general.search.submit' | t }}</button>
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      {% if search.performed and search.results_count == 0 %}
+      <div style="margin-top:20px;">
+        <h4 style="margin:0;line-height:1.5;">{{ 'general.search.no_results_html_1' | t: terms: search.terms }}</h4>
+        <h4 style="margin:0;line-height:1.5;">{{ 'general.search.no_results_html_2' | t: terms: search.terms }}</h4>
+        <p style="margin:0;line-height:1.5;">{{ 'general.search.no_results_html_3' | t: terms: search.terms }}</p>
+      </div>
+      
+      <hr class="hr--small">
+
+      <div class="page-width">
+        <header class="section-header text-center">
+          <h1>Check out our other awesome stuff</h1>
+        </header>
+
+        <div class="grid grid--uniform">
+          {% for collection in collections %}
+          <div class="grid__item small--one-half medium-up--one-third">
+            {% include 'collection-grid-item' %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>  
+      {% endif %}
+  </div>
+
+
+
+  </div>
+
+
+{% if search.performed %}
+  {% if search.results_count > 0 %}
+    <hr>
+  {% endif %}
+  <div class="page-width list-view-items">
+    {% for item in search.results %}
+      <a href="{{ item.url }}" class="list-view-item">
+        {% if item.object_type == 'product' %}
+          {% include 'product-card-list', product: item %}
+        {% else %}
+          {% if item.image %}
+            <div class="list-view-item__image-column">
+              <div class="list-view-item__image-wrapper">
+                <img class="list-view-item__image" src="{{ item.image.src | img_url: '600x600' }}" alt="{{ item.image.alt | escape }}">
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="list-view-item__title-column">
+            <div class="list-view-item__title">{{ item.title }}</div>
+            <div class="">
+              {% if item.published_at %}{{ item.published_at | date: "%b %d, %Y" }} &#8212; {% endif %}
+              {{ item.content | strip_html | truncate: 200 }}
+            </div>
+          </div>
+        {% endif %}
+      </a>
+    {% endfor %}
+  </div>
+
+  {% if paginate.pages > 1 %}
+    {% include 'pagination' %}
+  {% endif %}
+{% endif %}
+
+{% endpaginate %}

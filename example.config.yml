@@ -1,0 +1,8 @@
+prod:
+  password: (password)
+  theme_id: "(theme id)"
+  store: (store).myshopify.com
+dev:
+  password: (password)
+  theme_id: "(theme id)"
+  store: (store).myshopify.com

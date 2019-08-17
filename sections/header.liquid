@@ -1,0 +1,550 @@
+{% if section.settings.message %}
+<style>
+  .announcement-bar {
+    background-color: {{ section.settings.color_bg }};
+  }
+  .announcement-bar__message {
+    color: {{ section.settings.color_text }};
+  }
+</style>
+{% endif %} 
+<div data-section-id="{{ section.id }}" data-section-type="header-section" >
+<div class="whole_header">
+    {% if settings.enable_cookie_bar != blank %}
+    <div class="cookie-bar">
+      <img class="cross_icon" id="cookie-bar__close" alt="Custom 'X' icon used for closing the cookie policy bar" src="{{ "cross.png" | asset_url }}"> 
+      <span class="cookie-bar__message">
+        {{ settings.cookie_bar_text }}&nbsp;<a href="{{ settings.cookie_bar_link_url }}">{{ settings.cookie_bar_link_text }}</a>
+      </span>
+    </div>
+    {% endif %}
+  <header class="site-header border-bottom logo--left" role="banner">
+    <div class="grid grid--no-gutters grid--table" id="logo_here">
+      {% if section.settings.align_logo == 'center' %}
+      <div class="grid__item small--hide medium-up--one-quarter ">
+        <div class="site-header__search">       
+        </div>
+      </div>
+      {% endif %}
+      {% if section.settings.align_logo == 'center' %}
+      {%- assign logo_classes = 'medium--one-third large-up--one-quarter logo-align--center' -%}
+      {% else %}
+      {%- assign logo_classes = 'medium-up--one-quarter logo-align--left one_left' -%}
+      {% endif %}
+      <div class="grid__item small--whole {{ logo_classes }}">
+        {% comment %}
+        Use the uploaded logo from theme settings if enabled.
+        Site name gets precedence with H1 tag on homepage, div on other pages.
+        {% endcomment %}
+        {% if template == 'index' %}
+        <h1 class="h2 site-header__logo" itemscope itemtype="http://schema.org/Organization">
+          {% else %}
+          <div class="h2 site-header__logo" itemscope itemtype="http://schema.org/Organization">
+            {% endif %}
+            {% if section.settings.logo %}
+            <a href="{{ shop.url }}" itemprop="url" class="site-header__logo-image{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}">
+              {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+              <img srcset="{{ section.settings.logo | img_url : 'master' }} "
+                   
+                   alt="{{ section.settings.logo.alt | default: shop.name }}"
+                   id="toplogo"
+                   class="alds" itemprop="logo">
+            </a>
+            {% else %}
+            <a class="site-header__logo-link" href="{{ shop.url }}" itemprop="url">{{ shop.name }}</a>
+            {% endif %}
+            {% if template == 'index' %}
+            </h1>
+          {% else %}
+          </div>
+        {% endif %}
+      </div>
+      {% if section.settings.align_logo == 'left' %}
+      <nav class="grid__item medium-up--one-half small--hide " id="AccessibleNav" role="navigation">
+        {% include 'site-nav' %}
+      </nav>
+      {% endif %}
+      <div class="grid__item small--one-whole medium-up--one-quarter text-right site-header__icons{% if shop.customer_accounts_enabled %} site-header__icons--plus{% endif %} two_left">
+        <div class="site-header__icons-wrapper {% if shop.customer_accounts_enabled %} righs {% else %} leftss {% endif %}">
+          {% if section.settings.align_logo == 'left' %}
+          <div class="site-header__search small--hide">
+            {% include 'search-form' %}
+          </div>
+          {% if shop.customer_accounts_enabled %}
+          {% if customer %}
+          <a href="/account" class="site-header__account">
+            {% include 'icon-login' %}
+            <span class="icon__fallback-text">{{ 'layout.customer.account' | t }}</span>
+          </a>
+          {% else %}
+          <a href="/account/login" class="site-header__account">
+            {% include 'icon-login' %}
+            <span class="icon__fallback-text">{{ 'layout.customer.log_in' | t }}</span>
+          </a>
+          {% endif %}
+          {% endif %}
+          <a href="/cart" class="site-header__cart">
+            {% include 'icon-cart' %}
+            <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
+            <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
+            {% if cart.item_count > 0 %}
+            <div id="CartCount" class="site-header__cart-count">
+              <span>{{ cart.item_count }}</span>
+              <span class="icon__fallback-text medium-up--hide">{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span>
+            </div>
+            {% endif %}
+          </a>
+          {% endif %}         
+          <button type="button" class="btn--link site-header__search-toggle js-drawer-open-top ">
+            {% include 'icon-search' %}
+            <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
+          </button>
+          {% unless linklists[section.settings.main_linklist] == blank %}
+          <button type="button" class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open">
+            {% include 'icon-hamburger' %}
+            {% include 'icon-close' %}
+            <span class="icon__fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
+          </button>
+          {% endunless %}  
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {% if section.settings.align_logo == 'center' %}
+  <nav class="small--hide border-bottom"  id="AccessibleNav" role="navigation">
+    {% include 'site-nav', nav_alignment: 'site-nav--centered' %}
+  </nav>
+  {% endif %}
+  <!--     Announcement Starts here     -->
+  {% if section.settings.message %}
+  <div class="announcement-bar"  >
+    <img class="cross_icon" id="announcement-bar__close" alt="Custom 'X' icon used for closing the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
+    {% if section.settings.message %}
+    <span class="announcement-bar__message">
+      {{ section.settings.message_text | escape }}
+    </span>   
+    {% endif %}
+  </div>
+  {% endif %}
+
+<!--     Announcement Ends here     -->
+</div>
+
+<style>
+a[class*="site-header__logo"]:hover,  
+a[class*="site-header__logo"]:focus {
+    opacity: 1 !important;
+}
+   div.site-nav__dropdown {
+    z-index: 9999;
+}
+{% if section.settings.logo != blank %}
+.site-header__logo-image {
+        max-width: {{ section.settings.logo_max_width }}px !important;
+      }
+    {% endif %}
+
+    {% if section.settings.align_logo == 'left' %}
+      .site-header__logo-image {
+        margin: 0;
+      }
+    {% endif %}
+    
+
+@media screen and (max-width: 767px){   
+  #toplogo {      
+    content: url({{ section.settings.mobile_logo | img_url : 'master' }});
+  } 
+.site-header__logo-image {
+        max-width: {{ section.settings.mobile_logo_max_width }}px !important;
+      }
+}
+@media (min-width: 768px) {    
+  #toplogo {         
+    content: url({{ section.settings.logo | img_url : 'master' }});   
+  } 
+.site-header__logo-image {
+        max-width: {{ section.settings.logo_max_width }}px !important;
+      }
+}
+    {% if section.settings.align_logo == 'center' %}
+     .search-bar__submit, .search-header__submit {
+        top: -5px;
+      }
+    
+ @media screen and (max-width: 767px) and (min-width: 320px)
+   {
+
+.grid__item.small--one-half.medium-up--one-quarter.logo-align--left.one_left {
+    width: 100%;
+    float: left;
+}     
+     
+.grid__item.small--one-whole.medium-up--one-quarter.text-right.site-header__icons.site-header__icons--plus.two_left {
+    width: 100%;
+    float: left;
+}
+   }
+
+    
+    
+     @media screen and (max-width: 767px) and (min-width: 320px)
+{
+  .centerer {
+    position: relative;
+    bottom: 20px;
+    right:0px;
+}
+}
+    {% endif %}
+    
+  
+    
+  </style>
+</div>
+<style>
+  {% unless shop.customer_accounts_enabled %}
+  .lefts {
+    right: 70px;
+}
+  {% endunless %}
+  
+{% if section.settings.cross  %}
+img.cross_icon{
+ display:block;
+}
+  {% else %}
+  img.cross_icon{
+ display:none;
+}
+{% endif %} 
+  
+ ul#SiteNav li {
+   font-size: {{section.settings.menu_font_size}};
+}  
+   
+  span.announcement-bar__message {
+    
+    font-size:  {{ section.settings.message_text_font_size }} !important;
+    
+}
+  
+  ul#SiteNav li a {
+    font-weight: {{ section.settings.menu_font_weight }};
+}
+  
+  nav#AccessibleNav ul li a {
+    color: {{ section.settings.menu_font_color }};
+}
+  
+header.site-header.border-bottom.logo--left {
+    border-bottom: 0px;
+}  
+svg:not(:root) {
+  fill:{{ section.settings.Svg }};
+}
+{% if section.settings.header_divider  %}
+header.site-header.border-bottom.logo--left {
+    border-bottom: 1px solid {{ section.settings.header_divider_color }} ;
+}
+  {% else %}
+ header.site-header.border-bottom.logo--left {
+    border-bottom: 0px solid #000;
+}
+{% endif %} 
+  
+/* -------------------  header background----------------------- */
+.whole_header {
+  position: fixed;
+  width: 100vw;
+  z-index: 1000;
+} 
+  
+header.site-header.border-bottom.logo--left {
+  min-height: 70px;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+  
+span.announcement-bar__message {
+  width: 100%;
+  margin: 0 auto;
+  max-width: {{ section.settings.announcement_text_width }}px;
+}  
+
+    @media screen and (min-width:320px) and (max-width:767px) { 
+ h1.h2.site-header__logo a img {
+    margin:0 auto;
+}
+  }
+  
+</style>
+
+
+<script>
+  var containerVisible = true;
+  $(document).scroll(function () {
+    if (containerVisible && window.innerHeight + window.scrollY > 2200 && $('#smile-ui-container').length) {
+      containerVisible = false;
+      $('#smile-ui-container').fadeOut('fast');
+    } else if (!containerVisible && window.innerHeight + window.scrollY <= 2200 && $('#smile-ui-container').length) {
+      containerVisible = true;
+      $('#smile-ui-container').fadeIn('fast');
+    }
+  });
+  $(document).ready(function() {
+    if (!readCookie('hidecookiepolicy')) {
+      $('.cookie-bar').show();
+    } else {
+      $('.cookie-bar').hide();
+      adjustContainerPadding(1);
+    }
+    if (!readCookie('hideannouncement')) {
+      $('.announcement-bar').show();
+    } else {
+      $('.announcement-bar').hide();
+      adjustContainerPadding(2);
+    }
+
+    $('#cookie-bar__close').click(function() {
+      $('.cookie-bar').slideUp("slow");
+      createCookie('hidecookiepolicy', true, 3);
+      adjustContainerPadding(1);
+      return false;
+    });
+    $('#announcement-bar__close').click(function() {
+      $('.announcement-bar').slideUp("slow");
+      createCookie('hideannouncement', true, {{ section.settings.days_till_hide_expires }});
+      adjustContainerPadding(2);
+      return false;
+    });
+  });
+
+  function adjustContainerPadding(action) {
+    var mainContainer = $('.main-content');
+    var cookieClass = 'cookie-hidden';
+    var announcementClass = 'announcement-hidden';
+    var hideBothClass = 'both-hidden';
+
+    switch (action) {
+      case 1: // Cookie bar is now hidden
+        if (mainContainer.hasClass(announcementClass)) {
+          adjustContainerPadding(3);
+          return;
+        }
+        if (!mainContainer.hasClass(cookieClass))
+          mainContainer.addClass(cookieClass);
+        break;
+      case 2: // Announcement bar is now hidden
+        if (mainContainer.hasClass(cookieClass)) {
+          adjustContainerPadding(3);
+          return;
+        }
+        if (!mainContainer.hasClass(announcementClass))
+          mainContainer.addClass(announcementClass);
+        break;
+      case 3: // Both are now hidden
+        if (mainContainer.hasClass(cookieClass))
+          mainContainer.removeClass(cookieClass);
+        if (mainContainer.hasClass(announcementClass))
+          mainContainer.removeClass(announcementClass);
+        if (!mainContainer.hasClass(hideBothClass))
+          mainContainer.addClass(hideBothClass);
+        break;
+      default:
+        console.error('Incorrect action was passed to adjustContainerPadding (action: ${action})');
+        break;
+    }
+  }
+
+  // ---
+  // And some generic cookie logic
+  // ---
+  function createCookie(name,value,days) {
+    var ron = {{ section.settings.seconds_till_hide_expires }};
+    if (name !== 'hideannouncement') {
+      ron = 0;
+    } else if (days == 0) {
+      days = 1/(86400*1000);
+    }
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime()+((days*86400*1000) + (ron*1000)));
+      var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+  }
+
+  function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+  }
+
+  function eraseCookie(name) {
+    createCookie(name,"",-1);
+  }
+</script>
+
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Logo"
+      },  
+      {
+        "type": "radio",
+        "id": "align_logo",
+        "label": "Logo alignment",
+        "default": "left",
+        "options": [
+          {"value": "left", "label": "Left"},
+          {"value": "center", "label": "Centered"}
+        ]
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "text",
+        "id": "logo_max_width",
+        "label": "Custom logo width (in pixels)",
+        "default": "100"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_logo",
+        "label": "Mobile Logo image"
+      },
+      {
+        "type": "text",
+        "id": "mobile_logo_max_width",
+        "label": "Custom mobile logo width (in pixels)",
+        "default": "40"
+      },
+      {
+        "type": "header",
+        "content": "Header Menu"
+      },  
+      {
+        "type": "link_list",
+        "id": "main_linklist",
+        "label": "Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "text",
+        "id": "menu_font_size",
+        "label": "Font Size"
+      },
+      {
+        "type": "text",
+        "id": "menu_font_weight",
+        "label": "Font Weight",
+        "default": "100"
+      },
+      {
+        "type": "color",
+        "id": "menu_font_color",
+        "label": "Font Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "menu_background_color",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+		  {
+        "type": "color",
+        "id": "Svg",
+        "label": "Svg color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Announcement"
+      },  
+      {
+        "type": "checkbox",
+        "id": "message",
+        "label": "Show announcement",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "cross",
+        "label": "Show \"X\" button",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "days_till_hide_expires",
+        "label": "Days until announcement reappears",
+        "default": "0"
+      },
+      {
+        "type": "text",
+        "id": "seconds_till_hide_expires",
+        "label": "Seconds until announcement reappears",
+        "default": "0"
+      },
+      {
+        "type": "text",
+        "id": "message_text",
+        "label": "Announcement text",
+        "default": "Announce something here"
+      },
+      {
+        "type": "text",
+        "id": "message_text_font_size",
+        "label": "Font size"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Announcement color",
+        "default": "#7796A8"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Announcement text color",
+        "default": "#fff"
+      },
+      {
+        "type": "text",
+        "id": "announcement_text_width",
+        "label": "Announcement text width"
+      },
+
+      {
+      "type": "header",
+      "content": "Divider"
+      },       
+
+      {
+        "type": "checkbox",
+        "id": "header_divider",
+        "label": "Enable Divider",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "header_divider_color",
+        "label": "Font Color"
+      }
+    ]
+  }
+{% endschema %}

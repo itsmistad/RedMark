@@ -1,0 +1,38 @@
+
+.progressbar.progressbar.active div {
+  -webkit-animation: 2s linear 0s normal none infinite running progress-bar-stripes;
+  animation: 2s linear 0s normal none infinite running progress-bar-stripes;
+}
+
+.progress-striped.progressbar.progressbar div {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0));
+  background-size: 40px 40px;
+}
+
+.items-count{
+	margin-top: 0px;
+    margin-bottom: 0px;
+}  
+.count {
+  color: #a94442;
+  padding:1px;
+}
+.items-count p{
+  padding-bottom: 5px;
+  text-transform: uppercase;
+  font-weight: 700;	
+  text-align: center;
+}
+
+    
+.progressbar > div {
+  	background-color: #ca0000;
+  	width: 0; /* Adjust with JavaScript */
+    margin-bottom: 0;
+    height: 15px;
+    border-radius: 8px;
+}
+.progressbar > div.less-than-ten{
+	background-color: #ca0000; !important;
+}

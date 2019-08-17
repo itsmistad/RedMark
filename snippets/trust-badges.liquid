@@ -1,0 +1,88 @@
+
+<div class="trust-badges">
+  <div class="page-width">
+    <div class="section-content">
+      <div class="trust-badges__badges">
+        {% if section.settings.badge_img_1 != blank %}
+        <div class="trust-badges__badge" style="margin-left:0;">
+          <img class="trust-badges__badge-img-1" alt="Alt Text!">
+          {% if section.settings.badge_img_1_text != blank %}
+          <h4 class="trust-badges__text">{{ section.settings.badge_img_1_text }}</h4>
+          {% endif %}
+        </div>
+        {% endif %}
+        {% if section.settings.badge_img_2 != blank %}
+        <div class="trust-badges__badge">
+          <img class="trust-badges__badge-img-2" alt="Alt Text!">
+          {% if section.settings.badge_img_1_text != blank %}
+          <h4 class="trust-badges__text">{{ section.settings.badge_img_2_text }}</h4>
+          {% endif %}
+        </div>
+        {% endif %}
+        {% if section.settings.badge_img_3 != blank %}
+        <div class="trust-badges__badge">
+          <img class="trust-badges__badge-img-3" alt="Alt Text!">
+          {% if section.settings.badge_img_1_text != blank %}
+          <h4 class="trust-badges__text">{{ section.settings.badge_img_3_text }}</h4>
+          {% endif %}
+        </div>
+        {% endif %}
+        {% if section.settings.badge_img_4 != blank %}
+        <div class="trust-badges__badge" style="margin-right:0;">
+          <img class="trust-badges__badge-img-4" alt="Alt Text!">
+          {% if section.settings.badge_img_1_text != blank %}
+          <h4 class="trust-badges__text">{{ section.settings.badge_img_4_text }}</h4>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.trust-badges {
+  background-color: {{ section.settings.bg_color }};
+  margin: 0;
+  max-width: 100vw;
+}
+.trust-badges .section-content {
+  padding: 30px 0;
+  width: 100%;
+}
+.trust-badges__badges {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.trust-badges__badge {
+  outline: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.trust-badges__text {
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  padding-left: 14px;
+  color: {{ section.settings.text_color }};
+}
+.trust-badges__badge-img-1 {
+  content: url({{ section.settings.badge_img_1 | img_url : 'master' }});
+  max-width: {{ section.settings.badge_img_1_width }}px;
+}
+.trust-badges__badge-img-2 {
+  content: url({{ section.settings.badge_img_2 | img_url : 'master' }});
+  max-width: {{ section.settings.badge_img_2_width }}px;
+}
+.trust-badges__badge-img-3 {
+  content: url({{ section.settings.badge_img_3 | img_url : 'master' }});
+  max-width: {{ section.settings.badge_img_3_width }}px;
+}
+.trust-badges__badge-img-4 {
+  content: url({{ section.settings.badge_img_4 | img_url : 'master' }});
+  max-width: {{ section.settings.badge_img_4_width }}px;
+}
+</style>

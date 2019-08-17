@@ -1,0 +1,210 @@
+ {% if settings.integration_type == 'mailchimp_list' %}
+<div id="wd1_nlpopup_overlay"></div>
+<div class="coupon_main"  id="wd1_nlpopup" data-expires="{{ settings.session_time }}" data-delay="1">
+  <a href="#closepopup" id="wd1_nlpopup_close">x</a>
+
+  <div class="share_content">
+    <div class="coupon_head">
+      <h3>
+        {% if settings.message1 != blank %}
+        {{ settings.message1 }}
+        {% endif %}
+      </h3> 
+      <div class="coupon_desc">
+        {% if settings.message2 != blank %}
+        {{ settings.message2 }}
+        {% endif %}
+
+      </div> 
+    </div>
+
+    <div class="coupon_content">
+      <div class="coupon_badge" id="coupon_code">
+        <div class="coupon-contain">
+          <div class="code_coupon">
+            {% form 'customer' %}
+            <span class="msg" id="msg" style="display:block;">YOUR COUPON CODE</span>
+            <span class="msg_sucesss" id="msg_sucesss" style="display:none;">
+              {% if settings.coupon_code != blank %}
+              {{ settings.coupon_code }}
+            </span>
+            {% else %}
+            <input type="text" class="coupon-treasure" readonly="" style="display: inline-block" value="YOUR COUPON CODE">
+            {% endif %}
+            {% endform %}
+          </div>
+        </div>
+      </div>
+
+      <div class="newletter_text">
+        {% if settings.newsletter_text != blank %}
+        {{ settings.newsletter_text }}
+        {% endif %}          
+      </div>
+
+      <div class="newletter_form">
+        <div class="news_input">
+          {% include 'newsletter-form-2' %}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+ {% endif %}
+
+ {% if settings.integration_type == 'klaviyo_list' %}
+<div id="wd1_nlpopup_overlay"></div>
+<div class="coupon_main"  id="wd1_nlpopup" data-expires="{{ settings.session_time }}" data-delay="1">
+  <a href="#closepopup" id="wd1_nlpopup_close">x</a>
+
+  <div class="share_content">
+    <div class="coupon_head">
+      <h3>
+        {% if settings.message1 != blank %}
+        {{ settings.message1 }}
+        {% endif %}
+      </h3> 
+      <div class="coupon_desc">
+        {% if settings.message2 != blank %}
+        {{ settings.message2 }}
+        {% endif %}
+
+      </div> 
+    </div>
+
+    <div class="coupon_content">
+      <div class="coupon_badge" id="coupon_code">
+        <div class="coupon-contain">
+          <div class="code_coupon">
+            {% form 'customer' %}
+            <span class="msg" id="msgklaviyo2" style="display:block;">YOUR COUPON CODE</span>
+            <span class="msg_sucesss" id="msg_sucesss" style="display:none;">
+              {% if settings.coupon_code != blank %}
+              {{ settings.coupon_code }}
+            </span>
+            {% else %}
+            <input type="text" class="coupon-treasure" readonly="" style="display: inline-block" value="YOUR COUPON CODE">
+            {% endif %}
+            {% endform %}
+          </div>
+        </div>
+      </div>
+
+      <div class="newletter_text">
+        {% if settings.newsletter_text != blank %}
+        {{ settings.newsletter_text }}
+        {% endif %}          
+      </div>
+
+      <div class="newletter_form">
+        <div class="news_input">
+          {% if settings.klaviyo_action_id != blank and settings.integration_type == 'klaviyo_list' %}
+<!-- newsletter form klaviyo -->
+    <form id="email_signuptwo" action="//manage.kmail-lists.com/subscriptions/subscribe" method="POST">
+      <input type="hidden" name="g" value="{{ settings.klaviyo_action_id }}">
+
+      <div class="klaviyo_field_group">
+       <input class="" type="email" value="" name="email" id="k_id_email" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}"/>
+      </div>
+
+      <div class="klaviyo_messages">
+        <div class="success_message" style="display:none;"></div>
+        <div class="error_message" style="display:none;"></div>
+      </div>
+
+
+      <div class="klaviyo_form_actions">
+        <button type="submit" class="klaviyo_submit_button">{{ settings.button_text_1 }}</button>
+      </div>
+
+    </form>
+    <script type="text/javascript" src="https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+         
+          
+          <script type="text/javascript">
+            KlaviyoSubscribe.attachToForms('#email_signuptwo', {
+              success: function ($form) {
+                console.log($form);
+                 $("#msgklaviyo2").hide();
+                $(".msg_sucesss").show();
+              }
+            });
+          </script>
+<!-- /end -->
+
+{% endif %}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+ {% endif %}
+
+  {% if settings.integration_type == 'customer_list' %}
+                            
+<div id="wd1_nlpopup_overlay"></div>
+<div class="coupon_main" id="wd1_nlpopup" data-expires="{{ settings.session_time }}" data-delay="1">
+  <a href="#closepopup" id="wd1_nlpopup_close">x</a>
+
+  <div class="share_content">
+    <div class="coupon_head">
+      <h3>
+        {% if settings.message1 != blank %}
+        {{ settings.message1 }}
+        {% endif %}
+      </h3> 
+      <div class="coupon_desc">
+        {% if settings.message2 != blank %}
+        {{ settings.message2 }}
+        {% endif %}
+
+      </div> 
+    </div>
+
+    <div class="coupon_content">
+      <div class="coupon_badge" id="coupon_code">
+        <div class="coupon-contain">
+          <div class="code_coupon">
+            {% form 'customer' %}
+            {% if form.posted_successfully? %}
+            <span id="msg_sucesss" style="display:block;" class="">
+              {% if settings.coupon_code != blank %}
+              {{ settings.coupon_code }}
+            </span>
+            
+            {% else %}
+            <span id="msg" style="display:block;" class="">YOUR COUPON CODE</span>
+            
+            {%endif %}
+            {% else %}
+            <input type="text" class="coupon-treasure" readonly="" style="display: inline-block" value="YOUR COUPON CODE">
+            {% endif %}
+            {% endform %}
+          </div> 
+        </div>
+      </div>
+
+      <div class="newletter_text">
+        {% if settings.newsletter_text != blank %}
+        {{ settings.newsletter_text }}
+        {% endif %}          
+      </div>
+
+      <div class="newletter_form">
+        <div class="news_input">
+         {% include 'newsletter-form-mailchimp' %}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+  {% endif %}

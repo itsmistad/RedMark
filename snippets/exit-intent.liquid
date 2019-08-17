@@ -1,0 +1,467 @@
+<div class="ffb-modal ffb-effect coupon_main" id="bounceModal">
+  <a class="ffb-close ffb-close-icon"></a>
+   {% if settings.integration_type == 'mailchimp_list' %}
+
+
+  <div class="share_content">
+    <div class="coupon_head">
+      <h3>
+        {% if settings.message1 != blank %}
+        {{ settings.message1 }}
+        {% endif %}
+      </h3> 
+      <div class="coupon_desc">
+        {% if settings.message2 != blank %}
+        {{ settings.message2 }}
+        {% endif %}
+
+      </div> 
+    </div>
+
+    <div class="coupon_content">
+      <div class="coupon_badge" id="coupon_code">
+        <div class="coupon-contain">
+          <div class="code_coupon">
+            {% form 'customer' %}
+            <span class="msg" id="msg" style="display:block;">YOUR COUPON CODE</span>
+            <span class="msg_sucesss" id="msg_sucesss" style="display:none;">
+              {% if settings.coupon_code != blank %}
+              {{ settings.coupon_code }}
+            </span>
+            {% else %}
+            <input type="text" class="coupon-treasure" readonly="" style="display: inline-block" value="YOUR COUPON CODE">
+            {% endif %}
+            {% endform %}
+          </div>
+        </div>
+      </div>
+
+      <div class="newletter_text">
+        {% if settings.newsletter_text != blank %}
+        {{ settings.newsletter_text }}
+        {% endif %}          
+      </div>
+
+      <div class="newletter_form">
+        <div class="news_input">
+          {% include 'newsletter-form-2' %}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+   {% endif %}
+
+ {% if settings.integration_type == 'klaviyo_list' %}
+  <div class="share_content">
+    <div class="coupon_head">
+      <h3>
+        {% if settings.message1 != blank %}
+        {{ settings.message1 }}
+        {% endif %}
+      </h3> 
+      <div class="coupon_desc">
+        {% if settings.message2 != blank %}
+        {{ settings.message2 }}
+        {% endif %}
+
+      </div> 
+    </div>
+
+    <div class="coupon_content">
+      <div class="coupon_badge" id="coupon_code">
+        <div class="coupon-contain">
+          <div class="code_coupon">
+            {% form 'customer' %}
+            <span class="msg" id="msgklaviyo" style="display:block;">YOUR COUPON CODE</span>
+            <span class="msg_sucesss" id="msg_sucesss" style="display:none;">
+              {% if settings.coupon_code != blank %}
+              {{ settings.coupon_code }}
+            </span>
+            {% else %}
+            <input type="text" class="coupon-treasure" readonly="" style="display: inline-block" value="YOUR COUPON CODE">
+            {% endif %}
+            {% endform %}
+          </div>
+        </div>
+      </div>
+
+      <div class="newletter_text">
+        {% if settings.newsletter_text != blank %}
+        {{ settings.newsletter_text }}
+        {% endif %}          
+      </div>
+
+      <div class="newletter_form">
+        <div class="news_input">
+          {% if settings.klaviyo_action_id != blank and settings.integration_type == 'klaviyo_list' %}
+<!-- newsletter form klaviyo -->
+    <form id="email_signupone" action="//manage.kmail-lists.com/subscriptions/subscribe" method="POST">
+      <input type="hidden" name="g" value="{{ settings.klaviyo_action_id }}">
+
+      <div class="klaviyo_field_group">
+       <input class="" type="email" value="" name="email" id="k_id_email" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}"/>
+      </div>
+
+      <div class="klaviyo_messages">
+        <div class="success_message" style="display:none;"></div>
+        <div class="error_message" style="display:none;"></div>
+      </div>
+
+
+      <div class="klaviyo_form_actions">
+        <button type="submit" class="klaviyo_submit_button">{{ settings.button_text_1 }}</button>
+      </div>
+
+    </form>
+    <script type="text/javascript" src="https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+         
+          
+          <script type="text/javascript">
+            KlaviyoSubscribe.attachToForms('#email_signupone', {
+              success: function ($form) {
+                console.log($form);
+                 $("#msgklaviyo").hide();
+                $(".msg_sucesss").show();
+              }
+            });
+          </script>
+<!-- /end -->
+
+{% endif %}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+ {% endif %}
+  
+  {% if settings.integration_type == 'customer_list' %}
+                            
+  <div class="share_content">
+    <div class="coupon_head">
+      <h3>
+        {% if settings.message1 != blank %}
+        {{ settings.message1 }}
+        {% endif %}
+      </h3> 
+      <div class="coupon_desc">
+        {% if settings.message2 != blank %}
+        {{ settings.message2 }}
+        {% endif %}
+
+      </div> 
+    </div>
+
+    <div class="coupon_content">
+      <div class="coupon_badge" id="coupon_code">
+        <div class="coupon-contain">
+          <div>
+            {% form 'customer' %}
+            {% if form.posted_successfully? %}
+            <span id="msg_sucesss" style="display:block;" class="">
+              {% if settings.coupon_code != blank %}
+              {{ settings.coupon_code }}
+            </span>
+            
+            {% else %}
+            <span id="msg" style="display:block;" class="">YOUR COUPON CODE</span>
+            
+            {%endif %}
+            {% else %}
+            <input type="text" class="coupon-treasure" readonly="" style="display: inline-block" value="YOUR COUPON CODE">
+            {% endif %}
+            {% endform %}
+          </div> 
+        </div>
+      </div>
+
+      <div class="newletter_text">
+        {% if settings.newsletter_text != blank %}
+        {{ settings.newsletter_text }}
+        {% endif %}          
+      </div>
+
+      <div class="newletter_form">
+        <div class="news_input">
+          {% include 'newsletter-form' %}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  {% endif %}
+  
+</div>
+
+
+
+
+<div class="ffb-overlay"></div>
+  <!-- the overlay element -->
+{% form 'customer' %}
+{% if form.posted_successfully? %}
+ <script>
+    $(document).ready(function() {
+      
+          $("#bounceModal").addClass("ffb-show");
+           var date = new Date();
+          //60 secounds time for cookie
+           {% if settings.enable_exit_intent != true %}
+          date.setTime(date.getTime() + (3600 * 1000));
+          $.cookie("bounce_convert_cookie", '1', {
+            expires: date
+          });     
+      {% endif %}
+      // Closing the Popup Box
+      $(".ffb-close").click(function() {
+        $("#bounceModal").removeClass("ffb-show");
+      });
+
+      // If clicked anywhere on body
+      $("body").click(function() {
+        $("#bounceModal").removeClass("ffb-show");
+      });
+
+      // Prevent event if clicked on #bounceModal
+      $("#bounceModal").click(function(e) {
+        e.stopPropagation();
+      });
+    });
+  </script>
+{% else %}
+
+    <script>
+    $(function() {
+      function addEvent(obj, evt, fn) {
+        if (obj.addEventListener) {
+          obj.addEventListener(evt, fn, false);
+        } else if (obj.attachEvent) {
+          obj.attachEvent("on" + evt, fn);
+        }
+      }
+
+      addEvent(document, "mouseout", function(e) {
+        e = e ? e : window.event;
+        var from = e.relatedTarget || e.toElement;
+        var visited = $.cookie("bounce_convert_cookie");
+        if (visited === '1') {
+          return false;
+        } else if ((!from || from.nodeName == "HTML") && e.pageY < $(window).scrollTop()) {
+          $("#bounceModal").addClass("ffb-show");
+          //setting cookie expiry time by (s * ms)
+          var date = new Date();
+          //60 secounds time for cookie
+            {% if settings.enable_exit_intent != true %}
+          date.setTime(date.getTime() + (3600 * 1000));
+          $.cookie("bounce_convert_cookie", '1', {
+            expires: date
+          
+          });
+            {% endif %}
+        }
+      });
+
+      // Closing the Popup Box
+      $(".ffb-close").click(function() {
+        $("#bounceModal").removeClass("ffb-show");
+      });
+
+      // If clicked anywhere on body
+      $("body").click(function() {
+        $("#bounceModal").removeClass("ffb-show");
+      });
+
+      // Prevent event if clicked on #bounceModal
+      $("#bounceModal").click(function(e) {
+        e.stopPropagation();
+      });
+    });
+      
+      
+//---------Js for exit (10/15/2018)--------------/
+//   var addEvent = function(obj, evt, fn) {
+// if (obj.addEventListener) {
+// obj.addEventListener(evt, fn, false);
+// }
+// else if (obj.attachEvent) {
+// obj.attachEvent("on" + evt, fn);
+// }
+// };
+
+// addEvent(document, "mouseleave", function(event) {
+// event = event ? event : window.event;
+// var from = event.relatedTarget || event.toElement;
+// if ( (!from || from.nodeName == "HTML") && event.clientY <= 200 ) {
+//    $("#bounceModal").addClass("ffb-show");
+  
+//   // Closing the Popup Box
+//       $(".ffb-close").click(function() {
+//         $("#bounceModal").removeClass("ffb-show");
+//       });
+
+//       // If clicked anywhere on body
+//       $("body").click(function() {
+//         $("#bounceModal").removeClass("ffb-show");
+//       });
+
+//       // Prevent event if clicked on #bounceModal
+//       $("#bounceModal").click(function(e) {
+//         e.stopPropagation();
+//       });
+
+// }
+// });
+
+  //---------End Js for exit (10/15/2018)--------------/    
+  </script>
+{%endif %}
+{% endform %}
+
+<style>
+  /* Style for the modal and overlay*/
+
+.container {
+    background: #007e89;
+    min-height: 100%;
+}
+.ffb-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    max-width: 670px;
+    min-width: 470px;
+    height: auto;
+    z-index: 2000;
+    visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+.ffb-show {
+    visibility: visible;
+}
+.ffb-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    opacity: 0;
+    background: rgba(51, 51, 51, 0.8);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.ffb-show ~ .ffb-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+  .ffb-modal .ffb-close-icon:hover {
+    opacity: 0.5;
+  }
+.ffb-modal .ffb-close-icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    background: url({{ 'cross.png' | asset_url }}) no-repeat;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 999;
+    
+    cursor: pointer;
+    border: none;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+/* Content styles */
+
+.ffb-content {
+    color: #fff;
+    background: #007e89;
+    position: relative;
+    border-radius: 3px;
+    margin: 0 auto;
+}
+.ffb-content h3 {
+    margin: 0;
+    padding: 0.4em;
+    text-align: center;
+    font-size: 2.4em;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px 3px 0 0;
+}
+.ffb-content > div {
+    padding: 15px 40px 30px;
+    margin: 0;
+    font-weight: 300;
+    font-size: 1.15em;
+}
+.ffb-content > div p {
+    margin: 0;
+    padding: 10px 0;
+}
+.ffb-content > div ul {
+    margin: 0;
+    padding: 0 0 30px 20px;
+}
+.ffb-content > div ul li {
+    padding: 5px 0;
+}
+.ffb-content button {
+    display: block;
+    margin: 0 auto;
+    font-size: 0.8em;
+}
+
+
+/* Blur background */
+.ffb-show.ffb-effect ~ .ffb-overlay {
+  background: rgba(51, 51, 51, 0.8);
+}
+.ffb-show.ffb-effect ~ .container {
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    filter: blur(3px);
+}
+
+/* Effect: Fade in and scale up */
+.ffb-effect .ffb-content {
+    -webkit-transform: scale(0.7);
+    -moz-transform: scale(0.7);
+    -ms-transform: scale(0.7);
+    transform: scale(0.7);
+    opacity: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.ffb-show.ffb-effect .ffb-content {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+}
+@media screen and (max-width: 32em) {
+    body {
+        font-size: 75%;
+    }
+}
+</style>
+

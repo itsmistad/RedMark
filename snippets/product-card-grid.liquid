@@ -1,0 +1,76 @@
+{%- assign compare_at_price = product.compare_at_price -%}
+{%- assign price = product.price -%}
+
+{% unless grid_image_width %}
+  {%- assign grid_image_width = '600x600' -%}
+{% endunless %}
+
+  {% if compare_at_price > price and settings.show_sale_tag %}
+    <div class="sale_badge1"></div>
+  	<span class="product-price__sale-label 12">sale</span>
+  {% endif %}
+
+<div class="grid-view-item{% unless product.available %} product-price--sold-out grid-view-item--sold-out{% endunless %}">
+  <a class="grid-view-item__link 1234" href="{{ product.url | within: collection }}">
+    <img class="grid-view-item__image" src="{{ product.featured_image.src | img_url: grid_image_width }}" alt="{{ product.featured_image.alt }}">
+    {% if settings.collection_style_1 == "collectionstyleone" %}
+    
+    <div class="h4 grid-view-item__title{% if section.settings.center_title_bold %} boldic {% endif %} ns{% if section.settings.center_title_price %} ceenter {% else %} ns {% endif %}">{{ product.title }}</div>
+    {% if settings.show_vendor %}
+      <div class="grid-view-item__vendor">{{ product.vendor }}</div>
+    {% endif %}
+    <div class="grid-view-item__meta{% if section.settings.center_title_bold %} boldic {% endif %} {% if section.settings.center_title_price %} ceenter {% else %} hands {% endif %}">
+      {% include 'product-price' %}
+      
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+    </div>
+    
+    {% endif %}
+    
+    {% if settings.collection_style_1 == "collectionstyletwo" %}
+    
+    {% endif %}
+    
+    
+    {% if settings.collection_style_1 == "collectionstylethree" %}
+    
+    <div class="h4 grid-view-item__title">{{ product.title }}</div>
+    {% if settings.show_vendor %}
+      <div class="grid-view-item__vendor">{{ product.vendor }}</div>
+    {% endif %}
+	<div class="product-detail">
+      {{ settings.button_text }}
+    </div> 
+    
+    {% endif %}
+    
+  </a>
+</div>
+<style>
+  .ns{
+  text-align:left !important;
+  }
+  .hands{
+  text-align:left !important;
+  }
+  .ceenter {
+    text-align: center !important;
+}
+  .boldic {
+    font-weight: bold !important;
+    text-transform: uppercase;
+}
+  span.spr-starrating.spr-badge-starrating i {
+    color: #FFCC00;
+}
+  span.spr-badge-caption {
+    display: none;
+}
+  span.spr-starrating.spr-summary-starrating i {
+    color: #FFCC00;
+}
+  
+  span.spr-starratings.spr-review-header-starratings i {
+    color: #FFCC00;
+}
+</style>

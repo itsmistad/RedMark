@@ -1,0 +1,141 @@
+<div class="newsletter-section">
+  <div class="page-width">
+    <div class="grid">
+      {% if section.settings.heading != blank %}
+      <div class="section-header">
+        <h2 class="newsletter-section__header">{{ section.settings.heading }}</h2>
+      </div>
+      {% endif %}
+      <div class="section-content">
+        <div class="newsletter-section__content">{{ section.settings.content}}</div>
+        <div class="newsletter-section__submit-div">
+          <input type="button" class="newsletter-section__submit" name="submit" value="Sign Up" id="submit">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.newsletter-section {
+  background-color: {{ section.settings.bg_color }};
+  margin: 0;
+  max-width: 100vw;
+}
+.newsletter-section .grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.newsletter-section .grid .section-header {
+  margin-bottom: 10px;
+}
+.newsletter-section__header {
+  color: {{ section.settings.heading_color }};
+  font-size: {{ section.settings.heading_size }};
+  margin: 0;
+}
+.newsletter-section .grid .section-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.newsletter-section__content {
+  color: {{ section.settings.content_color }};
+  font-size: {{ section.settings.content_size }};
+}
+.newsletter-section__submit-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20px;
+}
+.newsletter-section__submit {
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  color: black;
+  background-color: white;
+  padding: 8px 18px;
+  line-height: 1.5 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: bold;
+  max-width: 120px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.newsletter-section__submit:hover {
+  background-color: #ff3b3b;
+  color: white;
+}
+.newsletter-section__submit:focus,
+.newsletter-section__submit:active {
+  border: none;
+}
+</style>
+
+{% schema %}
+{
+  "name":"Newsletter Sign-Up",
+  "class":"index-section",
+  "settings":[
+    {
+      "type":"header",
+      "content":"Heading"
+    },
+    {
+      "type":"text",
+      "id":"heading",
+      "label":"Enter Text"
+    },
+    {
+      "type":"text",
+      "id":"heading_size",
+      "label":"Enter Font Size"
+    },
+    {
+      "type":"color",
+      "id":"heading_color",
+      "label":"Pick Font Color"
+    },
+    {
+      "type":"header",
+      "content":"Text"
+    },
+    {
+      "type":"text",
+      "id":"content",
+      "label":"Enter Text"
+    },
+    {
+      "type":"text",
+      "id":"content_size",
+      "label":"Enter Font Size"
+    },
+    {
+      "type":"color",
+      "id":"content_color",
+      "label":"Pick Font Color"
+    },
+    {
+      "type":"header",
+      "content":"Background"
+    },
+    {
+      "type":"color",
+      "id":"bg_color",
+      "label":"Pick Background Color"
+    }
+  ],
+  "presets":[
+    {
+      "name":"Newsletter",
+      "category":"Section"
+    }
+  ]
+}
+{% endschema %}

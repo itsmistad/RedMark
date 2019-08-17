@@ -1,0 +1,72 @@
+<!-- /snippets/newsletter-form.liquid -->
+{% comment %}
+
+MailChimp is the go-to newsletter service for Shopify.
+Use the link below to find your MailChimp "form action"
+and insert it in your site settings.
+
+MailChimp newsletter integration and requirement:
+- http://docs.shopify.com/support/configuration/store-customization/where-do-i-get-my-mailchimp-form-action
+
+{% endcomment %}
+{% if settings.mailchimp_action_url != blank and settings.integration_type == 'mailchimp_list' %}
+<div class="have desktop-6 row" id="rew">
+<form action="{{ settings.mailchimp_action_url }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="validate input-group newsletter-form">
+{% if settings.checkbox_enable != blank %}  
+  <div class="check_box">
+  <input type="checkbox" name="others" onclick="enable_text(this.checked)" class="mediummue" />
+    <span class="here_custom">{{ settings.checkbox_text }}</span>
+  </div>
+{% endif %}
+<span class="newsletter-footer__submit-span">
+  {% if settings.checkbox_enable != blank %}  
+  <input disabled="disabled" type="submit" class="button new-buttone btn uppercase newsletter-footer__submit" name="subscribe" id="mc-embedded-subscribe" value="">
+   {% else %}
+  <input type="submit" class="button new-buttone btn uppercase newsletter-footer__submit" name="subscribe" id="mc-embedded-subscribe" value="">   
+{% endif %}
+</span>
+  <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mce-EMAIL" class="email new-email " aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off" required>
+</form>
+</div>
+
+
+{% else %}
+{% form 'customer' %}
+
+{% if form.posted_successfully? %}
+<h3 class="thnaks_msg">Thanks for Subscribing</h3>
+{% elsif form.errors %}
+{% for field in form.errors %}
+<p><em>{{ field }} - {{ form.errors.messages[field] }}</em></p>
+{% endfor %}
+{% endif %}
+
+<input type="hidden" name="contact[accepts_marketing]" value="true">
+<div class="input-group newsletter-form">
+  {% if settings.checkbox_enable != blank %}
+  <div class="check_box">
+  <input type="checkbox" name="others" onclick="enable_text(this.checked)" class="mediummue" />
+    <span class="here_custom">{{ settings.checkbox_text }}</span>
+  </div>
+  {% endif %}
+  <span class="newsletter-footer__submit-span">
+      {% if settings.checkbox_enable != blank %}  
+      <input disabled="disabled" type="submit" class="button new-buttone btn uppercase delay newsletter-footer__submit" name="subscribe" id="mc-embedded-subscribe" value="">
+      {% else %}
+      <input type="submit" class="button new-buttone btn uppercase delay newsletter-footer__submit" name="subscribe" id="mc-embedded-subscribe" value="">
+      {% endif %}
+  </span> 
+  <input type="email" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" id="mail" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off" name="contact[email]" required />
+</div>
+
+{% endform %}
+{% endif %}
+
+<style>
+.input-group.newsletter-form input {
+    width: 100%;
+}
+  input.mediummue {
+    width: 14px !important;
+}
+</style>

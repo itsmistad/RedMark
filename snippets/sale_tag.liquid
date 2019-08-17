@@ -1,0 +1,15 @@
+{%- assign compare_at_price = product.compare_at_price -%}
+{%- assign price = product.price -%}
+
+{% unless grid_image_width %}
+  {%- assign grid_image_width = '600x600' -%}
+{% endunless %}
+
+  {% if compare_at_price > price and settings.show_sale_tag %}
+    <div class="sale_badge1"></div>
+    <span class="product-price__sale-label">sale</span>
+  {% endif %}
+
+<div class="grid-view-item{% unless product.available %} product-price--sold-out grid-view-item--sold-out{% endunless %}">
+ 
+</div>
