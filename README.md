@@ -26,7 +26,7 @@ This ID is required for your configuration.
 
 ## Usage
 
-**Be aware that deploying or using live preview will include your `settings_data.json` across environments. Always pull from your environment before doing work!**
+**Be aware that deploying or using live preview will include your `settings_data.json` across environments!**
 
 Before running any bash command, ensure that you are in the root of the repo.
 Valid options for `environment`:
