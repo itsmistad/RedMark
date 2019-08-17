@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://redmarkdeals.com"><img class="redmark__logo" src="https://cdn.redmarkdeals.com/redmark_logo-full.png" alt="RedMark Logo"/></a>
+    <a href="https://redmarkdeals.com" target="_blank"><img class="redmark__logo" src="https://cdn.redmarkdeals.com/redmark_logo-full.png" alt="RedMark Logo"/></a>
     <p>A premium Shopify theme with built-in apps <s>made by a monkey</s></p>
 </div>
 
