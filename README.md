@@ -1,6 +1,6 @@
 <div align="center">
-    <img class="redmark__logo" src="https://cdn.redmarkdeals.com/redmark_logo-full.png" alt="RedMark Logo"/>
-    <p>A premium Shopify theme with built-in apps</p>
+    <a href="https://redmarkdeals.com"><img class="redmark__logo" src="https://cdn.redmarkdeals.com/redmark_logo-full.png" alt="RedMark Logo"/></a>
+    <p>A premium Shopify theme with built-in apps <s>made by a monkey</s></p>
 </div>
 
 ___
@@ -14,6 +14,7 @@ ___
 5. Multiple useful home page sections.
 6. Pre-code-configured for essential apps that are already picked out for you. 
 7. A GDPR-compliant cookie bar and a customizable announcement bar.
+8. Virus- and gluten-free.
 
 ___
 
