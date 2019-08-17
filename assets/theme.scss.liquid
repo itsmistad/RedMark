@@ -5393,11 +5393,17 @@ img {
 /*----------  Copyright Footer  ----------*/
 .site-footer__copyright {
   text-align: center;
+  &.medium-up--text-left {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 .site-footer__copyright-content {
   font-size: em($font-size-base - 3);
-  margin: 16px 0px;
-  position: absolute;
+  padding: 16px 0px;
+  position: relative;
   bottom: 0;
   .site-footer__copyright--right & {
     padding: 0 0 0 20px;
@@ -5420,8 +5426,7 @@ img {
 .site-footer__policies-content {
   text-align: center;
   font-size: em($font-size-base - 3);
-  margin: 16px 0px;
-  padding: 0;
+  padding: 16px 0px;
   align-items: center;
   display: flex;
   list-style: none;
@@ -5429,8 +5434,7 @@ img {
   justify-content: center;
   left: 0;
   pointer-events: none;
-  position: absolute;
-  width: 100%;
+  position: relative;
   bottom: 0;
   li {
     margin: 0;

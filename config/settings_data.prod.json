@@ -60,14 +60,14 @@
     "share_twitter": false,
     "share_pinterest": false,
     "share_instagram": true,
-    "favicon": "shopify:\/\/shop_images\/RedMark_mark_100x100_07b3728f-698a-418b-9013-6efd4c9b1e75.png",
+    "favicon": "shopify:\/\/shop_images\/RedMark_mark.png",
     "show_multiple_currencies": true,
     "currency_format": "money_with_currency_format",
     "default_currency": "USD",
     "scroll_top_enable": true,
-    "scroll_top_img": "shopify:\/\/shop_images\/scrollup_78x46_69d7a9dc-4eb4-48da-a889-9cfc8c14477f.png",
+    "scroll_top_img": "shopify:\/\/shop_images\/scrollup.png",
     "checkout_header_image": "",
-    "checkout_logo_image": "",
+    "checkout_logo_image": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_34175e33-c9a4-424e-a757-8a5994297823.png",
     "checkout_logo_position": "left",
     "checkout_logo_size": "large",
     "checkout_body_background_image": "",
@@ -101,11 +101,11 @@
         "type": "header",
         "settings": {
           "align_logo": "left",
-          "logo": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_c8b41e97-ec05-4754-8b0d-086e0f15f46c.png",
+          "logo": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_34175e33-c9a4-424e-a757-8a5994297823.png",
           "logo_max_width": "160",
-          "mobile_logo": "shopify:\/\/shop_images\/RedMark_mark_100x100_cc80b753-600a-4d4b-9a5b-d144ec9532b6.png",
+          "mobile_logo": "shopify:\/\/shop_images\/RedMark_mark.png",
           "mobile_logo_max_width": "40",
-          "main_linklist": "",
+          "main_linklist": "main-menu",
           "menu_font_size": "21px",
           "menu_font_weight": "100",
           "menu_font_color": "#000000",
@@ -129,16 +129,16 @@
         "settings": {
           "bg_color": "#000000",
           "text_color": "#ffffff",
-          "badge_img_1": "shopify:\/\/shop_images\/RedMark_mark_100x100_cc80b753-600a-4d4b-9a5b-d144ec9532b6.png",
+          "badge_img_1": "shopify:\/\/shop_images\/RedMark_mark.png",
           "badge_img_1_width": "50",
           "badge_img_1_text": "Trust Badge<br>#1",
-          "badge_img_2": "shopify:\/\/shop_images\/RedMark_mark_100x100_cc80b753-600a-4d4b-9a5b-d144ec9532b6.png",
+          "badge_img_2": "shopify:\/\/shop_images\/RedMark_mark.png",
           "badge_img_2_width": "50",
           "badge_img_2_text": "Trust Badge<br>#2",
-          "badge_img_3": "shopify:\/\/shop_images\/RedMark_mark_100x100_cc80b753-600a-4d4b-9a5b-d144ec9532b6.png",
+          "badge_img_3": "shopify:\/\/shop_images\/RedMark_mark.png",
           "badge_img_3_width": "50",
           "badge_img_3_text": "Trust Badge<br>#3",
-          "badge_img_4": "shopify:\/\/shop_images\/RedMark_mark_100x100_cc80b753-600a-4d4b-9a5b-d144ec9532b6.png",
+          "badge_img_4": "shopify:\/\/shop_images\/RedMark_mark.png",
           "badge_img_4_width": "50",
           "badge_img_4_text": "Trust Badge<br>#4",
           "footer_support_email": "support@redmarkdeals.com",
@@ -148,7 +148,7 @@
           "footer_linklist_title": "HELP",
           "footer_linklist": "footer",
           "footer_linklist_two_title": "PAGES",
-          "footer_linklist_two": "footer",
+          "footer_linklist_two": "footer-pages-menu",
           "foot_newstitle": "SIGN UP FOR OUR NEWSLETTER",
           "foot_news_content": "",
           "one_color": "#ffffff",
@@ -387,7 +387,7 @@
       "1544593914681": {
         "type": "featured-product",
         "settings": {
-          "featured_product": "",
+          "featured_product": "test-product",
           "image_size": "medium",
           "show_quantity_selector": true,
           "show_variant_labels": true,
@@ -399,7 +399,7 @@
       "password-header": {
         "type": "password-header",
         "settings": {
-          "logo": "",
+          "logo": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_34175e33-c9a4-424e-a757-8a5994297823.png",
           "logo_max_width": "600",
           "header": "Coming Soon"
         }
@@ -413,7 +413,8 @@
       },
       "password-content": {
         "type": "password-content",
-        "settings": {}
+        "settings": {
+        }
       },
       "1565474292060": {
         "type": "newsletter",
@@ -442,7 +443,8 @@
       "sections": {
         "header": {
           "type": "header",
-          "settings": {}
+          "settings": {
+          }
         },
         "hero": {
           "type": "hero",
@@ -455,18 +457,21 @@
           "blocks": {
             "slideshow-0": {
               "type": "image",
-              "settings": {}
+              "settings": {
+              }
             },
             "slideshow-1": {
               "type": "image",
-              "settings": {}
+              "settings": {
+              }
             }
           },
           "block_order": [
             "slideshow-0",
             "slideshow-1"
           ],
-          "settings": {}
+          "settings": {
+          }
         },
         "featured-collections": {
           "type": "collection",
@@ -476,7 +481,8 @@
         },
         "footer": {
           "type": "footer",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "content_for_index": [
