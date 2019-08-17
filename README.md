@@ -49,14 +49,14 @@ Valid options for `environment`:
 - `dev`
 
 #### Start Live Preview
-> ./start.sh `environment`
+> ./start.sh (`environment`)
 
-This will watch and actively deploy any changes to your local source files. The deployment target is the store attached to the specified environment.
+This will watch and actively deploy any changes to your local source files. The deployment target is the store attached to the optionally specified environment OR your currently mirrored environment.
 
 #### Deploy to Environment
-> ./deploy.sh `environment`
+> ./deploy.sh (`environment`)
 
-This will build and deploy your local source files to the appropriate environment. This is *not* necessary when in live preview.
+This will build and deploy your local source files to the optionally specified environment OR your currently mirrored environment. This is *not* necessary when in live preview.
 
 #### Pull from Environment
 > ./get.sh `environment`

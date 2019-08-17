@@ -7,8 +7,8 @@ CONT=false
 
 if [ -z "$ENV" ]
 then
-    echo "No environment specified. Defaulting to 'dev'"
-    ENV="dev"
+    echo "No environment specified. Defaulting to '$CURRENT_ENV'"
+    ENV="$CURRENT_ENV"
 fi
 while true; do
     read -p "Are you sure? [y/n]: " yn
