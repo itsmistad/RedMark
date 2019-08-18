@@ -9,8 +9,8 @@
       "page": "Page {{ page }}"
     },
     "404": {
-      "title": "An error has occurred",
-      "subtext": "Uh oh. This page doesn't exist... Or does it?",
+      "title": "Uh. Houston? We have a problem",
+      "subtext": "This page doesn't exist... Or does it?",
       "link": "Take me back"
     },
     "pagination": {
@@ -115,7 +115,7 @@
       "shipping_at_checkout": "Shipping & taxes calculated at checkout",
       "update": "Update",
       "checkout": "Check out",
-      "empty": "Your cart is currently empty.",
+      "empty": "Wait a minute, this is empty!",
       "edit": "Edit",
       "cancel": "Cancel"
     },

@@ -43,22 +43,27 @@ This ID is required for your configuration. The password here is the password ge
 
 ### Usage
 
-Before running any bash command, ensure that you are `./scripts/`.
+Before running any bash command, ensure that you are in `./scripts/`.
 Valid options for `environment`:
 - `prod`
 - `dev`
-
-#### Start Live Preview
-> ./start.sh (`environment`)
-
-This will watch and actively deploy any changes to your local source files. The deployment target is the store attached to the optionally specified environment OR your currently mirrored environment.
-
-#### Deploy to Environment
-> ./deploy.sh (`environment`)
-
-This will build and deploy your local source files to the optionally specified environment OR your currently mirrored environment. This is *not* necessary when in live preview.
 
 #### Pull from Environment
 > ./get.sh `environment`
 
 This will switch your `settings_data.json` to your target environment's and download your theme from the Shopify cloud.
+
+#### Swapping Environments
+> ./swap.sh -f `environment`
+
+This will switch your `settings_data.json` to your target environment's and keep the code you currently have locally.
+
+#### Start Live Preview
+> ./start.sh
+
+This will watch and actively deploy any changes to your local source files. The deployment target is your currently mirrored environment.
+
+#### Deploy to Environment
+> ./deploy.sh
+
+This will build and deploy your local source files to your currently mirrored environment. This is *not* necessary when in live preview.

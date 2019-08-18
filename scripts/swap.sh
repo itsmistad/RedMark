@@ -1,12 +1,30 @@
 #!/bin/bash
 
-if [ $CONT = false ]; then
+FORCE=$1
+
+function force {
+    DIR=${PWD##*/}
+    if [[ $DIR == "scripts" ]]; then
+        cd ..
+    elif [[ $DIR == "RedMark" ]]; then
+        break
+    else 
+        echo "Bad directory. Make sure you're in the root of the repo (or in ./scripts)."
+        exit
+    fi
+    source ./scripts/.tmp
+    ENV=$1
+    CONT=true
+}
+if [[ $FORCE == "-f" ]] || [[ $FORCE == "--force" ]]; then
+    force $2
+fi
+
+if [[ $CONT = false ]]; then
     exit
 fi
 
-# I mean you COULD run this independently, but it would definitely break things. So, ...don't?
-
-if [ $ENV == $CURRENT_ENV ]; then
+if [[ $ENV == $CURRENT_ENV ]]; then
     echo "You're already mirroring that environment!"
     CONT=false
     exit

@@ -282,16 +282,6 @@ span.announcement-bar__message {
 
 
 <script>
-  var containerVisible = true;
-  $(document).scroll(function () {
-    if (containerVisible && window.innerHeight + window.scrollY > 2200 && $('#smile-ui-container').length) {
-      containerVisible = false;
-      $('#smile-ui-container').fadeOut('fast');
-    } else if (!containerVisible && window.innerHeight + window.scrollY <= 2200 && $('#smile-ui-container').length) {
-      containerVisible = true;
-      $('#smile-ui-container').fadeIn('fast');
-    }
-  });
   $(document).ready(function() {
     if (!readCookie('hidecookiepolicy')) {
       $('.cookie-bar').show();

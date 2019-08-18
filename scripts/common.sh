@@ -5,9 +5,8 @@
 ENV=$1
 CONT=false
 
-if [ -z "$ENV" ]
-then
-    echo "No environment specified. Defaulting to '$CURRENT_ENV'"
+if [[ -z "$ENV" ]]; then
+    echo "Defaulting to '$CURRENT_ENV'"
     ENV="$CURRENT_ENV"
 fi
 while true; do
@@ -21,7 +20,6 @@ done
 
 # Credit goes to Stefan Farestam from StackOverflow
 function parse_yaml {
-    echo
     local prefix=$2
     local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
     sed -ne "s|^\($s\):|\1|" \
@@ -36,10 +34,9 @@ function parse_yaml {
          printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
       }
    }'
-   echo
 }
 
-if [ ! -f ./config.yml ]; then
+if [[ ! -f ./config.yml ]]; then
     echo "Unable to find './config.yml'."
 fi
 
@@ -48,7 +45,7 @@ eval $(parse_yaml config.yml)
 
 # Verifies that the environment the user typed is in the config.yml.
 ENV_STORE=$ENV"_store"
-if [ -z ${!ENV_STORE+x} ]; then
+if [[ -z ${!ENV_STORE+x} ]]; then
     echo "The environment '$ENV' is not defined in config.yml!"
     CONT=false
     exit
