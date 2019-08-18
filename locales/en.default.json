@@ -304,6 +304,7 @@
       "on_sale": "Sale",
       "quantity": "Quantity",
       "add_to_cart": "Add to cart",
+      "go_to_checkout": "Head to checkout",
       "back_to_collection": "Back to {{ title }}"
     }
   },

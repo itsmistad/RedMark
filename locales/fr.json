@@ -301,6 +301,7 @@
       "on_sale": "Solde",
       "quantity": "Quantité",
       "add_to_cart": "Ajouter au panier",
+      "go_to_checkout": "Procéder au paiement",
       "back_to_collection": "Retour à {{ title }}"
     }
   },

@@ -301,6 +301,7 @@
       "on_sale": "Promoção",
       "quantity": "Quantidade",
       "add_to_cart": "Adicionar ao carrinho",
+      "go_to_checkout": "Fechar pedido",
       "back_to_collection": "Voltar para {{ title }}"
     }
   },

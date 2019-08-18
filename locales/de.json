@@ -301,6 +301,7 @@
       "on_sale": "Angebot",
       "quantity": "Menge",
       "add_to_cart": "In den Einkaufswagen legen",
+      "go_to_checkout": "Zur kasse",
       "back_to_collection": "Zurück zu {{ title }}"
     }
   },
