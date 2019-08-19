@@ -31,8 +31,29 @@
             <p style="color:#000;">{{ section.settings.footer_support_hours }}</p>
           </li>
         </ul>
+        <div class="site-footer__payment-badges">
+          <div class="site-footer__payment-badge">
+            <img class="tb-svg" src="https://cdn.redmarkdeals.com/svgs/amex.svg"
+              alt="Amex">
+          </div>
+          <div class="site-footer__payment-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
+            <img class="tb-svg" src="https://cdn.redmarkdeals.com/svgs/mastercard.svg"
+              alt="MasterCard">
+          </div>
+          <div class="site-footer__payment-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
+            <img class="tb-svg" src="https://cdn.redmarkdeals.com/svgs/visa.svg"
+              alt="Visa">
+          </div>
+          <div class="site-footer__payment-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
+            <img class="tb-svg" src="https://cdn.redmarkdeals.com/svgs/paypal.svg"
+              alt="PayPal">
+          </div>
+          <div class="site-footer__payment-badge">
+            <img class="tb-svg" src="https://cdn.redmarkdeals.com/svgs/apple-pay.svg"
+              alt="Apple Pay">
+          </div>
+        </div>
       </div>
-
       <div
         class="grid__item{% if section.settings.footer_linklist_two != blank %} medium-up--one-sixth{% elsif section.settings.footer_linklist_two == blank %} medium-up--one-half{% else %} text-center{% endif %}">
         {%- assign footer_linklist = section.settings.footer_linklist -%}
@@ -79,42 +100,17 @@
       <div class="site-footer__social-media-buttons">
         <div class="items-container">
           <div class="item-wrapper">
-            <svg class="button-icon" onclick="location.href='{{ section.settings.facebook_link }}';">
+            <svg class="button-icon" onclick="window.open('{{ section.settings.facebook_link }}', '_blank');">
               <use xlink:href="#facebook"></use> <!-- {{ section.settings.facebook_link }} -->
             </svg>
           </div>
           <div class="item-wrapper">
-            <svg class="button-icon" onclick="location.href='{{ section.settings.instagram_link }}';">
+            <svg class="button-icon" onclick="window.open('{{ section.settings.instagram_link }}', '_blank');">
               <use xlink:href="#instagram"></use> <!-- {{ section.settings.instagram_link }} -->
             </svg>
           </div>
         </div>
-     </div>
-     <div id="free-trust-badge-footer">
-       <div id="trust-badge-content-div" class="trust-badge-preview trust-badge-footer"
-         data-trustbadge-specificity="undefined"
-         style="box-sizing: border-box; text-align: center; width: 100%; margin: 15px 0px; padding: 0px 15px;">
-         <div class="tb-text-div" style="display: inline-block; font-size: 12px;">
-           <div class="tb-badge-div">
-             <div class="tb-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-               <img class="tb-svg" src="https://hektorcommerce.com/apps/trustbadge/svg_images/?image=189-amex"
-                 alt="Amex" style="width: 30px; height: 30px; opacity: 1; background: none;"></div>
-             <div class="tb-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-               <img class="tb-svg" src="https://hektorcommerce.com/apps/trustbadge/svg_images/?image=190-master-card"
-                 alt="MasterCard" style="width: 30px; height: 30px; opacity: 1; background: none;"></div>
-             <div class="tb-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-               <img class="tb-svg" src="https://hektorcommerce.com/apps/trustbadge/svg_images/?image=129-visa"
-                 alt="Visa" style="width: 30px; height: 30px; opacity: 1; background: none;"></div>
-             <div class="tb-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-               <img class="tb-svg" src="https://hektorcommerce.com/apps/trustbadge/svg_images/?image=193-paypal"
-                 alt="PayPal" style="width: 30px; height: 30px; opacity: 1; background: none;"></div>
-             <div class="tb-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-               <img class="tb-svg" src="https://hektorcommerce.com/apps/trustbadge/svg_images/?image=198-apple-pay"
-                 alt="Apple Pay" style="width: 30px; height: 30px; opacity: 1; background: none;"></div>
-           </div>
-         </div>
-       </div>
-     </div>
+      </div>
     </div>
   </div>
   <div class="page-width page-width-copyright">
@@ -166,10 +162,9 @@
     width: 76px;
     max-height: fit-content;
     position: relative;
-    float: right;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     background: transparent;
   }
 
@@ -208,13 +203,32 @@
     fill: rgb(255, 255, 255);
   }
 
-  .trust-badge-preview.trust-badge-footer {
+  .site-footer__payment-badges {
     margin: 0 !important;
     padding: 0 !important;
+    box-sizing: border-box;
+    text-align: center;
+    width: 100%;
+    margin: 15px 0px;
+    padding: 0px 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }
 
-  .tb-badge {
+  .site-footer__payment-badge {
     margin: 0 7px 0 0 !important;
+    width: 30px;
+    display: inline-block;
+    margin: 0px 7px;
+    vertical-align: top;
+  }
+
+  .site-footer__payment-badge img {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+    background: none;
   }
   
   h3.sty_one_men_one_head {

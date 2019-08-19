@@ -12,9 +12,7 @@ fi
 
 source ./scripts/.tmp
 source ./scripts/common.sh
-source ./scripts/swap.sh
 
 if [[ $CONT = true ]]; then
-    # Pull the target environment's files from Shopify.
-    theme download --env=$ENV
+    theme download --env=$ENV config/settings_data.json
 fi

@@ -249,8 +249,7 @@
         "settings": {
           "cart_notes_enable": true,
           "paypal_enable": true,
-          "checkout_first": "Checkout button",
-          "checkout_second": "Checkout button",
+          "checkout": "Checkout",
           "Regular": true,
           "saving": true,
           "cart_page_discount": false,

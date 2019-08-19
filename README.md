@@ -59,11 +59,22 @@ This will switch your `settings_data.json` to your target environment's and down
 This will switch your `settings_data.json` to your target environment's and keep the code you currently have locally.
 
 #### Start Live Preview
-> ./start.sh
+> ./start.sh [`environment`]
 
-This will watch and actively deploy any changes to your local source files. The deployment target is your currently mirrored environment.
+This will watch and actively deploy any changes to your local source files. The deployment target is your current environment.
+
+Most of the time, you won't need to specify the environment. It will default to your current mirror. However, it's there if you need it.
 
 #### Deploy to Environment
-> ./deploy.sh
+> ./deploy.sh [`environment`]
 
-This will build and deploy your local source files to your currently mirrored environment. This is *not* necessary when in live preview.
+This will build and deploy your local source files to your current environment. This is *not* necessary when in live preview.
+
+You also will most likely never need to specify the environment here. However, it's there if you need it.
+
+#### Update settings_data.json
+> ./update.sh [`environment`]
+
+This will update your local settings_data.json with what's in your current environment. This is most useful when you're customizing from the admin panel simultaneously.
+
+Won't need to change the environment — again. But, ¯\_(ツ)_/¯.
