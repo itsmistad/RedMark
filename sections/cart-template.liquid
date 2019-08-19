@@ -3,9 +3,7 @@
   <div class="doubly-message"></div>
   {% if cart.item_count > 0 %}
     <div class="section-header text-center">
-      <div class="head_part_1">
-        <h1>{{ 'cart.general.title' | t }}</h1>
-      </div>
+      <h1>{{ 'cart.general.title' | t }}</h1>
     </div>
     <form action="/cart" method="post" novalidate class="cart">
       <table>
@@ -95,6 +93,11 @@
           {% endfor %}
         </tbody>
       </table>
+      <p class="processing-currency-message">
+        {{ shop.name }} processes all orders in {{ shop.currency }}. 
+        While the content of your cart is currently displayed in <span class="selected-currency"></span>, 
+        you will check out using {{ shop.currency }} at the most current exchange rate.
+      </p>
       <footer class="cart__footer">
         <div class="grid">
           <div class="grid__item medium-up--one-half cart-note">
@@ -186,23 +189,21 @@
                 <div class="mny">{{ about_me | minus: about_u | abs | money }}</div>
               </span>
             {% endif %}
-            <div class="cart_footer_1">
-              <div class="head_part_1 check_2">
-                {% if section.settings.related_product %}
-                  {% if upsellProduct !=blank %}
-                    <div class="custom">
-                      <button type="button" class="custom_btn btn btn-info btn-lg jtone btn--small-wide" data-toggle="modal" data-target="#myModal">{{ section.settings.checkout_button_text }}</button>
-                    </div>
-                    <form action="/cart" method="post" novalidate="" class="cart">
-                      <input type="submit" name="checkout" class="btn btn--small-wide second_button" value="{{ section.settings.checkout_button_text }}"> 
-                    </form>
-                  {% else %}
-                    <input type="submit" name="checkout" class="btn btn--small-wide " value="{{ section.settings.checkout_button_text }}"> 
-                  {% endif %}
+            <div class="cart-footer">
+              {% if section.settings.related_product %}
+                {% if relatedProduct != blank %}
+                  <div class="custom">
+                    <button type="button" class="custom_btn btn btn-info btn-lg jtone btn--small-wide" data-toggle="modal" data-target="#myModal">{{ section.settings.checkout_button_text }}</button>
+                  </div>
+                  <form action="/cart" method="post" novalidate="" class="cart">
+                    <input type="submit" name="checkout" class="btn btn--small-wide second_button" value="{{ section.settings.checkout_button_text }}"> 
+                  </form>
                 {% else %}
-                  <input type="submit" name="checkout" class="btn btn--small-wide" value="{{ section.settings.checkout_button_text }}"> 
+                  <input type="submit" name="checkout" class="btn btn--small-wide " value="{{ section.settings.checkout_button_text }}"> 
                 {% endif %}
-              </div>
+              {% else %}
+                <input type="submit" name="checkout" class="btn btn--small-wide" value="{{ section.settings.checkout_button_text }}"> 
+              {% endif %}
             </div>
             <div class="update_button">
               <input type="submit" name="update" class="btn btn--secondary cart__update cart__update--large small--hide" value="{{ 'cart.general.update' | t }}">
@@ -224,11 +225,6 @@
               <div class="additional-checkout-buttons">{{ content_for_additional_checkout_buttons }}</div>
               {% endif %}
             {% endif %}
-            <p class="left_01">
-              {{ shop.name }} processes all orders in {{ shop.currency }}. 
-              While the content of your cart is currently displayed in <span class="selected-currency"></span>, 
-              you will check out using {{ shop.currency }} at the most current exchange rate.
-            </p>
           </div>
         </div>
       </footer>
@@ -240,84 +236,6 @@
       <a href="/" class="btn btn--has-icon-after">{{ 'general.404.link' | t }}</a>
     </div>
   {% endif %}
-</div>
-<div id="openModal" class="modalDialog">
-  <div class="popup">	
-    <h2>Related Products</h2>
-  </div>
-</div>
-<div class="container" id="myModal1">
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog" data-expires="{{ settings.session_time }}" data-delay="1">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <a href="/checkout"> X </a>
-          <h4 class="modal-title">Related Products</h4>
-        </div>
-        <div class="modal-body">
-			    {% assign handle_string = "" %}
-          {% for item in cart.items %}
-            {% for tags_r in item.product.tags %}
-              {% if tags_r contains 'upsell_' %}
-                {% assign test = tags_r | remove: 'upsell_' %}         
-                {% if handle_string contains test %}
-                  {% continue %}
-                {% else %}
-                  {% capture handle_string %}{{test}},{%endcapture%}          
-                  {% assign product_drop  = all_products[test] %}
-                  <div class="upsell_products">
-                    <div class="popup_image">{{ upsell_second }}<img class="cart__image" src="{{ product_drop.featured_image.src | img_url: '200x200' }}"></div>
-                    <div class="popup_title"> {{ product_drop.title }}</div>
-                    <div class="popup_price">{{ product_drop.price | money }}</div>
-                    <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form">
-                      {% unless product_drop.options.size == 1 and product_drop.variants[0].title == 'Default Title' %}
-                        {% for option in product_drop.options_with_values %}
-                          <div class="selector-wrapper js product-form__item">
-                            <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
-                              {{ option.name }}
-                            </label>
-                            <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
-                              {% for value in option.values %}
-                                <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
-                              {% endfor %}
-                            </select>
-                          </div>
-                        {% endfor %}
-                      {% endunless %}
-                      <select name="id" id="ProductSelect" class="product-form__variants no-js">
-                        {% for variant in product_drop.variants %}
-                          {% if variant.available %}
-                            <option {% if variant == product_drop.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
-                              {{ variant.title }}
-                            </option>
-                          {% else %}
-                            <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
-                          {% endif %}
-                        {% endfor %}
-                      </select>
-                      <div class="product-form__item product-form__item--quantity">
-                        <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-form__input" pattern="[0-9]*">
-                      </div>
-                      <div class="product-form__item product-form__item--submit custom_buton">
-                        <button type="submit" name="add" id="AddToCart" class="test btn product-form__cart-submit{% if product_drop.options.size == 1 and product_drop.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
-                          <span id="AddToCartText">add to cart</span>
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                {% endif %}
-              {% endif %}
-            {% endfor %}
-          {% endfor %}
-        </div>
-        <div class="modal-footer">
-          <a href="/checkout"  > No, Thanks </a>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 <style>
   button#paypal-express-button {
@@ -340,16 +258,7 @@
   }  
   .template-cart p.ajaxified-cart-feedback.success {  
     position: absolute;
-  } 
-  button#AddToCart:hover span {
-    color: #fff;
-  }  
-  .popup_title {
-    text-align: left;
-  }  
-  .modal-footer {
-    text-align: center;
-  }  
+  }
   .cart__subtotal {
     padding-left: 10px;
     min-width: 29px;
@@ -358,21 +267,9 @@
   .right_aligned {
     text-align: right;
   }
-  .head_part_1.check_2 {
-    width: 100%;
-  }
-  .security-badge {
-    width: 100%;
-    float: left;
-  }
   .text_cart {
     color: #000;
     font-weight: bold;
-  }
-  .head_part_1 {
-    width: 50% ;
-    float: left ;
-    text-align: right ;
   }
   @media screen and (min-width : 320px) and (max-width : 767px)  {
     td.cart__price-wrapper.cart-flex-item span {
@@ -414,42 +311,15 @@
       font-size: 0.875em;
       padding: 18px 0 17px;
     }
-    .security-badge {
-      width: 100%;
-      text-align: center;
-    }
-    .head_part_1 {
-      width: 100%;
-      float: left;
-      text-align: center; 
-    }
   }
-  .check_2 .custom {
+  .cart-footer .custom {
     background-color: {{ section.settings.checkout_button_color }} !important;
   }
-  .check_2 .custom button.btn.btn--small-wide {
+  .cart-footer .custom button.btn.btn--small-wide {
     font-size: {{ section.settings.checkout_button_fontsize }} !important;
-  }
-  .head_part_1.check_2 input.btn {
-    background-color:  {{ section.settings.checkout_button_color }} !important;
-    font-size: {{ section.settings.checkout_button_fontsize }} !important;
-  }
-  .upsell_products {
-    padding-top: 20px !important;
   }
   .test.btn.product-form__cart-submit {
     max-width: 200px;
-  }
-  @media screen and (max-width : 2000px) and (min-width : 1024px) {
-    .modal-header {
-      border-bottom: 0px;
-    }
-    .modal-footer {
-      border-top: 0px;
-    }
-    .upsell_products {
-      padding-top: 26px !important;
-    }
   }
   .count1 {
     color: {{ section.settings.expiry_color }};
@@ -474,32 +344,12 @@
   span.text_cart {
     line-height: 25px;
   }
-  .upsell_products .selector-wrapper {
-    display: none;
-  }
   @media screen and (min-width : 320px) and (max-width : 767px) {
-    div#myModal {
-      padding-right: 0px !important;
-      padding-left: 0px !important;
-    }
-    .popup_title {
-      text-align: center;
-    }
-    button#AddToCart {
-      text-transform: capitalize;
-      background-color: #08BD66;
-    }
     .template-cart .main-content{
       padding-top:0px;
     }
     .grid__item.medium-up--three-fifths.small--one-half h3 {
       font-size: 17px !important;
-    }
-    .upsell_products .product-form__item.product-form__item--quantity {
-      display: none;
-    }
-    .popup_title {
-      font-size: 12px;
     }
     span.money {
       font-size: 20px;
@@ -513,11 +363,6 @@
     span.text_cart {
       line-height: 25px;
       font-size: 13px;
-    }
-    .template-cart .modal-header a {
-      position: absolute;
-      top: 10px;
-      right: 10px;
     }
   }
   @media screen and (min-width : 768px) and (max-width : 1024px)  {
@@ -547,91 +392,15 @@
   .template-cart  input.btn.btn--small-wide {
     color: #fff !important ;
   }
-  @media screen and (max-width: 30000px) and (min-width: 1024px) {
-    .upsell_products {
-      width: 100% !important;
-      float: left !important;
-    }
-    .popup_image {
-      float: left;
-      padding-left: 15px;
-      width: 14%;
-    }
-    .upsell_products  .product-form__item.product-form__item--submit.custom_buton {
-        text-align: right;
-    }
-    .popup_title {
-      float: left ;
-      padding-left: 15px ;
-    }
-    .popup_price {
-      width: 35%;
-      float: left;
-      text-align: left;
-      padding-left: 17px;
-    }
-    .popup_title {
-      font-size: 18px;
-      font-weight: bold;
-    }
-    button#AddToCart {
-      text-transform: capitalize;
-      background-color: #08BD66;
-    }
-    .upsell_products .product-form__cart-submit {
-      width: initial;
-    } 
-    .popup_title {
-      min-width: 67%;
-    }  
-  }
 </style>
 <script>
   $('.product-form__item.product-form__item--submit.custom_buton').on( "click", 'button#AddToCart', function(e) {
     $('span#AddToCartText').trigger('click');          
   });
   $(document).ready(function() {
-    // If the 'hide cookie is not set we show the message
-    if (!readCookie('hide_button')) {
-      $("button.custom_btn").css("display", "block");
-      $(".second_button").css("display", "none");
-    } else {
-      $("div.custom").css("display", "none");
-      $(".second_button").css("display", "block");
-    }
-    // Add the event that closes the popup and sets the cookie that tells us to
-    // not show it again until one day has passed.
-    $('span#AddToCartText').click(function() {
-      createCookie('hide_button', true, 1)
-      return false;
-    });
-  });
-  // ---
-  // And some generic cookie logic
-  // ---
-  function createCookie(name,value,days) {
-    var ron = 10;
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime()+(days*ron*1*1000));
-      var expires = "; expires="+date.toGMTString();
-    } else var expires = "";
-    document.cookie = name+"="+value+expires+"; path=/";
-  }
-  function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-      var c = ca[i];
-      while (c.charAt(0)==' ') c = c.substring(1,c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-  }
-  function eraseCookie(name) {
-    createCookie(name,"",-1);
-  }
-  $(document).ready(function() {
+    if ($(".selected-currency").text() == "{{ shop.currency }}")
+      $(".processing-currency-message").css("display", "none");
+
     function countdown( elementName, minutes, seconds ) {
       var element, endTime, hours, mins, msLeft, time;
       function twoDigits( n ) {
