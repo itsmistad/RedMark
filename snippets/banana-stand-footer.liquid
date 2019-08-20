@@ -1,0 +1,13 @@
+<!-- // BEGIN // Fera.ai Integration Code - DO NOT MODIFY // -->
+<script type="application/javascript">
+(function(){
+  window.fera = window.fera || [];
+  window.fera.push({ action: "configure", data: { store_pk: "pk_05c06284533a350c3fd442b36da87f482019a90e57d7ae89951f5f9e95d8662e"  }} );
+  window.fera.push({ action: "loadPlatformAdapter", code: "shopify" });
+  {% if customer.id %}window.fera.push({ action: "setCustomerId", customer_id: "{{ customer.id }}" });{% endif %}
+  {% if cart %}window.fera.push({ action: "setCart", cart: {{ cart | json }} }); {% endif %}
+  {% if product.id %}window.fera.push({ action: "setProductId", product_id: "{{ product.id }}" }); window.fera.push({ action: "startProductPageViewing" });{% endif %}
+  var headSrcUrls = document.getElementsByTagName("html")[0].innerHTML.match(/var urls = \[.*\]/);if (headSrcUrls && window.fera) { if (JSON.parse(headSrcUrls[0].replace("var urls = ", "")).find(function(url) {return url.match(/.*(fera|bananastand)\.js.*/i) && (window.feraJsUrl = url)})) { var FeraCachedAsset=function(r){var n=this;var a=r.name||r.url.split("?")[0].split("#")[0];var o="Fera.AssetCache."+a;var i=(new Date).getTime()/1e3;var c=r.type||(r.url.indexOf(".html")!==-1?"text/template":"text/javascript");n.load=function(t){t=t||function(){};if(n.content){return t(n.content)}if(!e()){s(r.url,function(e){n.content=e;u(e);n.save(e);t(e)})}else{t(n.content)}return true};n.save=function(e){var t=i+(r.expiresIn||900);if(!l()){return false}var n={name:a,url:r.url,expires:t,content:e};window.localStorage.setItem(o,JSON.stringify(n));return true};n.clear=function(){window.localStorage.removeItem(o);return false};var e=function(){if(!l())return false;var e=window.localStorage.getItem(o);if(!e||typeof e!=="string"){return null}var t=JSON.parse(e);if(t.expires<i||t.url!==r.url){return n.clear()}n.content=t.content;u(n.content);return true};var u=function(e){if(document.getElementById(o))return;var t=document.createElement("script");t.type=c;t.id=o;t.async=!0;t.innerHTML=e;document.body.appendChild(t)};var s=function(e,t){var n=new XMLHttpRequest;n.async=true;n.onreadystatechange=function(){if(this.readyState==4&&this.status<300){t(this.responseText)}};n.open("GET",e,true);n.send()};var l=function(){var e="test";try{window.localStorage.setItem(e,"t");window.localStorage.removeItem(e);return 1}catch(e){return 0}}};var BananaStandCachedAsset=FeraCachedAsset; new FeraCachedAsset({ name: 'bananastand', expiresIn: 900, url: window.feraJsUrl || "https://cdn.fera.ai/js/fera.js"}).load(); } }
+})();
+</script>
+<!-- // END // Fera.ai Integration Code // -->
