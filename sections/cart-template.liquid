@@ -1,5 +1,5 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<div class="page-width" data-section-id="{{ section.id }}" data-section-type="cart-template">
+<div class="page-width cart-section" data-section-id="{{ section.id }}" data-section-type="cart-template">
   <div class="doubly-message"></div>
   {% if cart.item_count > 0 %}
     <div class="section-header text-center">
@@ -7,21 +7,23 @@
     </div>
     <form action="/cart" method="post" novalidate class="cart">
       <table>
-        <thead class="cart__row cart__header">
-          <th colspan="2">{{ 'cart.label.product' | t }}</th>
-          <th>{{ 'cart.label.price' | t }}</th>
-          <th class="text-center">{{ 'cart.label.quantity' | t }}</th>
-          <th class="text-right">{{ 'cart.label.total' | t }}</th>
+        <thead>
+          <tr>
+            <th colspan="2" class="cart-section__cell">{{ 'cart.label.product' | t }}</th>
+            <th class="cart-section__cell group-right text-center">{{ 'cart.label.price' | t }}</th>
+            <th class="cart-section__cell group-right text-center">{{ 'cart.label.quantity' | t }}</th>
+            <th class="cart-section__cell group-right text-center">{{ 'cart.label.total' | t }}</th>
+          </tr>
         </thead>
         <tbody>
           {% for item in cart.items %}
-            <tr class="cart__row border-bottom line{{ forloop.index }} cart-flex{% if forloop.first %} border-top{% endif %}">
-              <td class="cart__image-wrapper cart-flex-item">
+            <tr class="cart-section__row border-bottom {% if forloop.first %} border-top{% endif %}">
+              <td class="cart-section__cell cart-section__image-wrapper">
                 <a href="{{ item.url | within: collections.all }}">
-                  <img class="cart__image" src="{{ item | img_url: '100x' }}" alt="{{ item.title | escape }}">
+                  <img class="cart-section__image" src="{{ item | img_url: '100x' }}" alt="{{ item.title | escape }}">
                 </a>
               </td>
-              <td class="cart__meta small--text-left cart-flex-item">
+              <td class="cart-section__cell small--text-left">
                 <div class="list-view-item__title">
                   <a href="{{ item.url }}">
                     {{ item.product.title }}
@@ -33,7 +35,7 @@
                   </a>
                 </div>
                 {% unless item.variant.title contains 'Default' %}
-                  <div class="cart__meta-text">
+                  <div class="cart-section__meta-text">
                   {% for option in item.product.options %}
                     {{ option }}: {{ item.variant.options[forloop.index0] }} <br>
                   {% endfor %}
@@ -41,7 +43,7 @@
                 {% endunless %}
                 {%- assign property_size = item.properties | size -%}
                 {% if property_size > 0 %}
-                  <div class="cart__meta-text">
+                  <div class="cart-section__meta-text">
                     {% for p in item.properties %}
                       {% unless p.last == blank %}
                         {{ p.first }}:
@@ -54,31 +56,31 @@
                     {% endfor %}
                   </div>
                 {% endif %}
-                <p class="small--hide cart_remove">
-                  <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="btn btn--small btn--secondary cart__remove">{{ 'cart.general.remove' | t }}</a>
+                <p class="small--hide cart-section_remove">
+                  <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="btn btn--small btn--secondary cart-section__remove">{{ 'cart.general.remove' | t }}</a>
                 </p>
               </td>
-              <td class="cart__price-wrapper cart-flex-item">
+              <td class="cart-section__cell cart-section__price-wrapper text-center">
                 <span class="saso-cart-item-price" data-key="{{item.key}}">{{ item.price | money }}</span>
                   {% for discount in item.discounts %}
                     <div class="cart-item__discount medium-up--hide">{{ discount.title }}</div>
                   {% endfor %}
-                  <div class="cart__edit medium-up--hide">
-                    <button type="button" class="btn btn--secondary btn--small js-edit-toggle cart__edit--active" data-target="line{{ forloop.index }}">
-                      <span class="cart__edit-text--edit">{{ 'cart.general.edit' | t }}</span>
-                      <span class="cart__edit-text--cancel">{{ 'cart.general.cancel' | t }}</span>
+                  <div class="cart-section__edit medium-up--hide">
+                    <button type="button" class="btn btn--secondary btn--small js-edit-toggle cart-section__edit--active" data-target="line{{ forloop.index }}">
+                      <span class="cart-section__edit-text--edit">{{ 'cart.general.edit' | t }}</span>
+                      <span class="cart-section__edit-text--cancel">{{ 'cart.general.cancel' | t }}</span>
                     </button>
                   </div>
               </td>
-              <td class="cart__update-wrapper cart-flex-item text-right">
-                <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="btn btn--small btn--secondary cart__remove medium-up--hide">{{ 'cart.general.remove' | t }}</a>
-                <div class="cart__qty">
-                  <label for="updates_{{ item.key }}" class="cart__qty-label">{{ 'cart.label.quantity' | t }}</label>
-                  <input class="cart__qty-input" type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0" pattern="[0-9]*">
+              <td class="cart-section__cell cart-section__update-wrapper text-center">
+                <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="btn btn--small btn--secondary cart-section__remove medium-up--hide">{{ 'cart.general.remove' | t }}</a>
+                <div class="cart-section__qty">
+                  <label for="updates_{{ item.key }}" class="cart-section__qty-label">{{ 'cart.label.quantity' | t }}</label>
+                  <input class="cart-section__qty-input" type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0" pattern="[0-9]*">
                 </div>
-                <input type="submit" name="update" class="btn btn--small cart__update medium-up--hide" value="{{ 'cart.general.update' | t }}">
+                <input type="submit" name="update" class="btn btn--small cart-section__update medium-up--hide" value="{{ 'cart.general.update' | t }}">
               </td>
-              <td class="text-right small--hide">
+              <td class="cart-section__cell text-center small--hide">
                 {% if item.original_line_price != item.line_price %}
                   <div class="cart-item__original-price"><s>{{ item.original_line_price | money }}</s></div>
                 {% endif %}
@@ -93,12 +95,9 @@
           {% endfor %}
         </tbody>
       </table>
-      <p class="processing-currency-message">
-        {{ shop.name }} processes all orders in {{ shop.currency }}. 
-        While the content of your cart is currently displayed in <span class="selected-currency"></span>, 
-        you will check out using {{ shop.currency }} at the most current exchange rate.
-      </p>
-      <footer class="cart__footer">
+      <p class="processing-currency-message">{{ section.settings.processing_currency_text }}</p>
+      <footer class="cart-section__footer">
+        {% include 'payment-badges' %}
         <div class="grid">
           <div class="grid__item medium-up--one-half cart-note">
             {% if section.settings.cart_notes_enable %}
@@ -113,7 +112,7 @@
                 <p>We noticed your order amount is more than {{ section.settings.cart_order_above_box }}USD, so we are offering you {{ section.settings.cart_discount_box }}% discount</p>
                 <div class="discount">
                   <h3>Discount Code</h3>
-                  <input type="text" name="discount" value="{{section.settings.discount_code}}"/>
+                  <input type="text" name="discount" value="{{ section.settings.discount_code }}"/>
                   <p>Discount codes will be applied at check out.</p>
                 </div>
               {% endif %}
@@ -121,7 +120,7 @@
           </div>
           <div class="grid__item text-right small--text-center{% if section.settings.cart_notes_enable %} medium-up--one-half{% endif %}">
             {% if section.settings.regular_price %}
-              <div class="cart_total">
+              <div class="cart-section__total">
                 {% assign total_saving = 0 %}
                 {% for item in cart.items %}
                   {% capture rg__price %}{{ item.variant.compare_at_price  }}{% endcapture %}
@@ -134,7 +133,7 @@
                     {% capture tot_qty %} {{ item.quantity }} {% endcapture %}
                   {% endif %}
                 {% endfor %}
-                <span class="cart__regular_total-title 1212"><b>Regular Price:{% capture about_me %}{{ rg__total_last }}{% endcapture %}</b></span>
+                <span class="cart-section__regular_total-title 1212"><b>Regular Price:{% capture about_me %}{{ rg__total_last }}{% endcapture %}</b></span>
                 {% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
                 {% assign about_u = about_u | split: '.'%}
                 {% assign about_u = about_u[0] %}
@@ -148,8 +147,8 @@
                 <br/>
               </div>
             {% endif %}
-            <div class="cart_total">
-              <span class="cart__subtotal-title">{{ 'cart.general.subtotal' | t }}</span>
+            <div class="cart-section__total">
+              <span class="cart-section__subtotal-title">{{ 'cart.general.subtotal' | t }}</span>
               {% if section.settings.min_spend_discount_enable %}
                 {%- assign car_total = cart.total_price | money_without_currency_format | money_without_currency | remove: '.00' | remove: ',' -%}
                 {%- assign cart_order = section.settings.cart_order_above_box -%}
@@ -157,20 +156,20 @@
                 {% if diff > 0 %}
                   {% assign cto = car_total | times: section.settings.cart_discount_box | divided_by: 100  %}
                   {% assign cato = cto | times: 100 %}
-                  <span class="cart__subtotal 1">{% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
+                  <span class="cart-section__subtotal 1">{% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
                     {% assign about_u = about_u | split: '.'%}
                     {% assign about_u = about_u[0] %}
                   </span>  
                   {{ about_u | money }}
                 {% else %}
-                  <span class="cart__subtotal 2">{% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
+                  <span class="cart-section__subtotal 2">{% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
                     {% assign about_u = about_u | split: '.'%}
                     {% assign about_u = about_u[0] %}
                   </span>
                   {{ about_u | money }}
                 {% endif %}
               {% else %}
-                <span class="cart__subtotal 3">{% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
+                <span class="cart-section__subtotal 3">{% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
                   {% assign about_u = about_u | split: '.'%}
                   {% assign about_u = about_u[0] %}
                 </span>  
@@ -178,9 +177,9 @@
               {% endif %}
             </div>
             {% if cart.total_discounts > 0 %}
-              <div class="cart__savings">
+              <div class="cart-section__savings">
                 {{ 'cart.general.savings' | t }}
-                <span class="cart__savings-amount">{{ cart.total_discounts | money }}</span>
+                <span class="cart-section__savings-amount">{{ cart.total_discounts | money }}</span>
               </div>
             {% endif %}
             {% if section.settings.total_savings %}
@@ -189,27 +188,12 @@
                 <div class="mny">{{ about_me | minus: about_u | abs | money }}</div>
               </span>
             {% endif %}
-            <div class="cart-footer">
-              {% if section.settings.related_product %}
-                {% if relatedProduct != blank %}
-                  <div class="custom">
-                    <button type="button" class="custom_btn btn btn-info btn-lg jtone btn--small-wide" data-toggle="modal" data-target="#myModal">{{ section.settings.checkout_button_text }}</button>
-                  </div>
-                  <form action="/cart" method="post" novalidate="" class="cart">
-                    <input type="submit" name="checkout" class="btn btn--small-wide second_button" value="{{ section.settings.checkout_button_text }}"> 
-                  </form>
-                {% else %}
-                  <input type="submit" name="checkout" class="btn btn--small-wide " value="{{ section.settings.checkout_button_text }}"> 
-                {% endif %}
-              {% else %}
-                <input type="submit" name="checkout" class="btn btn--small-wide" value="{{ section.settings.checkout_button_text }}"> 
-              {% endif %}
-            </div>
+            <input type="submit" name="checkout" class="btn btn--small-wide cart-section__checkout-button" value="{{ section.settings.checkout_button_text }}">
             <div class="update_button">
-              <input type="submit" name="update" class="btn btn--secondary cart__update cart__update--large small--hide" value="{{ 'cart.general.update' | t }}">
+              <input type="submit" name="update" class="btn btn--secondary cart-section__update cart-section__update--large small--hide" value="{{ 'cart.general.update' | t }}">
             </div>
             {% if section.settings.shipping_text_enable %}
-              <div class="cart__shipping">{{ section.settings.shipping_text }}</div>
+              <div class="cart-section__shipping">{{ section.settings.shipping_text }}</div>
             {% endif %}
             {% if section.settings.cart_expiry_enable %}
               <div class="visitor_counter">
@@ -253,13 +237,13 @@
     padding-right: 9.6px;
     font-weight: bold;
   }
-  span.cart__subtotal-title {
+  span.cart-section__subtotal-title {
     font-weight: bold;
   }  
   .template-cart p.ajaxified-cart-feedback.success {  
     position: absolute;
   }
-  .cart__subtotal {
+  .cart-section__subtotal {
     padding-left: 10px;
     min-width: 29px;
     display: inline-block;
@@ -272,16 +256,13 @@
     font-weight: bold;
   }
   @media screen and (min-width : 320px) and (max-width : 767px)  {
-    td.cart__price-wrapper.cart-flex-item span {
-      font-size: 12px;
-    }
     .mny span.money {
       width: 120px;
     }
-    span.cart__regular_total-title {
+    span.cart-section__regular_total-title {
       font-size: 18px;
     }
-    span.cart__subtotal-title {
+    span.cart-section__subtotal-title {
       font-size: 19px;
       font-weight: bold;
       margin-right: 7px;
@@ -294,7 +275,7 @@
     label.cart-note__label.small--text-center {
       font-size: 15px;
     }
-    .cart__shipping {
+    .cart-section__shipping {
       font-size: 16px !important;
       text-align: center;
     }
@@ -302,21 +283,19 @@
       text-align: center;
       padding-bottom: 20px;
     }
-    .cart_total {
+    .cart-section__total {
       padding-bottom: 16px;
       font-size: 20px;
     }
-    .cart__shipping {
+    .cart-section__shipping {
       font-style: italic;
       font-size: 0.875em;
       padding: 18px 0 17px;
     }
   }
-  .cart-footer .custom {
-    background-color: {{ section.settings.checkout_button_color }} !important;
-  }
-  .cart-footer .custom button.btn.btn--small-wide {
-    font-size: {{ section.settings.checkout_button_fontsize }} !important;
+  .cart-section__checkout-button {
+    background-color: {{ section.settings.checkout_button_color }};
+    font-size: {{ section.settings.checkout_button_fontsize }};
   }
   .test.btn.product-form__cart-submit {
     max-width: 200px;
@@ -376,7 +355,7 @@
     .count1 {
       width: 15%;
     }
-    .cart__shipping {
+    .cart-section__shipping {
       font-style: italic;
       font-size: 0.875em;
       padding: 18px 10px 20px;
@@ -400,6 +379,19 @@
   $(document).ready(function() {
     if ($(".selected-currency").text() == "{{ shop.currency }}")
       $(".processing-currency-message").css("display", "none");
+    else
+    {
+      var formatString = $(".processing-currency-message").text();
+      var shopName = "{{ shop.name }}";
+      var shopCurrency = "{{ shop.currency }}";
+      // Replace all instances of the variable in the format string
+      $(".processing-currency-message").text(formatString.replace(
+        /\$shopname/g, shopName
+      ).replace(
+        /\$shopcurrency/g, shopCurrency
+      ));
+    }
+
 
     function countdown( elementName, minutes, seconds ) {
       var element, endTime, hours, mins, msLeft, time;
@@ -479,6 +471,10 @@
   "name": "Cart page",
   "settings": [
     {
+      "type": "header",
+      "content": "Notes"
+    },
+    {
       "type": "checkbox",
       "id": "cart_notes_enable",
       "label": "Enable cart notes",
@@ -549,6 +545,15 @@
       "type": "text",
       "id": "discount_code",
       "label": "Discount Code"
+    },
+    {
+      "type": "header",
+      "content": "Conversion Disclaimer"
+    },
+    {
+      "type": "text",
+      "id": "processing_currency_text",
+      "label": "Processing Currency Text"
     },
     {
       "type": "header",

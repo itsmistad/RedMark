@@ -31,28 +31,7 @@
             <p style="color:#000;">{{ section.settings.footer_support_hours }}</p>
           </li>
         </ul>
-        <div class="site-footer__payment-badges">
-          <div class="site-footer__payment-badge">
-            <img class="tb-svg" src="https://cdn.redmarkdeals.com/svgs/amex.svg"
-              alt="Amex">
-          </div>
-          <div class="site-footer__payment-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-            <img class="tb-svg" src="https://cdn.redmarkdeals.com/svgs/mastercard.svg"
-              alt="MasterCard">
-          </div>
-          <div class="site-footer__payment-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-            <img class="tb-svg" src="https://cdn.redmarkdeals.com/svgs/visa.svg"
-              alt="Visa">
-          </div>
-          <div class="site-footer__payment-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-            <img class="tb-svg" src="https://cdn.redmarkdeals.com/svgs/paypal.svg"
-              alt="PayPal">
-          </div>
-          <div class="site-footer__payment-badge">
-            <img class="tb-svg" src="https://cdn.redmarkdeals.com/svgs/apple-pay.svg"
-              alt="Apple Pay">
-          </div>
-        </div>
+        {% include 'payment-badges' %}
       </div>
       <div
         class="grid__item{% if section.settings.footer_linklist_two != blank %} medium-up--one-sixth{% elsif section.settings.footer_linklist_two == blank %} medium-up--one-half{% else %} text-center{% endif %}">
@@ -201,34 +180,6 @@
 
   .item-wrapper:hover>svg {
     fill: rgb(255, 255, 255);
-  }
-
-  .site-footer__payment-badges {
-    margin: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box;
-    text-align: center;
-    width: 100%;
-    margin: 15px 0px;
-    padding: 0px 15px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  .site-footer__payment-badge {
-    margin: 0 7px 0 0 !important;
-    width: 30px;
-    display: inline-block;
-    margin: 0px 7px;
-    vertical-align: top;
-  }
-
-  .site-footer__payment-badge img {
-    width: 30px;
-    height: 30px;
-    opacity: 1;
-    background: none;
   }
   
   h3.sty_one_men_one_head {
