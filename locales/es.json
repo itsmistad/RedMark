@@ -107,7 +107,7 @@
       "title": "Carrito de compra",
       "note": "Instrucciones especiales para el vendedor",
       "remove": "Quitar",
-      "subtotal": "Subtotal",
+      "total": "Total",
       "savings": "Está ahorrando",
       "shipping_at_checkout": "Gastos de envío y descuentos calculado al momento de pagar",
       "update": "Actualizar carrito",
@@ -120,7 +120,7 @@
       "product": "Producto",
       "price": "Precio",
       "quantity": "Cantidad",
-      "total": "Total"
+      "subtotal": "Subtotal"
     }
   },
   "collections": {

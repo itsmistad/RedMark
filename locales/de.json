@@ -107,7 +107,7 @@
       "title": "Einkaufswagen",
       "note": "Einen Hinweis zu Ihrer Bestellung hinzufügen",
       "remove": "Entfernen",
-      "subtotal": "Zwischensumme",
+      "total": "Gesamt",
       "savings": "Sie sparen",
       "shipping_at_checkout": "Liefer- und Preisnachlässe an der Kasse berechnet",
       "update": "Einkaufswagen aktualisieren",
@@ -120,7 +120,7 @@
       "product": "Artikel",
       "price": "Preis",
       "quantity": "Menge",
-      "total": "Gesamt"
+      "subtotal": "Zwischensumme"
     }
   },
   "collections": {

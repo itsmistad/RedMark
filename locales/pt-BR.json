@@ -107,7 +107,7 @@
       "title": "Carrinho de compras",
       "note": "Adicione uma observação ao seu pedido",
       "remove": "Remover",
-      "subtotal": "Subtotal",
+      "total": "Total",
       "savings": "Você está economizando",
       "shipping_at_checkout": "Envios e descontos calculados no checkout",
       "update": "Atualizar carrinho",
@@ -120,7 +120,7 @@
       "product": "Produto",
       "price": "Preço",
       "quantity": "Quantidade",
-      "total": "Total"
+      "subtotal": "Subtotal"
     }
   },
   "collections": {

@@ -6,11 +6,11 @@
     <div class="grid grid--no-gutters">
       <div
         class="grid__item medium-up--one-third">
-        <div class="site-footer_logo-wrapper">
-          <a href="{{ shop.url }}" itemprop="url" class="site-footer__logo">
+        <div class="site-footer__logo-wrapper">
+          <a href="{{ shop.url }}" itemprop="url" class="site-footer__logo-image">
             <img srcset="{{ section.settings.logo | img_url : 'master' }} "
                    alt="{{ section.settings.logo.alt | default: shop.name }}"
-                   id="toplogo" 
+                   id="bottomlogo" 
                    class="bottomlogo"
                    itemprop="logo">
           </a>
@@ -112,12 +112,20 @@
     </div>
   </div>
 </footer>
-
 <style>
   a[class*="site-footer__logo"]:hover,  
   a[class*="site-footer__logo"]:focus {
       opacity: 1 !important;
   }
+
+.site-footer__logo-wrapper {
+  height: 16px;
+}
+{% if section.settings.logo != blank %}
+  .site-footer__logo-image {
+    max-width: {{ section.settings.logo_max_width }}px !important;
+  }
+{% endif %}
 
   .site-footer .grid__item {
     padding-right: 0;
@@ -186,9 +194,6 @@
     font-size: {{ section.settings.sty_one_main-heading_text }}px !important;
 
     color: {{ section.settings.sty_one_main-heading_color }};
-  }
-  .site-footer_logo-wrapper {
-    height: 16px;
   }
 
   li.sty_one_men_one.site-footer__linklist-item {
@@ -322,6 +327,21 @@
 {
   "name": "Footer",
   "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },  
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "logo_max_width",
+      "label": "Custom logo width (in pixels)",
+      "default": "100"
+    },
     {
       "type":"header",
       "content":"Trust Badges"
@@ -573,26 +593,17 @@
 {% endschema %}
 
 <style>
-  .site-footer .fa {
-    font-size: 90px;
-  }
-
   .newsletter_footer {
     margin-top: 0px !important;
   }
-
   h2.color_Schme {
     margin-top: 0px;
   }
-
-
   @media screen and (min-width : 320px) and (max-width : 767px) {
-
     ul.slick-dots {
       display: none !important;
     }
   }
-
   @media screen and (min-width: 320px) and (max-width: 399px) {
     footer.site-footer input#mce-EMAIL {
       width: 100% !important;

@@ -5,7 +5,7 @@
       <div class="trust-badges__badges">
         {% if section.settings.badge_img_1 != blank %}
         <div class="trust-badges__badge" style="margin-left:0;">
-          <img class="trust-badges__badge-img-1" alt="Alt Text!">
+          <img class="trust-badges__badge-img-1" srcset="{{ section.settings.badge_img_1 | img_url : 'master' }}" alt="Alt Text!">
           {% if section.settings.badge_img_1_text != blank %}
           <h4 class="trust-badges__text">{{ section.settings.badge_img_1_text }}</h4>
           {% endif %}
@@ -13,7 +13,7 @@
         {% endif %}
         {% if section.settings.badge_img_2 != blank %}
         <div class="trust-badges__badge">
-          <img class="trust-badges__badge-img-2" alt="Alt Text!">
+          <img class="trust-badges__badge-img-2" srcset="{{ section.settings.badge_img_2 | img_url : 'master' }}" alt="Alt Text!">
           {% if section.settings.badge_img_1_text != blank %}
           <h4 class="trust-badges__text">{{ section.settings.badge_img_2_text }}</h4>
           {% endif %}
@@ -21,7 +21,7 @@
         {% endif %}
         {% if section.settings.badge_img_3 != blank %}
         <div class="trust-badges__badge">
-          <img class="trust-badges__badge-img-3" alt="Alt Text!">
+          <img class="trust-badges__badge-img-3" srcset="{{ section.settings.badge_img_3 | img_url : 'master' }}" alt="Alt Text!">
           {% if section.settings.badge_img_1_text != blank %}
           <h4 class="trust-badges__text">{{ section.settings.badge_img_3_text }}</h4>
           {% endif %}
@@ -29,7 +29,7 @@
         {% endif %}
         {% if section.settings.badge_img_4 != blank %}
         <div class="trust-badges__badge" style="margin-right:0;">
-          <img class="trust-badges__badge-img-4" alt="Alt Text!">
+          <img class="trust-badges__badge-img-4" srcset="{{ section.settings.badge_img_4 | img_url : 'master' }}" alt="Alt Text!">
           {% if section.settings.badge_img_1_text != blank %}
           <h4 class="trust-badges__text">{{ section.settings.badge_img_4_text }}</h4>
           {% endif %}
@@ -64,25 +64,21 @@
 .trust-badges__text {
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 0.75em;
   font-weight: bold;
   padding-left: 14px;
   color: {{ section.settings.text_color }};
 }
 .trust-badges__badge-img-1 {
-  content: url({{ section.settings.badge_img_1 | img_url : 'master' }});
   max-width: {{ section.settings.badge_img_1_width }}px;
 }
 .trust-badges__badge-img-2 {
-  content: url({{ section.settings.badge_img_2 | img_url : 'master' }});
   max-width: {{ section.settings.badge_img_2_width }}px;
 }
 .trust-badges__badge-img-3 {
-  content: url({{ section.settings.badge_img_3 | img_url : 'master' }});
   max-width: {{ section.settings.badge_img_3_width }}px;
 }
 .trust-badges__badge-img-4 {
-  content: url({{ section.settings.badge_img_4 | img_url : 'master' }});
   max-width: {{ section.settings.badge_img_4_width }}px;
 }
 </style>

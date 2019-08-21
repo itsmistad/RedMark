@@ -110,7 +110,7 @@
       "title": "Your cart",
       "note": "Add a note to your order",
       "remove": "Remove",
-      "subtotal": "Subtotal",
+      "total": "Total",
       "savings": "You're saving",
       "shipping_at_checkout": "Shipping & taxes calculated at checkout",
       "update": "Update",
@@ -123,7 +123,7 @@
       "product": "Product",
       "price": "Price",
       "quantity": "Quantity",
-      "total": "Total"
+      "subtotal": "Subtotal"
     }
   },
   "collections": {

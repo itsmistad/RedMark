@@ -107,7 +107,7 @@
       "title": "Panier",
       "note": "Ajouter une note à votre commande",
       "remove": "Retirer",
-      "subtotal": "Sous-total",
+      "total": "Total",
       "savings": "Vous économisez",
       "shipping_at_checkout": "Frais de port et remises calculés à la caisse",
       "update": "Mettre à jour",
@@ -120,7 +120,7 @@
       "product": "Produit",
       "price": "Prix",
       "quantity": "Quantité",
-      "total": "Total"
+      "subtotal": "Sous-total"
     }
   },
   "collections": {

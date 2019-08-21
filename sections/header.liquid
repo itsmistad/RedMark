@@ -44,8 +44,7 @@
             {% if section.settings.logo %}
             <a href="{{ shop.url }}" itemprop="url" class="site-header__logo-image{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}">
               {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
-              <img srcset="{{ section.settings.logo | img_url : 'master' }} "
-                   
+              <img srcset="{{ section.settings.logo | img_url : 'master' }}"
                    alt="{{ section.settings.logo.alt | default: shop.name }}"
                    id="toplogo"
                    class="alds" itemprop="logo">
@@ -88,8 +87,7 @@
             <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
             <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
             <div id="CartCount" class="site-header__cart-count {% if cart.item_count == 0 %} hidden-count {% endif %}">
-              <span>{{ cart.item_count }}</span>
-              <span class="icon__fallback-text medium-up--hide">{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span>
+              {{ cart.item_count }}
             </div>
           </a>
           {% endif %}         
@@ -148,24 +146,6 @@ a[class*="site-header__logo"]:focus {
         margin: 0;
       }
     {% endif %}
-    
-
-@media screen and (max-width: 767px){   
-  #toplogo {      
-    content: url({{ section.settings.mobile_logo | img_url : 'master' }});
-  } 
-.site-header__logo-image {
-        max-width: {{ section.settings.mobile_logo_max_width }}px !important;
-      }
-}
-@media (min-width: 768px) {    
-  #toplogo {         
-    content: url({{ section.settings.logo | img_url : 'master' }});   
-  } 
-.site-header__logo-image {
-        max-width: {{ section.settings.logo_max_width }}px !important;
-      }
-}
     {% if section.settings.align_logo == 'center' %}
      .search-bar__submit, .search-header__submit {
         top: -5px;
@@ -409,17 +389,6 @@ span.announcement-bar__message {
         "id": "logo_max_width",
         "label": "Custom logo width (in pixels)",
         "default": "100"
-      },
-      {
-        "type": "image_picker",
-        "id": "mobile_logo",
-        "label": "Mobile Logo image"
-      },
-      {
-        "type": "text",
-        "id": "mobile_logo_max_width",
-        "label": "Custom mobile logo width (in pixels)",
-        "default": "40"
       },
       {
         "type": "header",
