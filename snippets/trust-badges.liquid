@@ -3,33 +3,49 @@
   <div class="page-width">
     <div class="section-content">
       <div class="trust-badges__badges">
-        {% if section.settings.badge_img_1 != blank %}
+        {% if section.settings.badge_img_1 != blank or section.settings.badge_svg_1 != blank %}
         <div class="trust-badges__badge" style="margin-left:0;">
-          <img class="trust-badges__badge-img-1" srcset="{{ section.settings.badge_img_1 | img_url : 'master' }}" alt="Alt Text!">
+          {% if section.settings.badge_img_1 != blank %}
+            <img class="trust-badges__badge-img-1" srcset="{{ section.settings.badge_img_1 | img_url : 'master' }}" alt="{{ section.settings.badge_alt_1 }}">
+          {% elsif section.settings.badge_svg_1 != blank %}
+            <img class="trust-badges__badge-img-1" srcset="{{ section.settings.badge_svg_1 }}" alt="{{ section.settings.badge_alt_1 }}">
+          {% endif %}
           {% if section.settings.badge_img_1_text != blank %}
           <h4 class="trust-badges__text">{{ section.settings.badge_img_1_text }}</h4>
           {% endif %}
         </div>
         {% endif %}
-        {% if section.settings.badge_img_2 != blank %}
+        {% if section.settings.badge_img_2 != blank or section.settings.badge_svg_2 != blank %}
         <div class="trust-badges__badge">
-          <img class="trust-badges__badge-img-2" srcset="{{ section.settings.badge_img_2 | img_url : 'master' }}" alt="Alt Text!">
+          {% if section.settings.badge_img_2 != blank %}
+            <img class="trust-badges__badge-img-2" srcset="{{ section.settings.badge_img_2 | img_url : 'master' }}" alt="{{ section.settings.badge_alt_2 }}">
+          {% elsif section.settings.badge_svg_2 != blank %}
+            <img class="trust-badges__badge-img-2" srcset="{{ section.settings.badge_svg_2 }}" alt="{{ section.settings.badge_alt_2 }}">
+          {% endif %}
           {% if section.settings.badge_img_1_text != blank %}
           <h4 class="trust-badges__text">{{ section.settings.badge_img_2_text }}</h4>
           {% endif %}
         </div>
         {% endif %}
-        {% if section.settings.badge_img_3 != blank %}
+        {% if section.settings.badge_img_3 != blank or section.settings.badge_svg_3 != blank %}
         <div class="trust-badges__badge">
-          <img class="trust-badges__badge-img-3" srcset="{{ section.settings.badge_img_3 | img_url : 'master' }}" alt="Alt Text!">
+          {% if section.settings.badge_img_3 != blank %}
+            <img class="trust-badges__badge-img-3" srcset="{{ section.settings.badge_img_3 | img_url : 'master' }}" alt="{{ section.settings.badge_alt_3 }}">
+          {% elsif section.settings.badge_svg_3 != blank %}
+            <img class="trust-badges__badge-img-3" srcset="{{ section.settings.badge_svg_3 }}" alt="{{ section.settings.badge_alt_3 }}">
+          {% endif %}
           {% if section.settings.badge_img_1_text != blank %}
           <h4 class="trust-badges__text">{{ section.settings.badge_img_3_text }}</h4>
           {% endif %}
         </div>
         {% endif %}
-        {% if section.settings.badge_img_4 != blank %}
+        {% if section.settings.badge_img_4 != blank or section.settings.badge_svg_4 != blank %}
         <div class="trust-badges__badge" style="margin-right:0;">
-          <img class="trust-badges__badge-img-4" srcset="{{ section.settings.badge_img_4 | img_url : 'master' }}" alt="Alt Text!">
+          {% if section.settings.badge_img_4 != blank %}
+            <img class="trust-badges__badge-img-4" srcset="{{ section.settings.badge_img_4 | img_url : 'master' }}" alt="{{ section.settings.badge_alt_4 }}">
+          {% elsif section.settings.badge_svg_4 != blank %}
+            <img class="trust-badges__badge-img-4" srcset="{{ section.settings.badge_svg_4 }}" alt="{{ section.settings.badge_alt_4 }}">
+          {% endif %}
           {% if section.settings.badge_img_1_text != blank %}
           <h4 class="trust-badges__text">{{ section.settings.badge_img_4_text }}</h4>
           {% endif %}
@@ -62,23 +78,24 @@
   align-items: center;
 }
 .trust-badges__text {
-  letter-spacing: 1.2px;
+  margin: 0;
+  letter-spacing: 1.8px;
   text-transform: uppercase;
-  font-size: 0.75em;
+  font-size: 0.9em;
   font-weight: bold;
-  padding-left: 14px;
+  padding-left: 8px;
   color: {{ section.settings.text_color }};
 }
 .trust-badges__badge-img-1 {
-  max-width: {{ section.settings.badge_img_1_width }}px;
+  width: {{ section.settings.badge_img_1_width }}px;
 }
 .trust-badges__badge-img-2 {
-  max-width: {{ section.settings.badge_img_2_width }}px;
+  width: {{ section.settings.badge_img_2_width }}px;
 }
 .trust-badges__badge-img-3 {
-  max-width: {{ section.settings.badge_img_3_width }}px;
+  width: {{ section.settings.badge_img_3_width }}px;
 }
 .trust-badges__badge-img-4 {
-  max-width: {{ section.settings.badge_img_4_width }}px;
+  width: {{ section.settings.badge_img_4_width }}px;
 }
 </style>
