@@ -100,11 +100,11 @@
             <div class="cart-section__secret-discount">
               <div class="cart-section__discount-line">
                 <span class="cart-section__emoji">🔥</span>
-                <span class="cart-section__discount-line-text">You're on fire! Looks like you found our secret discount.</span>
+                <span class="cart-section__discount-line-text">Woohoo, you're on fire! Looks like you found our secret discount.</span>
               </div>
               <div class="cart-section__discount-line">
                 <span class="cart-section__emoji">✔️</span>
-                <span class="cart-section__discount-line-text">Since your cart is over {{ section.settings.cart_order_above_box }}USD, here's a {{ section.settings.cart_discount_box }}% discount on us.</span>
+                <span class="cart-section__discount-line-text">Since your cart is over {{ section.settings.cart_order_above_box }} USD, here's a {{ section.settings.cart_discount_box }}% <b>{{ section.settings.discount_code }}</b> discount on us.</span>
               </div>
             </div>
           {% endif %}
@@ -124,7 +124,11 @@
           <div class="cart-section__note">
             <div class="cart-section__note-label">Discount Code</div>
             <div class="cart-section__discount-text">Discount codes will be applied at checkout.</div>
-            <input class="cart-section__discount-input" type="text" name="discount" {% if diff > 0 %}value="{{ section.settings.discount_code }}"{% endif %}/>
+            <input class="cart-section__discount-input" type="text" name="discount"
+              placeholder="Discount"
+              onfocus="this.placeholder = ''"
+              onblur="this.placeholder = 'Discount'" 
+              {% if diff >= 0 %}value="{{ section.settings.discount_code }}"{% endif %}/>
             {% if section.settings.cart_notes_enable %}
               <label for="CartSpecialInstructions" class="cart-section__note-label">{{ 'cart.general.note' | t }}</label>
               <textarea name="note" id="CartSpecialInstructions" class="cart-section__note-input">{{ cart.note }}</textarea>
@@ -156,22 +160,22 @@
   });
   $(document).ready(function() {
     $(".cart-section__qty-input").focusout(function() {
-      if ($(".cart-section__qty-input").val() < 1)
-        $(".cart-section__qty-input").val(1);
-      else if ($(".cart-section__qty-input").val() > 99)
-        $(".cart-section__qty-input").val(99);
+      if ($(this).val() < 1)
+      $(this).val(1);
+      else if ($(this).val() > 99)
+      $(this).val(99);
     });
     $(".cart-section__qty-increase").on("click", function() {
-      var oldVal = $(".cart-section__qty-input").val();
+      var oldVal = $(this).siblings(".cart-section__qty-input").val();
       var newVal = parseInt(oldVal) + 1;
       if (newVal < 100)
-        $(".cart-section__qty-input").val(newVal);
+        $(this).siblings(".cart-section__qty-input").val(newVal);
     });
     $(".cart-section__qty-decrease").on("click", function() {
-      var oldVal = $(".cart-section__qty-input").val();
+      var oldVal = $(this).siblings(".cart-section__qty-input").val();
       var newVal = parseInt(oldVal) - 1;
       if (newVal > 0)
-        $(".cart-section__qty-input").val(newVal);
+        $(this).siblings(".cart-section__qty-input").val(newVal);
     });
     if ($(".doubly-message").css('display') === 'none' || $(".selected-currency").text() == "{{ shop.currency }}")
     {
@@ -214,17 +218,6 @@
       "type": "text",
       "id": "checkout_button_text",
       "label": "Button Text"
-    },
-    {
-      "type": "color",
-      "id": "checkout_button_color",
-      "label": "Background Color"
-    },
-    {
-      "type": "text",
-      "id": "checkout_button_fontsize",
-      "label": "Font Size",
-      "default": "1.25em"
     },
     {
       "type": "header",

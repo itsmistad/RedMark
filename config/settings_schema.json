@@ -169,6 +169,26 @@
     ]
   },
   {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Checkout"
+      },
+      {
+        "type": "color",
+        "id": "checkout_button_color",
+        "label": "Background Color"
+      },
+      {
+        "type": "text",
+        "id": "checkout_button_fontsize",
+        "label": "Font Size",
+        "default": "20"
+      }
+    ]
+  },
+  {
     "name": "Cart Drawer",
     "settings": [
       {

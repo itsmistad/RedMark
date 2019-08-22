@@ -263,7 +263,7 @@
           "min_spend_discount_enable": false,
           "cart_discount_box": "10",
           "cart_order_above_box": "10",
-          "discount_code": "EXAMPLE10",
+          "discount_code": "RED10",
           "processing_currency_text": "$shopname processes all orders in $shopcurrency. While the content of your cart is currently displayed in <span class=\"selected-currency\"><\/span>, you will check out using $shopcurrency at the most current exchange rate.",
           "shipping_text_enable": false,
           "shipping_text": "You can edit me and write whatever you want here"
