@@ -665,11 +665,6 @@
         "default": "#fff"
       },
       {
-        "type": "color",
-        "id": "button_checkout_color",
-        "label": "Checkout Button color For Popup"
-      },
-      {
         "type": "header",
         "content": "Typography"
       },

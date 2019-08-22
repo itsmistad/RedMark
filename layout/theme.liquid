@@ -291,7 +291,21 @@
             })(jQuery);
             Shopify.AjaxifyCart.init();
             $(document).ready(function() {
-                $(window).scroll(function() { if ($(this).scrollTop() > 100) { $('.scrollup').fadeIn() } else { $('.scrollup').fadeOut() } });
+                $(window).scroll(function() {
+                    if ($(this).scrollTop() > 100) {
+                        $('.scrollup').fadeIn();
+                    } else { 
+                        $('.scrollup').fadeOut();
+                    }
+                    var scrollBottom = $(window).scrollTop() + window.innerHeight;
+                    if (scrollBottom > $(document).height() - 51) {
+                        $('#chat-widget-container').css('transform', `translateY(-${scrollBottom-($(document).height() - 51)}px)`);
+                        $('#smile-ui-container').fadeOut(100);
+                    } else {
+                        $('#chat-widget-container').css('transform', 'translateY(0)');
+                        $('#smile-ui-container').fadeIn(50);
+                    }
+                });
                 $('.scrollup').click(function() { $("html, body").animate({ scrollTop: 0 }, 800); return !1 });
             })
         </script>

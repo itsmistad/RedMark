@@ -1985,41 +1985,6 @@ theme.customerTemplates = (function() {
 /*================ SECTIONS ================*/
 window.theme = window.theme || {};
 
-theme.Cart = (function() {
-  var selectors = {
-    edit: '.js-edit-toggle'
-  };
-  var config = {
-    showClass: 'cart-section__update--show',
-    showEditClass: 'cart-section__edit--active'
-  };
-
-  function Cart(container) {
-    this.$container = $(container);
-    this.$edit = $(selectors.edit, this.$container);
-
-    this.$edit.on('click', this._onEditClick.bind(this));
-  }
-
-  Cart.prototype = _.assignIn({}, Cart.prototype, {
-    onUnload: function() {
-      this.$edit.off('click', this._onEditClick);
-    },
-
-    _onEditClick: function(evt) {
-      var $evtTarget = $(evt.target);
-      var $updateLine = $('.' + $evtTarget.data('target'));
-
-      $evtTarget.toggleClass(config.showEditClass);
-      $updateLine.toggleClass(config.showClass);
-    }
-  });
-
-  return Cart;
-})();
-
-window.theme = window.theme || {};
-
 theme.Filters = (function() {
   var constants = {
     SORT_BY: 'sort_by',

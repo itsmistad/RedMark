@@ -16,8 +16,7 @@
     "cookie_bar_link_text": "Read More",
     "cookie_bar_link_url": "https:\/\/redmarkdeals.com\/pages\/cookie-policy",
     "coupon_bg": "#ffffff",
-    "coupon_code_bg": "#c14646", 
-    "button_checkout_color": "#ff3b3b",
+    "coupon_code_bg": "#c14646",
     "coupon_title": "'Avant Garde', Avantgarde, 'Century Gothic', CenturyGothic, 'AppleGothic', sans-serif",
     "coupon_body": "Geneva, Tahoma, Verdana, sans-serif",
     "enable_coupon": false,
@@ -79,6 +78,7 @@
     "checkout_accent_color": "#ff9797",
     "checkout_button_color": "#ff3b3b",
     "checkout_error_color": "#e32c2b",
+    "checkout_button_fontsize": "20",
     "cart_drawer_enable": "false",
     "cart_drawer_color": "#fff",
     "cart_drawer_caption_color": "#f7f8f9", 
@@ -258,24 +258,15 @@
         "type": "cart-template",
         "settings": {
           "cart_notes_enable": true,
-          "paypal_enable": true,
           "checkout_button_text": "Checkout",
-          "checkout_button_color": "",
-          "checkout_button_fontsize": "20px",
           "regular_price": true,
-          "total_savings": true,
           "min_spend_discount_enable": false,
           "cart_discount_box": "10",
           "cart_order_above_box": "10",
           "discount_code": "EXAMPLE10",
           "processing_currency_text": "$shopname processes all orders in $shopcurrency. While the content of your cart is currently displayed in <span class=\"selected-currency\"><\/span>, you will check out using $shopcurrency at the most current exchange rate.",
           "shipping_text_enable": false,
-          "shipping_text": "You can edit me and write whatever you want here",
-          "related_product": true,
-          "cart_expiry_enable": true,
-          "expiry_time": "9",
-          "expiry_text": "Your awesome cart will expire in",
-          "expiry_color": "#ff3b3b"
+          "shipping_text": "You can edit me and write whatever you want here"
         }
       },
       "related-products": {

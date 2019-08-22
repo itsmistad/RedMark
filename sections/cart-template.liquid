@@ -1,5 +1,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <div class="page-width cart-section" data-section-id="{{ section.id }}" data-section-type="cart-template">
+  <p class="processing-currency-message">{{ section.settings.processing_currency_text }}</p>
   <div class="doubly-message"></div>
   {% if cart.item_count > 0 %}
     <div class="section-header text-center">
@@ -59,7 +60,7 @@
                     <span data-key="{{item.key}}">{{ item.price | money }}</span>
                 </div>
               </td>
-              <td class="cart-section__cell cart-section__update-wrapper text-center">
+              <td class="cart-section__cell cart-section__qty-wrapper text-center">
                 <div class="cart-section__qty">
                     <input type="button" value="-" class="cart-section__qty-decrease">
                     <input class="cart-section__qty-input" type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0" max="99" pattern="[0-9]*">
@@ -80,130 +81,66 @@
               </td>
             </tr>
           {% endfor %}
-          <tr class="cart-section__footer-row">
-              <td colspan="2" class="cart-section__cell">Nothing :)</td>
+          <tr class="cart-section__last-row">
+              <td colspan="2" class="cart-section__cell">
+                <input type="submit" name="update" class="btn cart-section__cell-button" value="{{ 'cart.general.update' | t }}">
+                <a class="btn cart-section__cell-button" href="{{ shop.url }}">{{ 'cart.general.continue_shopping' | t }}</button>
+              </td>
               <td class="cart-section__cell group-right text-center">{{ 'cart.general.total' | t }}</td>
               <td class="cart-section__cell group-right text-center">{{ cart.total_price | money_with_currency }}</td>
           </tr>
         </tbody>
       </table>
-      <p class="processing-currency-message">{{ section.settings.processing_currency_text }}</p>
-      <footer class="cart-section__footer">
-        {% include 'payment-badges' %}
-        <div class="grid">
-          <div class="grid__item medium-up--one-half cart-note">
+      <div class="cart-section__table-footer">
+        {% if section.settings.min_spend_discount_enable %}
+          {%- assign car_total = cart.total_price | money_without_currency_format | money_without_currency | remove: '.00' | remove: ',' -%}
+          {%- assign cart_order = section.settings.cart_order_above_box -%}
+          {% assign diff = car_total | minus: cart_order %}
+          {% if diff > 0 %}
+            <div class="cart-section__secret-discount">
+              <div class="cart-section__discount-line">
+                <span class="cart-section__emoji">🔥</span>
+                <span class="cart-section__discount-line-text">You're on fire! Looks like you found our secret discount.</span>
+              </div>
+              <div class="cart-section__discount-line">
+                <span class="cart-section__emoji">✔️</span>
+                <span class="cart-section__discount-line-text">Since your cart is over {{ section.settings.cart_order_above_box }}USD, here's a {{ section.settings.cart_discount_box }}% discount on us.</span>
+              </div>
+            </div>
+          {% endif %}
+        {% endif %}
+        {% if section.settings.regular_price %}
+          {% for item in cart.items %}
+            {% capture base_price %}{{ item.variant.compare_at_price  }}{% endcapture %}
+            {% capture quantity %}{{ item.quantity }}{% endcapture %}
+            {% assign total_base_price = base_price | times: quantity %}
+            {% assign regular_price = total_base_price | plus: regular_price %}
+          {% endfor %}
+          <span class="cart-section__regular-price-line">Regular Price: {{ regular_price | money_with_currency }}</span>
+        {% endif %}
+      </div>
+      <div class="cart-section__footer">
+        <div class="cart-section__notes">
+          <div class="cart-section__note">
+            <div class="cart-section__note-label">Discount Code</div>
+            <div class="cart-section__discount-text">Discount codes will be applied at checkout.</div>
+            <input class="cart-section__discount-input" type="text" name="discount" {% if diff > 0 %}value="{{ section.settings.discount_code }}"{% endif %}/>
             {% if section.settings.cart_notes_enable %}
-              <label for="CartSpecialInstructions" class="cart-note__label small--text-center">{{ 'cart.general.note' | t }}</label>
-              <textarea name="note" id="CartSpecialInstructions" class="cart-note__input">{{ cart.note }}</textarea>
-            {% endif %}
-            {% if section.settings.min_spend_discount_enable %}
-              {%- assign car_total = cart.total_price | money_without_currency_format | money_without_currency | remove: '.00' | remove: ',' -%}
-              {%- assign cart_order = section.settings.cart_order_above_box -%}
-              {% assign diff = car_total | minus: cart_order %}
-              {% if diff > 0 %}
-                <p>We noticed your order amount is more than {{ section.settings.cart_order_above_box }}USD, so we are offering you {{ section.settings.cart_discount_box }}% discount</p>
-                <div class="discount">
-                  <h3>Discount Code</h3>
-                  <input type="text" name="discount" value="{{ section.settings.discount_code }}"/>
-                  <p>Discount codes will be applied at check out.</p>
-                </div>
-              {% endif %}
-            {% endif %}
-          </div>
-          <div class="grid__item text-right small--text-center{% if section.settings.cart_notes_enable %} medium-up--one-half{% endif %}">
-            {% if section.settings.regular_price %}
-              <div class="cart-section__total">
-                {% assign total_saving = 0 %}
-                {% for item in cart.items %}
-                  {% capture rg__price %}{{ item.variant.compare_at_price  }}{% endcapture %}
-                  {% capture tot_qty1 %} {{ item.quantity }} {% endcapture %}
-                  {% assign rg__total_pr = rg__price | times: tot_qty1 %}
-                  {% assign rg__total_last = rg__total_pr | plus: rg__total_last %}
-                  {% if item.variant.compare_at_price > item.variant.price %}
-                    {% capture saving %}{{ item.variant.compare_at_price | minus: item.variant.price }}{% endcapture %}
-                    {% assign total_saving = saving | plus: total_saving %}
-                    {% capture tot_qty %} {{ item.quantity }} {% endcapture %}
-                  {% endif %}
-                {% endfor %}
-                <span class="cart-section__regular_total-title 1212"><b>Regular Price:{% capture about_me %}{{ rg__total_last }}{% endcapture %}</b></span>
-                {% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
-                {% assign about_u = about_u | split: '.'%}
-                {% assign about_u = about_u[0] %}
-                {% if about_u  == about_me %}
-                  <div class="mny 1">  {{ about_me | money}} </div>
-                {% elsif about_u < about_me %}
-                  <div class="mny cut_cus 2" style="text-decoration: line-through">  {{ about_me | money}} </div>
-                {% elsif about_u > about_me %}
-                  <div class="mny cut_cus 3" style="text-decoration: line-through">  {{ about_me | money}} </div>
-                {% endif %}
-                <br/>
-              </div>
-            {% endif %}
-            <div class="cart-section__total">
-              <span class="cart-section__subtotal-title">{{ 'cart.general.total' | t }}</span>
-              {% if section.settings.min_spend_discount_enable %}
-                {%- assign car_total = cart.total_price | money_without_currency_format | money_without_currency | remove: '.00' | remove: ',' -%}
-                {%- assign cart_order = section.settings.cart_order_above_box -%}
-                {% assign diff = car_total | minus: cart_order %}
-                {% if diff > 0 %}
-                  {% assign cto = car_total | times: section.settings.cart_discount_box | divided_by: 100  %}
-                  {% assign cato = cto | times: 100 %}
-                  <span class="cart-section__subtotal 1">{% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
-                    {% assign about_u = about_u | split: '.'%}
-                    {% assign about_u = about_u[0] %}
-                  </span>  
-                  {{ about_u | money }}
-                {% else %}
-                  <span class="cart-section__subtotal 2">{% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
-                    {% assign about_u = about_u | split: '.'%}
-                    {% assign about_u = about_u[0] %}
-                  </span>
-                  {{ about_u | money }}
-                {% endif %}
-              {% else %}
-                <span class="cart-section__subtotal 3">{% capture about_u %}{{ cart.total_price | minus: cato }}{% endcapture %}
-                  {% assign about_u = about_u | split: '.'%}
-                  {% assign about_u = about_u[0] %}
-                </span>  
-                <div class="mny"> {{ about_u | money }} </div>
-              {% endif %}
-            </div>
-            {% if cart.total_discounts > 0 %}
-              <div class="cart-section__savings">
-                {{ 'cart.general.savings' | t }}
-                <span class="cart-section__savings-amount">{{ cart.total_discounts | money }}</span>
-              </div>
-            {% endif %}
-            {% if section.settings.total_savings %}
-              <span class="total_savings">
-                <span class="sav_total">Total Saving : </span>
-                <div class="mny">{{ about_me | minus: about_u | abs | money }}</div>
-              </span>
-            {% endif %}
-            <input type="submit" name="checkout" class="btn btn--small-wide cart-section__checkout-button" value="{{ section.settings.checkout_button_text }}">
-            <div class="update_button">
-              <input type="submit" name="update" class="btn btn--secondary cart-section__update cart-section__update--large small--hide" value="{{ 'cart.general.update' | t }}">
-            </div>
-            {% if section.settings.shipping_text_enable %}
-              <div class="cart-section__shipping">{{ section.settings.shipping_text }}</div>
-            {% endif %}
-            {% if section.settings.cart_expiry_enable %}
-              <div class="visitor_counter">
-                <div class="count1" id="countdown"></div>
-                <div class="count1" id="timer"></div>
-                <div class="container_text_cart"> 
-                  <span class="text_cart">{{ section.settings.expiry_text }}</span> 
-                </div>  
-              </div>
-            {% endif %}
-            {% if section.settings.paypal_enable %}
-              {% if additional_checkout_buttons %}
-              <div class="additional-checkout-buttons">{{ content_for_additional_checkout_buttons }}</div>
-              {% endif %}
+              <label for="CartSpecialInstructions" class="cart-section__note-label">{{ 'cart.general.note' | t }}</label>
+              <textarea name="note" id="CartSpecialInstructions" class="cart-section__note-input">{{ cart.note }}</textarea>
             {% endif %}
           </div>
         </div>
-      </footer>
+        {% if section.settings.shipping_text_enable %}
+          <div class="cart-section__shipping-text">{{ section.settings.shipping_text }}</div>
+        {% endif %}
+        <div class="cart-section__checkout-line">
+          {% include 'payment-badges' %}
+          <div class="cart-section__checkout-buttons">
+            <input type="submit" name="checkout" class="btn btn--small-wide cart-section__checkout-button" value="{{ section.settings.checkout_button_text }}">
+          </div>
+        </div>
+      </div>
     </form>
   {% else %}
     <div class="empty-page-content text-center">
@@ -213,157 +150,6 @@
     </div>
   {% endif %}
 </div>
-<style>
-  button#paypal-express-button {
-    display: none;
-  }
-  {% if section.settings.paypal_enable %}
-    button#paypal-express-button {
-      display: block;   
-    }
-  {% endif %}
-  .cut_cus .money {
-    text-decoration: line-through;
-  }  
-  span.sav_total {
-    padding-right: 9.6px;
-    font-weight: bold;
-  }
-  span.cart-section__subtotal-title {
-    font-weight: bold;
-  }  
-  .template-cart p.ajaxified-cart-feedback.success {  
-    position: absolute;
-  }
-  .cart-section__subtotal {
-    padding-left: 10px;
-    min-width: 29px;
-    display: inline-block;
-  }
-  .right_aligned {
-    text-align: right;
-  }
-  .text_cart {
-    color: #000;
-    font-weight: bold;
-  }
-  @media screen and (min-width : 320px) and (max-width : 767px)  {
-    .mny span.money {
-      width: 120px;
-    }
-    span.cart-section__regular_total-title {
-      font-size: 1.125em;
-    }
-    span.cart-section__subtotal-title {
-      font-size: 1.1875em;
-      font-weight: bold;
-      margin-right: 7px;
-    }
-    span.sav_total {
-      padding-right: 18px;
-      font-weight: bold;
-      font-size: 1.125em;
-    }
-    label.cart-note__label.small--text-center {
-      font-size: 0.9375em;
-    }
-    .cart-section__shipping {
-      font-size: 1em !important;
-      text-align: center;
-    }
-    .discount {
-      text-align: center;
-      padding-bottom: 20px;
-    }
-    .cart-section__total {
-      padding-bottom: 16px;
-      font-size: 1.25em;
-    }
-    .cart-section__shipping {
-      font-style: italic;
-      font-size: 0.875em;
-      padding: 18px 0 17px;
-    }
-  }
-  .cart-section__checkout-button {
-    background-color: {{ section.settings.checkout_button_color }};
-    font-size: {{ section.settings.checkout_button_fontsize }};
-  }
-  .test.btn.product-form__cart-submit {
-    max-width: 200px;
-  }
-  .count1 {
-    color: {{ section.settings.expiry_color }};
-    font-family: Verdana, Arial, sans-serif;
-    font-size: 1.125em;
-    width: 5%; 
-    font-weight: bold;
-    float: right;
-    text-decoration: none;
-  }
-  {% if section.settings.cart_notes_enable %}
-    .count1 {
-      width: 9% !important; 
-    }
-  {% endif %}
-  span.text_cart {
-    float: right;
-  }
-  #countdown{
-    display:none;
-  }
-  span.text_cart {
-    line-height: 25px;
-  }
-  @media screen and (min-width : 320px) and (max-width : 767px) {
-    .template-cart .main-content{
-      padding-top:0px;
-    }
-    .grid__item.medium-up--three-fifths.small--one-half h3 {
-      font-size: 1.0625em !important;
-    }
-    span.money {
-      font-size: 1.25em;
-    }
-    .visitor_counter {
-      width: 85%;
-    }
-    .container_text_cart {
-      padding-right: 30px;
-    } 
-    span.text_cart {
-      line-height: 25px;
-      font-size: 0.8125em;
-    }
-  }
-  @media screen and (min-width : 768px) and (max-width : 1024px)  {
-    span.text_cart {
-      font-size: 0.8125em;
-    }
-    .visitor_counter {
-      float: left;
-      width: 100%;
-    }
-    .count1 {
-      width: 15%;
-    }
-    .cart-section__shipping {
-      font-style: italic;
-      font-size: 0.875em;
-      padding: 18px 10px 20px;
-    }
-  }
-  .template-cart input.btn.btn--small-wide.second_button {
-    color: #fff !important;
-    border-radius: 0px;
-  }  
-  input.btn.btn--small-wide.second_button {
-    float: right;
-  }
-  .template-cart  input.btn.btn--small-wide {
-    color: #fff !important ;
-  }
-</style>
 <script>
   $('.product-form__item.product-form__item--submit.custom_buton').on( "click", 'button#AddToCart', function(e) {
     $('span#AddToCartText').trigger('click');          
@@ -387,8 +173,10 @@
       if (newVal > 0)
         $(".cart-section__qty-input").val(newVal);
     });
-    if ($(".selected-currency").text() == "{{ shop.currency }}")
+    if ($(".doubly-message").css('display') === 'none' || $(".selected-currency").text() == "{{ shop.currency }}")
+    {
       $(".processing-currency-message").css("display", "none");
+    }
     else
     {
       var formatString = $(".processing-currency-message").text();
@@ -401,79 +189,7 @@
         /\$shopcurrency/g, shopCurrency
       ));
     }
-
-
-    function countdown( elementName, minutes, seconds ) {
-      var element, endTime, hours, mins, msLeft, time;
-      function twoDigits( n ) {
-        return (n <= 9 ? "0" + n : n);
-      }
-      function updateTimer() {
-        msLeft = endTime - (+new Date);
-        if ( msLeft < 1000 ) {
-         // element.innerHTML = "00:00";
-        } else {
-          time = new Date( msLeft );
-          hours = time.getUTCHours();
-          mins = time.getUTCMinutes();
-          //element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
-          setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
-        }
-      }
-
-      element = document.getElementById( elementName );
-      endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
-      updateTimer();
-    }
-
-    countdown( "countdown", 1, 5 );
-    countdown( "countdown2", {{ section.settings.expiry_time }}, 0 );
   });
-  var firstTime = true;
-  function countdown(minutes) {
-    var seconds = 60;
-    var mins = minutes;
-    if(firstTime && getCookie("minutes")&&getCookie("seconds")) {
-      firstTime = false;
-      seconds = getCookie("seconds");
-      mins = getCookie("minutes");
-    }
-    function tick() {
-      var counter = document.getElementById("timer");
-      setCookie("minutes", mins, 10)
-      setCookie("seconds", seconds, 10)
-      var current_minutes = mins - 1
-      seconds--;
-      counter.innerHTML = current_minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
-      if (seconds > 0) {
-        setTimeout(tick, 1000);
-      } else if (mins > 1) {
-        setTimeout(function() {
-          countdown(mins - 1);
-        }, 1000);
-      }
-    }
-    tick();
-  }
-  function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + d.toGMTString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-  }
-  function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == ' ') c = c.substring(1);
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  }
-  countdown({{ section.settings.expiry_time }});
 </script>
 
 {% schema %}
@@ -491,12 +207,6 @@
       "default": false
     },
     {
-      "type": "checkbox",
-      "id": "paypal_enable",
-      "label": "Enable paypal button",
-      "default": true
-    },
-    {
       "type": "header",
       "content": "Checkout Button"
     },
@@ -508,12 +218,13 @@
     {
       "type": "color",
       "id": "checkout_button_color",
-      "label": "Background color"
+      "label": "Background Color"
     },
     {
       "type": "text",
       "id": "checkout_button_fontsize",
-      "label": "Font Size"
+      "label": "Font Size",
+      "default": "1.25em"
     },
     {
       "type": "header",
@@ -523,12 +234,6 @@
       "type": "checkbox",
       "id": "regular_price",
       "label": "Enable regular price",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "total_savings",
-      "label": "Enable total savings",
       "default": false
     },
     {
@@ -579,44 +284,6 @@
       "type": "text",
       "id": "shipping_text",
       "label": "Shipping Text"
-    },
-    {
-      "type": "header",
-      "content": "Upsell Products"
-    },
-    {
-      "type": "checkbox",
-      "id": "related_product",
-      "label": "Enable upsells",
-      "default": true
-    },
-    {
-      "type": "header",
-      "content": "Cart Expiry Timer"
-    },
-    {
-      "type": "checkbox",
-      "id": "cart_expiry_enable",
-      "label": "Enable countdown",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "expiry_time",
-      "label": "Timer (minutes)",
-      "default": "10"
-    },
-    {
-      "type": "text",
-      "id": "expiry_text",
-      "label": "Timer Text",
-      "default": "Cart will expire in"
-    },
-    {
-      "type": "color",
-      "id": "expiry_color",
-      "label": "Timer color",
-      "default": "#000"
     }
   ]
 }

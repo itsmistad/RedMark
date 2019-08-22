@@ -108,13 +108,14 @@
   "cart": {
     "general": {
       "title": "Your cart",
-      "note": "Add a note to your order",
+      "note": "Special instructions",
       "remove": "Remove",
       "total": "Total",
       "savings": "You're saving",
       "shipping_at_checkout": "Shipping & taxes calculated at checkout",
-      "update": "Update",
-      "checkout": "Check out",
+      "update": "Update Cart",
+      "checkout": "Checkout",
+      "continue_shopping": "Continue Shopping",
       "empty": "Wait a minute, this is empty!",
       "edit": "Edit",
       "cancel": "Cancel"

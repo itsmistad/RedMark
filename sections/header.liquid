@@ -12,7 +12,7 @@
 <div class="whole_header">
     {% if settings.enable_cookie_bar != blank %}
     <div class="cookie-bar">
-      <img class="cross_icon" id="cookie-bar__close" alt="Custom 'X' icon used for closing the cookie policy bar" src="{{ "cross.png" | asset_url }}"> 
+      <img class="cross_icon" id="cookie-bar__close" alt="close button for the cookie policy bar" src="{{ "cross.png" | asset_url }}"> 
       <span class="cookie-bar__message">
         {{ settings.cookie_bar_text }}&nbsp;<a href="{{ settings.cookie_bar_link_url }}">{{ settings.cookie_bar_link_text }}</a>
       </span>
@@ -115,7 +115,7 @@
   <!--     Announcement Starts here     -->
   {% if section.settings.message %}
   <div class="announcement-bar"  >
-    <img class="cross_icon" id="announcement-bar__close" alt="Custom 'X' icon used for closing the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
+    <img class="cross_icon" id="announcement-bar__close" alt="close button the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
     {% if section.settings.message %}
     <span class="announcement-bar__message">
       {{ section.settings.message_text | escape }}

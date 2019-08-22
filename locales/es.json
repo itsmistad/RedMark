@@ -112,6 +112,7 @@
       "shipping_at_checkout": "Gastos de envío y descuentos calculado al momento de pagar",
       "update": "Actualizar carrito",
       "checkout": "Finalizar pedido",
+      "continue_shopping": "Continue Shopping",
       "empty": "Su carrito actualmente está vacío.",
       "cancel": "Cancelar",
       "edit": "Editar"
