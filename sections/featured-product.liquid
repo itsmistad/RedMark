@@ -101,7 +101,7 @@
           {%- assign available = true -%}
         {% endunless %}
 
-        <h1 itemprop="name" class="product-single__title">{{ product.title }}</h1>
+        <a href="{{ product.url }}"><h1 itemprop="name" class="product-single__title">{{ product.title }}</h1></a>
 
         {% if section.settings.show_vendor %}
           <p itemprop="brand" class="product-single__vendor">{{ product.vendor }}</p>
