@@ -77,4 +77,4 @@ You also will most likely never need to specify the environment here. However, i
 
 This will update your local settings_data.json with what's in your current environment. This is most useful when you're customizing from the admin panel simultaneously.
 
-Won't need to change the environment — again. But, ¯\_(ツ)_/¯.
+Won't need to change the environment — again. But, ¯\\_(ツ)_/¯.
