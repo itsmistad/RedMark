@@ -12,7 +12,7 @@
 <div class="whole_header">
     {% if settings.enable_cookie_bar != blank %}
     <div class="cookie-bar">
-      <img class="cross_icon" id="cookie-bar__close" alt="Custom 'X' icon used for closing the cookie policy bar" src="{{ "cross.png" | asset_url }}"> 
+      <img class="cross_icon" id="cookie-bar__close" alt="close button for the cookie policy bar" src="{{ "cross.png" | asset_url }}"> 
       <span class="cookie-bar__message">
         {{ settings.cookie_bar_text }}&nbsp;<a href="{{ settings.cookie_bar_link_url }}">{{ settings.cookie_bar_link_text }}</a>
       </span>
@@ -44,8 +44,7 @@
             {% if section.settings.logo %}
             <a href="{{ shop.url }}" itemprop="url" class="site-header__logo-image{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}">
               {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
-              <img srcset="{{ section.settings.logo | img_url : 'master' }} "
-                   
+              <img srcset="{{ section.settings.logo | img_url : 'master' }}"
                    alt="{{ section.settings.logo.alt | default: shop.name }}"
                    id="toplogo"
                    class="alds" itemprop="logo">
@@ -87,12 +86,9 @@
             {% include 'icon-cart' %}
             <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
             <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
-            {% if cart.item_count > 0 %}
-            <div id="CartCount" class="site-header__cart-count">
-              <span>{{ cart.item_count }}</span>
-              <span class="icon__fallback-text medium-up--hide">{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span>
+            <div id="CartCount" class="site-header__cart-count {% if cart.item_count == 0 %} hidden-count {% endif %}">
+              {{ cart.item_count }}
             </div>
-            {% endif %}
           </a>
           {% endif %}         
           <button type="button" class="btn--link site-header__search-toggle js-drawer-open-top ">
@@ -119,7 +115,7 @@
   <!--     Announcement Starts here     -->
   {% if section.settings.message %}
   <div class="announcement-bar"  >
-    <img class="cross_icon" id="announcement-bar__close" alt="Custom 'X' icon used for closing the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
+    <img class="cross_icon" id="announcement-bar__close" alt="close button the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
     {% if section.settings.message %}
     <span class="announcement-bar__message">
       {{ section.settings.message_text | escape }}
@@ -150,24 +146,6 @@ a[class*="site-header__logo"]:focus {
         margin: 0;
       }
     {% endif %}
-    
-
-@media screen and (max-width: 767px){   
-  #toplogo {      
-    content: url({{ section.settings.mobile_logo | img_url : 'master' }});
-  } 
-.site-header__logo-image {
-        max-width: {{ section.settings.mobile_logo_max_width }}px !important;
-      }
-}
-@media (min-width: 768px) {    
-  #toplogo {         
-    content: url({{ section.settings.logo | img_url : 'master' }});   
-  } 
-.site-header__logo-image {
-        max-width: {{ section.settings.logo_max_width }}px !important;
-      }
-}
     {% if section.settings.align_logo == 'center' %}
      .search-bar__submit, .search-header__submit {
         top: -5px;
@@ -282,16 +260,6 @@ span.announcement-bar__message {
 
 
 <script>
-  var containerVisible = true;
-  $(document).scroll(function () {
-    if (containerVisible && window.innerHeight + window.scrollY > 2200 && $('#smile-ui-container').length) {
-      containerVisible = false;
-      $('#smile-ui-container').fadeOut('fast');
-    } else if (!containerVisible && window.innerHeight + window.scrollY <= 2200 && $('#smile-ui-container').length) {
-      containerVisible = true;
-      $('#smile-ui-container').fadeIn('fast');
-    }
-  });
   $(document).ready(function() {
     if (!readCookie('hidecookiepolicy')) {
       $('.cookie-bar').show();
@@ -421,17 +389,6 @@ span.announcement-bar__message {
         "id": "logo_max_width",
         "label": "Custom logo width (in pixels)",
         "default": "100"
-      },
-      {
-        "type": "image_picker",
-        "id": "mobile_logo",
-        "label": "Mobile Logo image"
-      },
-      {
-        "type": "text",
-        "id": "mobile_logo_max_width",
-        "label": "Custom mobile logo width (in pixels)",
-        "default": "40"
       },
       {
         "type": "header",

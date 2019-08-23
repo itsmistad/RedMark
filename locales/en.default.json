@@ -9,8 +9,8 @@
       "page": "Page {{ page }}"
     },
     "404": {
-      "title": "An error has occurred",
-      "subtext": "Uh oh. This page doesn't exist... Or does it?",
+      "title": "Uh. Houston? We have a problem",
+      "subtext": "This page doesn't exist... Or does it?",
       "link": "Take me back"
     },
     "pagination": {
@@ -108,14 +108,15 @@
   "cart": {
     "general": {
       "title": "Your cart",
-      "note": "Add a note to your order",
+      "note": "Special instructions",
       "remove": "Remove",
-      "subtotal": "Subtotal",
+      "total": "Total",
       "savings": "You're saving",
       "shipping_at_checkout": "Shipping & taxes calculated at checkout",
-      "update": "Update",
-      "checkout": "Check out",
-      "empty": "Your cart is currently empty.",
+      "update": "Update Cart",
+      "checkout": "Checkout",
+      "continue_shopping": "Continue Shopping",
+      "empty": "Wait a minute, this is empty!",
       "edit": "Edit",
       "cancel": "Cancel"
     },
@@ -123,7 +124,7 @@
       "product": "Product",
       "price": "Price",
       "quantity": "Quantity",
-      "total": "Total"
+      "subtotal": "Subtotal"
     }
   },
   "collections": {
@@ -304,6 +305,7 @@
       "on_sale": "Sale",
       "quantity": "Quantity",
       "add_to_cart": "Add to cart",
+      "go_to_checkout": "Head to checkout",
       "back_to_collection": "Back to {{ title }}"
     }
   },

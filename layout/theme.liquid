@@ -114,6 +114,8 @@
                 {{ content_for_layout }}
             </main>
             {% section 'footer' %}
+
+    <script src="//cdn.codeblackbelt.com/js/modules/frequently-bought-together/main.min.js?shop=redmarkdeals-dev.myshopify.com"></script>
         </div>
         <!-- Coupon Code Starts Here -->
         {% if template == 'index'%}
@@ -165,7 +167,8 @@
                     addingToCartBtnLabel: 'Adding...',
                     soldOutBtnLabel: 'Sold Out',
                     howLongTillBtnReturnsToNormal: 1000, // in milliseconds.
-                    cartCountSelector: '.site-header__cart-count span',
+                    cartCountSelector: '.site-header__cart-count',
+                    cartCountSpanSelector: '.site-header__cart-count span',
                     cartTotalSelector: '#cart-price',
                     feedbackPosition: 'nextButton',
                     // What you will never need to change
@@ -220,7 +223,7 @@
                                     // Re-enable add to cart button.
                                     $addToCartBtn.addClass('inverted');
                                     _setText($addToCartBtn, _config.addedToCartBtnLabel);
-                                    _showFeedback('success', '<i class="fa fa-check"></i> Added to cart! <form action="/cart" method="post" novalidate="" class="cart"><input type="submit" name="checkout" class="btn btn--small-wide first" value="Head to checkout" style="color:white;"></form>', $addToCartForm);
+                                    _showFeedback('success', '<i class="fa fa-check"></i> Added to cart! <input type="button" class="btn btn--small-wide" style="color:white;" onclick="location.href=\'/checkout\';" value="{{ "products.product.go_to_checkout" | t }}" />', $addToCartForm);
                                     window.setTimeout(function() {
                                         $addToCartBtn.prop('disabled', false).removeClass('disabled').removeClass('inverted');
                                         _setText($addToCartBtn, _config.addToCartBtnLabel);
@@ -229,7 +232,8 @@
                                     $.getJSON(_config.shopifyAjaxCartURL, function(cart) {
                                         if (_config.cartCountSelector && $(_config.cartCountSelector).size()) {
                                             var value = $(_config.cartCountSelector).html() || '0';
-                                            $(_config.cartCountSelector).html(value.replace(/[0-9]+/, cart.item_count)).removeClass('hidden-count');
+                                            $(_config.cartCountSelector).html(value.replace(/[0-9]+/, cart.item_count));
+                                            $(_config.cartCountSelector).removeClass('hidden-count');
                                         }
                                         if (_config.cartTotalSelector && $(_config.cartTotalSelector).size()) {
                                             if (typeof Currency !== 'undefined' && typeof Currency.moneyFormats !== 'undefined') {
@@ -287,10 +291,25 @@
             })(jQuery);
             Shopify.AjaxifyCart.init();
             $(document).ready(function() {
-                $(window).scroll(function() { if ($(this).scrollTop() > 100) { $('.scrollup').fadeIn() } else { $('.scrollup').fadeOut() } });
+                $(window).scroll(function() {
+                    if ($(this).scrollTop() > 100) {
+                        $('.scrollup').fadeIn();
+                    } else { 
+                        $('.scrollup').fadeOut();
+                    }
+                    var scrollBottom = $(window).scrollTop() + window.innerHeight;
+                    if (scrollBottom > $(document).height() - 51) {
+                        $('#chat-widget-container').css('transform', `translateY(-${scrollBottom-($(document).height() - 51)}px)`);
+                        $('#smile-ui-container').fadeOut(100);
+                    } else {
+                        $('#chat-widget-container').css('transform', 'translateY(0)');
+                        $('#smile-ui-container').fadeIn(50);
+                    }
+                });
                 $('.scrollup').click(function() { $("html, body").animate({ scrollTop: 0 }, 800); return !1 });
             })
         </script>
        {% include 'smile-initializer' %}
+       {% include 'livechat-initializer' %}
     </body>
 </html>

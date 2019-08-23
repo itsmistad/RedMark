@@ -15,9 +15,19 @@
     "cookie_bar_text": "RedMark's website uses cookies to provide you with the best browsing experience. By using our website, you agree to our use of cookies.",
     "cookie_bar_link_text": "Read More",
     "cookie_bar_link_url": "https:\/\/redmarkdeals.com\/pages\/cookie-policy",
+    "cart_drawer_enable": false,
+    "cart_drawer_color": "#fff",
+    "cart_drawer_caption_color": "#f7f8f9",
+    "cart_drawer_checkout_color": "#000",
+    "cart_drawer_cart_color": "#eee",
+    "cart_drawer_header_font": "14px",
+    "cart_drawer_body_font": "12px",
+    "cart_drawer_notification_enable": false,
+    "cart_drawer_notification_text": "Change this text.",
+    "cart_drawer_notification_bg_color": "#000",
+    "cart_drawer_notification_color": "#fff",
     "coupon_bg": "#ffffff",
     "coupon_code_bg": "#c14646",
-    "button_checkout_color": "#ff3b3b",
     "coupon_title": "'Avant Garde', Avantgarde, 'Century Gothic', CenturyGothic, 'AppleGothic', sans-serif",
     "coupon_body": "Geneva, Tahoma, Verdana, sans-serif",
     "enable_coupon": false,
@@ -52,7 +62,6 @@
     "image_overlay_opacity": "0.25",
     "color_body_bg": "#ffffff",
     "type_header_family": "Google_Montserrat_700_sans",
-    "type_header_base_size": "26px",
     "type_base_family": "Google_Roboto_400_sans",
     "type_base_size": "16px",
     "type_bold_product_titles": true,
@@ -75,11 +84,12 @@
     "checkout_input_background_color_mode": "white",
     "checkout_sidebar_background_image": "",
     "checkout_sidebar_background_color": "#fafafa",
-    "checkout_heading_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
-    "checkout_body_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_heading_font": "Roboto",
+    "checkout_body_font": "Roboto",
     "checkout_accent_color": "#ff9797",
     "checkout_button_color": "#ff3b3b",
     "checkout_error_color": "#e32c2b",
+    "checkout_button_fontsize": "16",
     "max_num": "30",
     "max_num_1": "2",
     "min_num_2": "1",
@@ -103,9 +113,7 @@
           "align_logo": "left",
           "logo": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_34175e33-c9a4-424e-a757-8a5994297823.png",
           "logo_max_width": "160",
-          "mobile_logo": "shopify:\/\/shop_images\/RedMark_mark.png",
-          "mobile_logo_max_width": "40",
-          "main_linklist": "main-menu",
+          "main_linklist": "",
           "menu_font_size": "21px",
           "menu_font_weight": "100",
           "menu_font_color": "#000000",
@@ -115,7 +123,7 @@
           "cross": true,
           "days_till_hide_expires": "0",
           "seconds_till_hide_expires": "1800",
-          "message_text": "Free shipping on all orders over $35",
+          "message_text": "Unlock a secret with any order over $30 USD 👀",
           "message_text_font_size": "14px",
           "color_bg": "#ff3b3b",
           "color_text": "#ffffff",
@@ -127,20 +135,30 @@
       "footer": {
         "type": "footer",
         "settings": {
+          "logo": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_34175e33-c9a4-424e-a757-8a5994297823.png",
+          "logo_max_width": "160",
           "bg_color": "#000000",
           "text_color": "#ffffff",
-          "badge_img_1": "shopify:\/\/shop_images\/RedMark_mark.png",
-          "badge_img_1_width": "50",
-          "badge_img_1_text": "Trust Badge<br>#1",
-          "badge_img_2": "shopify:\/\/shop_images\/RedMark_mark.png",
-          "badge_img_2_width": "50",
-          "badge_img_2_text": "Trust Badge<br>#2",
-          "badge_img_3": "shopify:\/\/shop_images\/RedMark_mark.png",
-          "badge_img_3_width": "50",
-          "badge_img_3_text": "Trust Badge<br>#3",
-          "badge_img_4": "shopify:\/\/shop_images\/RedMark_mark.png",
-          "badge_img_4_width": "50",
-          "badge_img_4_text": "Trust Badge<br>#4",
+          "badge_img_1": "",
+          "badge_svg_1": "https:\/\/cdn.redmarkdeals.com\/svgs\/shipping.svg",
+          "badge_img_1_alt": "free shipping around the globe",
+          "badge_img_1_width": "80",
+          "badge_img_1_text": "Free shipping<br>around the 🌎",
+          "badge_img_2": "",
+          "badge_svg_2": "https:\/\/cdn.redmarkdeals.com\/svgs\/box.svg",
+          "badge_img_2_alt": "simple return and refund process",
+          "badge_img_2_width": "60",
+          "badge_img_2_text": "Simple return<br>process 📦",
+          "badge_img_3": "",
+          "badge_svg_3": "https:\/\/cdn.redmarkdeals.com\/svgs\/secure.svg",
+          "badge_img_3_alt": "safe and secure encrypted checkout",
+          "badge_img_3_width": "60",
+          "badge_img_3_text": "Safe and secure<br>checkout  🔐",
+          "badge_img_4": "",
+          "badge_svg_4": "https:\/\/cdn.redmarkdeals.com\/svgs\/fire.svg",
+          "badge_img_4_alt": "100% customer satisfaction and awesome experience",
+          "badge_img_4_width": "60",
+          "badge_img_4_text": "100% awesome<br>experience 🔥",
           "footer_support_email": "support@redmarkdeals.com",
           "footer_support_phone": "+1 (469) 322-9028",
           "footer_support_phone_normalized": "14693229028",
@@ -248,26 +266,15 @@
         "type": "cart-template",
         "settings": {
           "cart_notes_enable": true,
-          "paypal_enable": true,
-          "checkout_first": "Checkout button",
-          "checkout_second": "Checkout button",
-          "Regular": true,
-          "saving": true,
-          "cart_page_discount": false,
-          "cart_disount_box": "10",
-          "cart_order_above_box": "10",
-          "discount_code": "SUPERSALE10",
-          "check_out_1": true,
-          "shipping": "You can edit me and write whatever you want here",
-          "checkout_text": false,
-          "check_out_1_2": true,
-          "header_checkout_color": "#08bda0",
-          "header_checkout_fontsize": "20px",
-          "related_product_1": true,
-          "enable_countdown_1": true,
-          "countdown_time": "9",
-          "text_count_timer": "Your awesome cart will expire in",
-          "timer_color": "#06c193"
+          "checkout_button_text": "Checkout",
+          "regular_price": true,
+          "min_spend_discount_enable": true,
+          "cart_discount_box": "10",
+          "cart_order_above_box": "30",
+          "discount_code": "RED10",
+          "processing_currency_text": "$shopname processes all orders in $shopcurrency. While the content of your cart is currently displayed in <span class=\"selected-currency\"><\/span>, you will check out using $shopcurrency at the most current exchange rate.",
+          "shipping_text_enable": false,
+          "shipping_text": "You can edit me and write whatever you want here"
         }
       },
       "related-products": {
@@ -413,8 +420,7 @@
       },
       "password-content": {
         "type": "password-content",
-        "settings": {
-        }
+        "settings": {}
       },
       "1565474292060": {
         "type": "newsletter",
@@ -443,8 +449,7 @@
       "sections": {
         "header": {
           "type": "header",
-          "settings": {
-          }
+          "settings": {}
         },
         "hero": {
           "type": "hero",
@@ -457,21 +462,18 @@
           "blocks": {
             "slideshow-0": {
               "type": "image",
-              "settings": {
-              }
+              "settings": {}
             },
             "slideshow-1": {
               "type": "image",
-              "settings": {
-              }
+              "settings": {}
             }
           },
           "block_order": [
             "slideshow-0",
             "slideshow-1"
           ],
-          "settings": {
-          }
+          "settings": {}
         },
         "featured-collections": {
           "type": "collection",
@@ -481,8 +483,7 @@
         },
         "footer": {
           "type": "footer",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "content_for_index": [

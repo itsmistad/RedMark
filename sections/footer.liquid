@@ -6,11 +6,11 @@
     <div class="grid grid--no-gutters">
       <div
         class="grid__item medium-up--one-third">
-        <div class="site-footer_logo-wrapper">
-          <a href="{{ shop.url }}" itemprop="url" class="site-footer__logo">
+        <div class="site-footer__logo-wrapper">
+          <a href="{{ shop.url }}" itemprop="url" class="site-footer__logo-image">
             <img srcset="{{ section.settings.logo | img_url : 'master' }} "
                    alt="{{ section.settings.logo.alt | default: shop.name }}"
-                   id="toplogo" 
+                   id="bottomlogo" 
                    class="bottomlogo"
                    itemprop="logo">
           </a>
@@ -31,8 +31,8 @@
             <p style="color:#000;">{{ section.settings.footer_support_hours }}</p>
           </li>
         </ul>
+        {% include 'payment-badges' %}
       </div>
-
       <div
         class="grid__item{% if section.settings.footer_linklist_two != blank %} medium-up--one-sixth{% elsif section.settings.footer_linklist_two == blank %} medium-up--one-half{% else %} text-center{% endif %}">
         {%- assign footer_linklist = section.settings.footer_linklist -%}
@@ -79,42 +79,17 @@
       <div class="site-footer__social-media-buttons">
         <div class="items-container">
           <div class="item-wrapper">
-            <svg class="button-icon" onclick="location.href='{{ section.settings.facebook_link }}';">
-              <use xlink:href="#facebook"></use> <!-- {{ section.settings.facebook_link }} -->
+            <svg class="button-icon" onclick="window.open('{{ section.settings.facebook_link }}', '_blank');">
+              <use xlink:href="#facebook"></use>
             </svg>
           </div>
           <div class="item-wrapper">
-            <svg class="button-icon" onclick="location.href='{{ section.settings.instagram_link }}';">
-              <use xlink:href="#instagram"></use> <!-- {{ section.settings.instagram_link }} -->
+            <svg class="button-icon" onclick="window.open('{{ section.settings.instagram_link }}', '_blank');">
+              <use xlink:href="#instagram"></use>
             </svg>
           </div>
         </div>
-     </div>
-     <div id="free-trust-badge-footer">
-       <div id="trust-badge-content-div" class="trust-badge-preview trust-badge-footer"
-         data-trustbadge-specificity="undefined"
-         style="box-sizing: border-box; text-align: center; width: 100%; margin: 15px 0px; padding: 0px 15px;">
-         <div class="tb-text-div" style="display: inline-block; font-size: 12px;">
-           <div class="tb-badge-div">
-             <div class="tb-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-               <img class="tb-svg" src="https://hektorcommerce.com/apps/trustbadge/svg_images/?image=189-amex"
-                 alt="Amex" style="width: 30px; height: 30px; opacity: 1; background: none;"></div>
-             <div class="tb-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-               <img class="tb-svg" src="https://hektorcommerce.com/apps/trustbadge/svg_images/?image=190-master-card"
-                 alt="MasterCard" style="width: 30px; height: 30px; opacity: 1; background: none;"></div>
-             <div class="tb-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-               <img class="tb-svg" src="https://hektorcommerce.com/apps/trustbadge/svg_images/?image=129-visa"
-                 alt="Visa" style="width: 30px; height: 30px; opacity: 1; background: none;"></div>
-             <div class="tb-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-               <img class="tb-svg" src="https://hektorcommerce.com/apps/trustbadge/svg_images/?image=193-paypal"
-                 alt="PayPal" style="width: 30px; height: 30px; opacity: 1; background: none;"></div>
-             <div class="tb-badge" style="width: 30px; display: inline-block; margin: 0px 7px; vertical-align: top;">
-               <img class="tb-svg" src="https://hektorcommerce.com/apps/trustbadge/svg_images/?image=198-apple-pay"
-                 alt="Apple Pay" style="width: 30px; height: 30px; opacity: 1; background: none;"></div>
-           </div>
-         </div>
-       </div>
-     </div>
+      </div>
     </div>
   </div>
   <div class="page-width page-width-copyright">
@@ -137,12 +112,20 @@
     </div>
   </div>
 </footer>
-
 <style>
   a[class*="site-footer__logo"]:hover,  
   a[class*="site-footer__logo"]:focus {
       opacity: 1 !important;
   }
+
+.site-footer__logo-wrapper {
+  height: 16px;
+}
+{% if section.settings.logo != blank %}
+  .site-footer__logo-image {
+    max-width: {{ section.settings.logo_max_width }}px !important;
+  }
+{% endif %}
 
   .site-footer .grid__item {
     padding-right: 0;
@@ -166,10 +149,9 @@
     width: 76px;
     max-height: fit-content;
     position: relative;
-    float: right;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     background: transparent;
   }
 
@@ -207,23 +189,11 @@
   .item-wrapper:hover>svg {
     fill: rgb(255, 255, 255);
   }
-
-  .trust-badge-preview.trust-badge-footer {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  .tb-badge {
-    margin: 0 7px 0 0 !important;
-  }
   
   h3.sty_one_men_one_head {
     font-size: {{ section.settings.sty_one_main-heading_text }}px !important;
 
     color: {{ section.settings.sty_one_main-heading_color }};
-  }
-  .site-footer_logo-wrapper {
-    height: 16px;
   }
 
   li.sty_one_men_one.site-footer__linklist-item {
@@ -358,6 +328,21 @@
   "name": "Footer",
   "settings": [
     {
+      "type": "header",
+      "content": "Logo"
+    },  
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "logo_max_width",
+      "label": "Custom logo width (in pixels)",
+      "default": "100"
+    },
+    {
       "type":"header",
       "content":"Trust Badges"
     },
@@ -382,6 +367,16 @@
     },
     {
       "type":"text",
+      "id":"badge_svg_1",
+      "label":".svg Url"
+    },
+    {
+      "type":"text",
+      "id":"badge_img_1_alt",
+      "label":"Alt Text"
+    },
+    {
+      "type":"text",
       "id":"badge_img_1_width",
       "label":"Icon width"
     },
@@ -398,6 +393,16 @@
       "type":"image_picker",
       "id":"badge_img_2",
       "label":"Icon image"
+    },
+    {
+      "type":"text",
+      "id":"badge_svg_2",
+      "label":".svg Url"
+    },
+    {
+      "type":"text",
+      "id":"badge_img_2_alt",
+      "label":"Alt Text"
     },
     {
       "type":"text",
@@ -420,6 +425,16 @@
     },
     {
       "type":"text",
+      "id":"badge_svg_3",
+      "label":".svg Url"
+    },
+    {
+      "type":"text",
+      "id":"badge_img_3_alt",
+      "label":"Alt Text"
+    },
+    {
+      "type":"text",
       "id":"badge_img_3_width",
       "label":"Icon width"
     },
@@ -436,6 +451,16 @@
       "type":"image_picker",
       "id":"badge_img_4",
       "label":"Icon image"
+    },
+    {
+      "type":"text",
+      "id":"badge_svg_4",
+      "label":".svg Url"
+    },
+    {
+      "type":"text",
+      "id":"badge_img_4_alt",
+      "label":"Alt Text"
     },
     {
       "type":"text",
@@ -608,26 +633,17 @@
 {% endschema %}
 
 <style>
-  .site-footer .fa {
-    font-size: 90px;
-  }
-
   .newsletter_footer {
     margin-top: 0px !important;
   }
-
   h2.color_Schme {
     margin-top: 0px;
   }
-
-
   @media screen and (min-width : 320px) and (max-width : 767px) {
-
     ul.slick-dots {
       display: none !important;
     }
   }
-
   @media screen and (min-width: 320px) and (max-width: 399px) {
     footer.site-footer input#mce-EMAIL {
       width: 100% !important;

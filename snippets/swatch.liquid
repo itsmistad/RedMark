@@ -1,0 +1,164 @@
+{% comment %}
+  Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
+{% endcomment %}
+
+{% assign color_txt1 =  settings.swatch_colortxt_1 | handleize  %}
+{% assign color_txt2 =   settings.swatch_colortxt_2 | handleize %}
+{% assign color_txt3 =   settings.swatch_colortxt_3 | handleize %}
+{% assign color_txt4 =   settings.swatch_colortxt_4 | handleize %}
+{% assign color_txt5 =   settings.swatch_colortxt_5 | handleize %}
+{% assign color_txt6 =   settings.swatch_colortxt_6 | handleize %}
+{% assign color_txt7 =   settings.swatch_colortxt_7 | handleize %}
+{% assign color_txt8 =   settings.swatch_colortxt_8 | handleize %}
+{% assign color_txt9 =   settings.swatch_colortxt_9 | handleize %}
+{% assign color_txt10 =   settings.swatch_colortxt_10 | handleize %}
+{% assign color_txt11 =   settings.swatch_colortxt_11 | handleize %}
+{% assign color_txt12 =   settings.swatch_colortxt_12 | handleize %}
+{% assign color_txt13 =   settings.swatch_colortxt_13 | handleize %}
+{% assign color_txt14 =   settings.swatch_colortxt_14 | handleize %}
+{% assign color_txt15 =   settings.swatch_colortxt_15 | handleize %}
+{% assign color_txt16 =   settings.swatch_colortxt_16 | handleize %}
+{% assign color_txt17 =   settings.swatch_colortxt_17 | handleize %}
+{% assign color_txt18 =   settings.swatch_colortxt_18 | handleize %}
+{% assign color_txt19 =   settings.swatch_colortxt_19 | handleize %}
+{% assign color_txt20 =   settings.swatch_colortxt_20 | handleize %}
+
+{% assign file_extension = 'png' %}
+
+{% if swatch == blank %}
+<div class="swatch error">
+  <p>You must include the snippet swatch.liquid with the name of a product option.</p> 
+  <p>Use: <code>{% raw %}{% include 'swatch' with 'name of your product option here' %}{% endraw %}</code></p>
+  <p>Example: <code>{% raw %}{% include 'swatch' with 'Color' %}{% endraw %}</code></p>
+</div>
+{% else %}
+
+{% assign found_option = false %}
+{% assign is_color = false %}
+{% assign option_index = 0 %}
+
+{% for option in product.options %}
+  {% if option == swatch %}
+    {% assign found_option = true %}
+    {% assign option_index = forloop.index0 %}
+    <style>
+      label[for="product-select-option-{{ option_index }}"] { display: none; }
+      #product-select-option-{{ option_index }} { display: none; }
+      #product-select-option-{{ option_index }} + .custom-style-select-box { display: none !important; }
+    </style>
+    <script>$(window).load(function() { $('.selector-wrapper:eq({{ option_index }})').hide(); });</script>
+    {% assign downcased_option = swatch | downcase %}
+    {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+      {% assign is_color = true %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% unless found_option %}
+<div class="swatch error">
+  <p>You included the snippet swatch.liquid with the name of a product option — <code>'{{ swatch }}'</code> — that does not belong to your product.</p>
+  <p>Use <code>{% raw %}{% include 'swatch' with 'name of your product option here' %}{% endraw %}</code></p>
+  <p>Example: <code>{% raw %}{% include 'swatch' with 'Color' %}{% endraw %}</code></p>
+  <p><strong>This is case-sensitive!</strong> Do not put in <code>'color'</code> if your product option name is <code>'Color'</code>.</p>
+</div>
+{% else %}
+<div class="swatch clearfix" data-option-index="{{ option_index }}">
+  <div class="header">{{ swatch }}</div>
+  {% assign values = '' %}
+  {% for variant in product.variants %}
+    {% assign value = variant.options[option_index] %}
+    {% unless values contains value %}
+      {% assign values = values | join: ',' %}
+      {% assign values = values | append: ',' | append: value %} 
+      {% assign values = values | split: ',' %}
+      <div data-value="{{ value | escape }}" class="swatch-element color_box {% if is_color %}color {% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
+        {% if is_color %}
+        <div class="tooltip">{{ value }}</div>
+        {% endif %}
+        <input id="swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} />
+        {% if is_color %}
+        <label for="swatch-{{ option_index }}-{{ value | handle }}" class="color_box_value" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})">
+          <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+        </label>
+        {% else %}
+        <label for="swatch-{{ option_index }}-{{ value | handle }}">
+          {{ value }}
+          <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+        </label>
+        {% endif %}
+      </div>
+    {% endunless %}
+    {% if variant.available %}
+    <script>
+      jQuery('.swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}').removeClass('soldout').addClass('available').find(':radio').removeAttr('disabled');
+    </script>
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% endunless %}
+
+{% endif %}
+
+<style>
+.swatch .color_box.{{ color_txt1 }} .color_box_value {
+  background-color: {{ settings.swatch_color_1 }} !important;
+}
+.swatch .color_box.{{ color_txt2 }} .color_box_value {
+  background-color: {{ settings.swatch_color_2 }} !important;
+}
+.swatch .color_box.{{ color_txt3 }} .color_box_value {
+  background-color: {{ settings.swatch_color_3 }} !important;
+}
+.swatch .color_box.{{ color_txt4 }} .color_box_value {
+  background-color: {{ settings.swatch_color_4 }} !important;
+}  
+.swatch .color_box.{{ color_txt5 }} .color_box_value {
+  background-color: {{ settings.swatch_color_5 }} !important;
+}
+.swatch .color_box.{{ color_txt6 }} .color_box_value {
+  background-color: {{ settings.swatch_color_6 }} !important;
+}
+.swatch .color_box.{{ color_txt7 }} .color_box_value {
+  background-color: {{ settings.swatch_color_7 }} !important;
+}  
+.swatch .color_box.{{ color_txt8 }} .color_box_value {
+  background-color: {{ settings.swatch_color_8 }} !important;
+}  
+.swatch .color_box.{{ color_txt9 }} .color_box_value {
+  background-color: {{ settings.swatch_color_9 }} !important;
+}
+.swatch .color_box.{{ color_txt10 }} .color_box_value {
+  background-color: {{ settings.swatch_color_10 }} !important;
+}  
+.swatch .color_box.{{ color_txt11 }} .color_box_value {
+  background-color: {{ settings.swatch_color_11 }} !important;
+}
+.swatch .color_box.{{ color_txt12 }} .color_box_value {
+  background-color: {{ settings.swatch_color_12 }} !important;
+}
+.swatch .color_box.{{ color_txt13 }} .color_box_value {
+  background-color: {{ settings.swatch_color_13 }} !important;
+}  
+.swatch .color_box.{{ color_txt14 }} .color_box_value {
+  background-color: {{ settings.swatch_color_14 }} !important;
+}  
+.swatch .color_box.{{ color_txt15 }} .color_box_value {
+  background-color: {{ settings.swatch_color_15 }} !important;
+}  
+.swatch .color_box.{{ color_txt16 }} .color_box_value {
+  background-color: {{ settings.swatch_color_16 }} !important;
+}  
+.swatch .color_box.{{ color_txt17 }} .color_box_value {
+  background-color: {{ settings.swatch_color_17 }} !important;
+}
+.swatch .color_box.{{ color_txt18 }} .color_box_value {
+  background-color: {{ settings.swatch_color_18 }} !important;
+}
+.swatch .color_box.{{ color_txt19 }} .color_box_value {
+  background-color: {{ settings.swatch_color_19 }} !important;
+} 
+.swatch .color_box.{{ color_txt20 }} .color_box_value {
+  background-color: {{ settings.swatch_color_20 }} !important;
+}  
+</style>
