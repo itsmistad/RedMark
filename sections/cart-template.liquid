@@ -57,7 +57,11 @@
                   </div>
                 {% endif %}
                 <div class="cart-section__meta-text">
+                  {% if item.variant.compare_at_price != blank %}
+                    <span data-key="{{item.key}}"><s>{{ item.variant.compare_at_price | money }}</s> {{ item.price | money }}</span>
+                  {% else %}
                     <span data-key="{{item.key}}">{{ item.price | money }}</span>
+                  {% endif %}
                 </div>
               </td>
               <td class="cart-section__cell cart-section__qty-wrapper text-center">
@@ -68,16 +72,10 @@
                 </div>
                 <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart-section__remove">{{ 'cart.general.remove' | t }}</a>
               </td>
-              <td class="cart-section__cell text-center small--hide">
-                {% if item.original_line_price != item.line_price %}
-                  <div class="cart-item__original-price"><s>{{ item.original_line_price | money }}</s></div>
-                {% endif %}
+              <td class="cart-section__cell text-center">
                 <div>
                   <span class="saso-cart-item-line-price" data-key="{{item.key}}">{{ item.line_price | money }}</span>
                 </div>
-                {% for discount in item.discounts %}
-                  <div class="cart-item__discount">{{ discount.title }}</div>
-                {% endfor %}
               </td>
             </tr>
           {% endfor %}
@@ -155,9 +153,6 @@
   {% endif %}
 </div>
 <script>
-  $('.product-form__item.product-form__item--submit.custom_buton').on( "click", 'button#AddToCart', function(e) {
-    $('span#AddToCartText').trigger('click');          
-  });
   $(document).ready(function() {
     $(".cart-section__qty-input").focusout(function() {
       if ($(this).val() < 1)
