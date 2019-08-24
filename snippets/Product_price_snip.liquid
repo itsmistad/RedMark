@@ -19,14 +19,14 @@
     <s class="product-price__price cut_through">{{ compare_at_price | money }}</s>
     <span class="product-price__price product-price__sale color_sch">
       <span class="product__price">{{ money_price }}</span>
-     {% comment %} <span class="product-price__sale-label 15">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
+     {% comment %} <span class="product-price__sale-label">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
     </span>
   {% else %}
     <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
     <s class="product-price__price cut_through">{{ compare_at_price | money }}</s>
     <span class="product-price__price product-price__sale color_sch">
       {{ money_price }}
-     {% comment %} <span class="product-price__sale-label 4">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
+     {% comment %} <span class="product-price__sale-label">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
     </span>
   {% endif %}
 {% else %}

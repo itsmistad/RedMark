@@ -5,8 +5,7 @@
   {% endif %}
 {% endfor %}
 
-<div class="product-template__container page-width"  itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true"> 
-  <div> {{ product.metafields.alireviews.seo_rating_review_key }}</div> 
+<div class="product-section__container page-width"  itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true"> 
   <meta itemprop="name" content="{{ product.title }}">
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
   <meta itemprop="image" content="{{ product.featured_image.src | img_url: '800x' }}">
@@ -18,24 +17,12 @@
 
   {% case section.settings.image_size %}
   {% when 'small' %}
-  {%- assign product_image_width = 'medium-up--one-third' -%}
-  {%- assign product_description_width = 'medium-up--two-thirds' -%}
-  {%- assign product_thumbnail_width = 'medium-up--one-third' -%}
   {%- assign product_image_size = '345x' -%}
   {% when 'medium' %}
-  {%- assign product_image_width = 'medium-up--one-half' -%}
-  {%- assign product_description_width = 'medium-up--one-half' -%}
-  {%- assign product_thumbnail_width = 'medium-up--one-quarter' -%}
   {%- assign product_image_size = '530x' -%}
   {% when 'large' %}
-  {%- assign product_image_width = 'medium-up--two-thirds' -%}
-  {%- assign product_description_width = 'medium-up--one-third' -%}
-  {%- assign product_thumbnail_width = 'medium-up--one-fifth' -%}
   {%- assign product_image_size = '720x' -%}
   {% when 'full' %}
-  {%- assign product_image_width = '' -%}
-  {%- assign product_description_width = '' -%}
-  {%- assign product_thumbnail_width = 'medium-up--one-eighth' -%}
   {%- assign product_image_size = '1090x' -%}
   {%- assign enable_zoom = false -%}
   {% endcase %}
@@ -43,12 +30,12 @@
   {% if section.settings.show_share_buttons %}
     {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
   {% endif %}
-  <div class="grid product-single">
-    <div style="position:relative;" class="grid__item product-single__photos {{ product_image_width }}{% if section.settings.image_size == 'full' %} product-single__photos--full{% endif %}">
+  <div class="product-section">
+    <div class="product-section__photos{% if section.settings.image_size == 'full' %} product-section__photos--full{% endif %}">
       {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
       {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
       {% include 'sale_tag' %}
-      <div id="FeaturedImageZoom-{{ section.id }}" class="product-single__photo{% if product.images.size > 1 %} product-single__photo--has-thumbnails{% endif %}" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
+      <div id="FeaturedImageZoom-{{ section.id }}" class="product-section__photo{% if product.images.size > 1 %} product-section__photo--has-thumbnails{% endif %}" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
         <div class="zoomIn">
         <img itemprop="image" src="{{ product.featured_image.src | img_url: product_image_size }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="{% if enable_zoom %}zoom_hover{% endif %} product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
         </div>
@@ -71,14 +58,14 @@
               <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
             </button>
           {% endif %}
-          <ul class="grid grid--uniform product-single__thumbnails product-single__thumbnails-{{ section.id }}">
+          <ul class="product-section__thumbnails product-section__thumbnails-{{ section.id }}">
             {% for image in product.images %}
-              <li class="grid__item {{ product_thumbnail_width }} product-single__thumbnails-item">
+              <li class="product-section__thumbnails-item">
                 <a itemprop="url"
                   href="{{ image.src | img_url: product_image_size }}"
-                  class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                  class="text-link product-section__thumbnail product-section__thumbnail--{{ section.id }}"
                   {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}>
-                  <img class="product-single__thumbnail-image" src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
+                  <img class="product-section__thumbnail-image" src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
                 </a>
               </li>
             {% endfor %}
@@ -92,16 +79,16 @@
         </div>
       {% endif %}
     </div>
-    <div class="grid__item {{ product_description_width }}">
-      <div class="product-single__meta">
-        <h1 itemprop="headline" class="product-single__title">{{ product.title }}</h1>
+    <div class="">
+      <div class="product-section__meta">
+        <h1 itemprop="headline" class="product-section__title">{{ product.title }}</h1>
         {% if section.settings.show_vendor %}
-          <p itemprop="brand" class="product-single__vendor">{{ product.vendor }}</p>
+          <p itemprop="brand" class="product-section__vendor">{{ product.vendor }}</p>
         {% endif %}
         <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
           <meta itemprop="priceCurrency" content="{{ shop.currency }}">
           <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
-          <p class="product-single__price product-single__price-{{ section.id }}{% unless current_variant.available %} product-price--sold-out{% endunless %}">
+          <p class="product-section__price product-section__price-{{ section.id }}{% unless current_variant.available %} product-price--sold-out{% endunless %}">
             {% if current_variant.compare_at_price > current_variant.price %}
               <s id="ComparePrice-{{ section.id }}">{{ current_variant.compare_at_price | money }}</s>
               <span class="hello1 product-price__price product-price__price-{{ section.id }} product-price__sale product-price__sale--single">
@@ -226,12 +213,9 @@
             </div>
           </form>
         </div>
-        <div class="product-single__description" itemprop="description">
+        <div class="product-section__description" itemprop="description">
           {{ product.description }}
         </div>
-        {% if section.settings.show_share_buttons %}
-          {% include 'social-sharing_2', share_title: product.title, share_permalink: product.url, share_image: product %}
-        {% endif %}
       </div>
     </div>
   </div>
@@ -542,14 +526,11 @@
   .template-product .product-price__sale-label {
     top: 36px;
   }
-  .template-product .grid-uniform.test span.product-price__sale-label {
-    top: 0px;
-  }  
-  .template-product p.product-single__price.product-single__price-product-template {
+  .template-product p.product-section__price.product-section__price {
     font-size:  {{ section.settings.product_price_text }};
   }
-  .product-single__description{  
-    font-size:  {{ section.settings.product_description_text }}px !important;
+  .product-section__description{  
+    font-size:  {{ section.settings.product_description_text }} !important;
   }
   @media screen and (max-width: 767px ) and (min-width: 320px) {
   .upsell_products form.product-form.product-form {
@@ -599,9 +580,6 @@
     .template-cart .modal-dialog form.product-form {
       width: 100%;
     }
-    .grid__item.medium-up--three-fifths.small--one-half h3 {
-      font-size: 1.125em !important;
-    }
     .product-form__item.product-form__item--quantity label {
       font-size: 1.5625em;
     }
@@ -616,10 +594,6 @@
     }
     .head_part_2 {
       padding-top: 0px !important;
-    }
-    .grid__item.secure_two {
-      padding-top: 13px !important;
-      padding-left: 0px !important;
     }
     .no_default_upsell {
       width: 49% !important;
@@ -663,9 +637,6 @@
   .template-product .head_part_2 {
     margin: 0 auto;
   }   
-  .grid-view-item a:hover {
-    text-decoration: none;
-  }  
   .template-product .btn-group-lg>.btn, .btn-lg {
     padding: 5px 16px;
     font-size: 1.125em;

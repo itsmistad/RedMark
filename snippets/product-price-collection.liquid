@@ -19,14 +19,14 @@
     <s class="product-price__price ds compare_cus">{{ compare_at_price | money }}</s>
     <span class="product-price__price product-price__sale sale_act_price">
       <span class="product__price sale_cus">{{ money_price }}</span>
-     {% comment %} <span class="product-price__sale-label 1">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
+     {% comment %} <span class="product-price__sale-label">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
     </span>
   {% else %}
     <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
     <s class="product-price__price da compare_cus">{{ compare_at_price | money }}</s>
     <span class="product-price__price product-price__sale sale_act_price sale_cus">
       {{ money_price }}
-     {% comment %} <span class="product-price__sale-label 2">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
+     {% comment %} <span class="product-price__sale-label">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
     </span>
   {% endif %}
 {% else %}

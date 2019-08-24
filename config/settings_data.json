@@ -287,7 +287,7 @@
         "settings": {
           "heading_final": "Reviews",
           "heading_color": "#000000",
-          "heading_size": "30",
+          "heading_size": "1.875em",
           "edit_cust_name_color": "#000000",
           "edit_cust_name_size": "14",
           "edit__name_color": "#000000",
@@ -379,7 +379,7 @@
         "type": "newsletter",
         "settings": {
           "heading": "Want more discounts?",
-          "heading_size": "24px",
+          "heading_size": "1.5em",
           "heading_color": "#fff",
           "content": "Sign up for our newsletter for more awesome deals and get a coupon for your next purchase",
           "content_size": "14px",
