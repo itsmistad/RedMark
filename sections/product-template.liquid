@@ -11,42 +11,34 @@
   <meta itemprop="image" content="{{ product.featured_image.src | img_url: '800x' }}">
 
   {%- assign current_variant = product.selected_or_first_available_variant -%}
-  {%- assign product_thumb_size = '160x' -%}
-  {%- assign product_image_zoom_size = '1024x1024' -%}
+  {%- assign product_thumb_size = '96x' -%}
+  {%- assign product_image_zoom_size = '768x768' -%}
   {%- assign enable_zoom = section.settings.enable_zoom -%}
 
   {% case section.settings.image_size %}
   {% when 'small' %}
-  {%- assign product_image_size = '345x' -%}
+  {%- assign product_image_size_url = '345x' -%}
   {% when 'medium' %}
-  {%- assign product_image_size = '530x' -%}
+  {%- assign product_image_size_url = '530x' -%}
   {% when 'large' %}
-  {%- assign product_image_size = '720x' -%}
-  {% when 'full' %}
-  {%- assign product_image_size = '1090x' -%}
-  {%- assign enable_zoom = false -%}
+  {%- assign product_image_size_url = '720x' -%}
   {% endcase %}
   
+  {% comment %}
   {% if section.settings.show_share_buttons %}
     {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
   {% endif %}
+  {% endcomment %}
   <div class="product-section">
-    <div class="product-section__photos{% if section.settings.image_size == 'full' %} product-section__photos--full{% endif %}">
+    <div class="product-section__gallery-container">
       {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
       {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
       {% include 'sale_tag' %}
-      <div id="FeaturedImageZoom-{{ section.id }}" class="product-section__photo{% if product.images.size > 1 %} product-section__photo--has-thumbnails{% endif %}" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
+      <div id="FeaturedImageZoom-{{ section.id }}" class="product-section__photo" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
         <div class="zoomIn">
-        <img itemprop="image" src="{{ product.featured_image.src | img_url: product_image_size }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="{% if enable_zoom %}zoom_hover{% endif %} product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+        <img itemprop="image" src="{{ product.featured_image.src | img_url: product_image_size_url }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="{% if enable_zoom %}zoom_hover{% endif %} product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
         </div>
       </div>
-      <script>
-        $(function () {
-          $('img.zoom_hover').zoomIn({
-          });
-        });  
-      </script>
-      <style>div#FeaturedImageZoom-product-template {overflow: hidden;}</style>
       {% if product.images.size > 1 %}
         {% if product.images.size > 3 %}
           {%- assign enable_thumbnail_slides = true -%}
@@ -62,7 +54,7 @@
             {% for image in product.images %}
               <li class="product-section__thumbnails-item">
                 <a itemprop="url"
-                  href="{{ image.src | img_url: product_image_size }}"
+                  href="{{ image.src | img_url: product_image_size_url }}"
                   class="text-link product-section__thumbnail product-section__thumbnail--{{ section.id }}"
                   {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}>
                   <img class="product-section__thumbnail-image" src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
@@ -79,143 +71,141 @@
         </div>
       {% endif %}
     </div>
-    <div class="">
-      <div class="product-section__meta">
-        <h1 itemprop="headline" class="product-section__title">{{ product.title }}</h1>
-        {% if section.settings.show_vendor %}
-          <p itemprop="brand" class="product-section__vendor">{{ product.vendor }}</p>
-        {% endif %}
-        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-          <meta itemprop="priceCurrency" content="{{ shop.currency }}">
-          <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
-          <p class="product-section__price product-section__price-{{ section.id }}{% unless current_variant.available %} product-price--sold-out{% endunless %}">
-            {% if current_variant.compare_at_price > current_variant.price %}
-              <s id="ComparePrice-{{ section.id }}">{{ current_variant.compare_at_price | money }}</s>
-              <span class="hello1 product-price__price product-price__price-{{ section.id }} product-price__sale product-price__sale--single">
-                <span id="ProductPrice-{{ section.id }}" itemprop="price" content="{{ current_variant.price | money_without_currency }}"> {{ current_variant.price | money }} </span>
-              </span>
-            {% else %}
-              <s id="ComparePrice-{{ section.id }}" class="hide">{{ current_variant.compare_at_price | money }}</s>
-              <span class="hello2 product-price__price product-price__price-{{ section.id }}">
-                <span id="ProductPrice-{{ section.id }}" itemprop="price" content="{{ current_variant.price | money_without_currency }}"> {{ current_variant.price | money }} </span>
-              </span>
-            {% endif %}
-          </p>
-          <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}" data-section="{{ section.id }}">
-            {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
-              {% for option in product.options_with_values %}
-                <div class="selector-wrapper js product-form__item">
-                  <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
-                    {{ option.name }}
-                  </label>
-                  <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
-                    {% for value in option.values %}
-                      <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              {% endfor %}
-            {% endunless %}
-            <select name="id" id="ProductSelect-{{ section.id }}" data-section="{{ section.id }}" class="product-form__variants no-js">
-              {% for variant in product.variants %}
-                {% if variant.available %}
-                  <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
-                    {{ variant.title }}
-                  </option>
-                {% else %}
-                  <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
-                {% endif %}
-              {% endfor %}
-            </select>
-            {% if section.settings.show_quantity_selector %}
-              <div class="product-form__item product-form__item--quantity">
-                <label for="Quantity">{{ 'products.product.quantity' | t }}</label>
-                <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-form__input" pattern="[0-9]*">
+    <div class="product-section__options-form">
+      <h1 itemprop="headline" class="product-section__title">{{ product.title }}</h1>
+      {% if section.settings.show_vendor %}
+        <p itemprop="brand" class="product-section__vendor">{{ product.vendor }}</p>
+      {% endif %}
+      <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+        <p class="product-section__price product-section__price-{{ section.id }}{% unless current_variant.available %} product-price--sold-out{% endunless %}">
+          {% if current_variant.compare_at_price > current_variant.price %}
+            <s id="ComparePrice-{{ section.id }}">{{ current_variant.compare_at_price | money }}</s>
+            <span class="product-price__price product-price__price-{{ section.id }} product-price__sale product-price__sale--single">
+              <span id="ProductPrice-{{ section.id }}" itemprop="price" content="{{ current_variant.price | money_without_currency }}"> {{ current_variant.price | money }} </span>
+            </span>
+          {% else %}
+            <s id="ComparePrice-{{ section.id }}" class="hide">{{ current_variant.compare_at_price | money }}</s>
+            <span class="product-price__price product-price__price-{{ section.id }}">
+              <span id="ProductPrice-{{ section.id }}" itemprop="price" content="{{ current_variant.price | money_without_currency }}"> {{ current_variant.price | money }} </span>
+            </span>
+          {% endif %}
+        </p>
+        <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form-{{ section.id }}" data-section="{{ section.id }}">
+          {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
+            {% for option in product.options_with_values %}
+              <div class="selector-wrapper js product-form__item">
+                <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                  {{ option.name }}
+                </label>
+                <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                  {% for value in option.values %}
+                    <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                  {% endfor %}
+                </select>
               </div>
-            {% endif %}
-            {% if section.settings.enable_swatches %}
-              {% if product.available and product.variants.size > 1 %}
-                {% for option in product.options %}
-                  {% include 'swatch' with option %}
-                {% endfor %}
+            {% endfor %}
+          {% endunless %}
+          <select name="id" id="ProductSelect-{{ section.id }}" data-section="{{ section.id }}" class="product-form__variants no-js">
+            {% for variant in product.variants %}
+              {% if variant.available %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                  {{ variant.title }}
+                </option>
+              {% else %}
+                <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
               {% endif %}
+            {% endfor %}
+          </select>
+          {% if section.settings.enable_swatches %}
+            {% if product.available and product.variants.size > 1 %}
+              {% for option in product.options %}
+                {% include 'swatch' with option %}
+              {% endfor %}
             {% endif %}
-            <div class="product-form__item product-form__item--submit">
-              <div class="head_part_2">
-                {% if section.settings.related_product %}
-                  {% if test_1 !=blank %}
-                    <div id="container_001">
-                      <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here8 fixed_btn btn product-form__cart-submit">
-                        <span id="AddToCartText-{{ section.id }}">
-                          {% unless current_variant.available %}
-                            {{ settings.add_to_cart_button_soldouttext }}
-                          {% else %}
-                            {{ settings.add_to_cart_button_text }}
-                          {% endunless %}
-                        </span>
-                      </button>
-                    </div>
-                  {% else %}
-                    <button type="submit" name="add" class="dummy_button_for btn product-form__cart-submit">
-                      <span>
-                        {% unless current_variant.available %}
-                          {{ settings.add_to_cart_button_soldouttext }}
-                        {% else %}
-                          {{ settings.add_to_cart_button_text }}
-                        {% endunless %}
-                      </span>
-                    </button>
-                    <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here4 fixed_btn btn product-form__cart-submit">
-                      <span id="AddToCartText-{{ section.id }}">
-                        {% unless current_variant.available %}
-                          {{ settings.add_to_cart_button_soldouttext }}
-                        {% else %}
-                          {{ settings.add_to_cart_button_text }}
-                        {% endunless %}
-                      </span>
-                    </button>
-                  {% endif %}
-                {% else %}
-                  {% if test_1 !=blank %}
-                    <div id="container_001">
-                      <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here8 btn product-form__cart-submit">
-                        <span id="AddToCartText-{{ section.id }}">
-                          {% unless current_variant.available %}
-                            {{ settings.add_to_cart_button_soldouttext }}
-                          {% else %}
-                            {{ settings.add_to_cart_button_text }}
-                          {% endunless %}
-                        </span>
-                      </button>
-                    </div>
-                  {% else %}
-                    <button type="submit" name="add" class="dummy_button_for btn product-form__cart-submit">
-                      <span>
-                        {% unless current_variant.available %}
-                          {{ settings.add_to_cart_button_soldouttext }}
-                        {% else %}
-                          {{ settings.add_to_cart_button_text }}
-                        {% endunless %}
-                      </span>
-                    </button>
-                    <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here4 fixed_btn btn product-form__cart-submit">
-                      <span id="AddToCartText-{{ section.id }}">
-                        {% unless current_variant.available %}
-                          {{ settings.add_to_cart_button_soldouttext }}
-                        {% else %}
-                          {{ settings.add_to_cart_button_text }}
-                        {% endunless %}
-                      </span>
-                    </button>
-                  {% endif %}
-                {% endif %}
-              </div>
+          {% endif %}
+          {% if section.settings.show_quantity_selector %}
+            <div class="product-form__item product-form__item--quantity">
+              <label for="Quantity">{{ 'products.product.quantity' | t }}</label>
+              <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-form__input" pattern="[0-9]*">
             </div>
-          </form>
-        </div>
-        <div class="product-section__description" itemprop="description">
-          {{ product.description }}
-        </div>
+          {% endif %}
+          <div class="product-form__item product-form__item--submit">
+            <div class="head_part_2">
+              {% if section.settings.related_product %}
+                {% if test_1 !=blank %}
+                  <div id="container_001">
+                    <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here8 fixed_btn btn product-form__cart-submit">
+                      <span id="AddToCartText-{{ section.id }}">
+                        {% unless current_variant.available %}
+                          {{ settings.add_to_cart_button_soldouttext }}
+                        {% else %}
+                          {{ settings.add_to_cart_button_text }}
+                        {% endunless %}
+                      </span>
+                    </button>
+                  </div>
+                {% else %}
+                  <button type="submit" name="add" class="dummy_button_for btn product-form__cart-submit">
+                    <span>
+                      {% unless current_variant.available %}
+                        {{ settings.add_to_cart_button_soldouttext }}
+                      {% else %}
+                        {{ settings.add_to_cart_button_text }}
+                      {% endunless %}
+                    </span>
+                  </button>
+                  <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here4 fixed_btn btn product-form__cart-submit">
+                    <span id="AddToCartText-{{ section.id }}">
+                      {% unless current_variant.available %}
+                        {{ settings.add_to_cart_button_soldouttext }}
+                      {% else %}
+                        {{ settings.add_to_cart_button_text }}
+                      {% endunless %}
+                    </span>
+                  </button>
+                {% endif %}
+              {% else %}
+                {% if test_1 !=blank %}
+                  <div id="container_001">
+                    <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here8 btn product-form__cart-submit">
+                      <span id="AddToCartText-{{ section.id }}">
+                        {% unless current_variant.available %}
+                          {{ settings.add_to_cart_button_soldouttext }}
+                        {% else %}
+                          {{ settings.add_to_cart_button_text }}
+                        {% endunless %}
+                      </span>
+                    </button>
+                  </div>
+                {% else %}
+                  <button type="submit" name="add" class="dummy_button_for btn product-form__cart-submit">
+                    <span>
+                      {% unless current_variant.available %}
+                        {{ settings.add_to_cart_button_soldouttext }}
+                      {% else %}
+                        {{ settings.add_to_cart_button_text }}
+                      {% endunless %}
+                    </span>
+                  </button>
+                  <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here4 fixed_btn btn product-form__cart-submit">
+                    <span id="AddToCartText-{{ section.id }}">
+                      {% unless current_variant.available %}
+                        {{ settings.add_to_cart_button_soldouttext }}
+                      {% else %}
+                        {{ settings.add_to_cart_button_text }}
+                      {% endunless %}
+                    </span>
+                  </button>
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="product-section__description" itemprop="description">
+        {{ product.description }}
       </div>
     </div>
   </div>
@@ -320,6 +310,9 @@
     button.on("click",function(e) {
       submitButt.prop("disabled",false); // NOT a toggle
     });
+
+    var zoomImg = $('img.zoom_hover');
+    zoomImg.zoomIn({});
   });
   $('#container_001').on( "click", '#upsell_product', function(e) {
     $('#AddToCart-product-template').trigger('click');            
@@ -341,9 +334,6 @@
   button#AddToCart-product-template:hover span {
     color: #fff;
   }
-  .product-form__item.product-form__item--submit button {
-    float: left;
-  } 
   #popupDiv {
     display: none;
     color:#000 !important;
@@ -363,9 +353,6 @@
   /*----------  Swatch Styles  ----------*/
   {% assign width = '50px' %}
   {% assign height = '35px' %}
-  .swatch { 
-    margin:1em 0; 
-  }
   /* Label */
   .swatch .header {
     margin: 0.5em 0;
@@ -551,9 +538,6 @@
     width: 33px;
     padding: 5px;
   }  
-  .template-product .upsell_products .selector-wrapper.js.product-form__item {
-    display: none;
-  }  
   .template-product .upsell_products .popup_price {
     text-align: center;
   }  
@@ -572,10 +556,7 @@
       width: 665px !important;
       top: 15% !important;
     }
-  }  
-  .template-product .upsell_products .product-form__item.product-form__item--submit.custom_buton button {
-    width: 60%;
-  }  
+  }
   @media screen and (max-width: 767px) and (min-width: 320px) {
     .template-cart .modal-dialog form.product-form {
       width: 100%;
@@ -611,12 +592,6 @@
     }
     .modal-footer {
       font-size: 0.875em;
-    }  
-    .template-product .upsell_products .product-form__item.product-form__item--submit.custom_buton {
-      left: 21%;
-    }
-    .template-product .upsell_products .product-form__item.product-form__item--quantity {
-      margin-left: 37%;
     }
     .template-product .upsell_products .product-form__item.product-form__item--quantity input#Quantity {
       font-size: 1.125em;
@@ -649,9 +624,6 @@
     line-height: 1.3333333;
     border-radius: 2px;
   }
-  .product-form__item.product-form__item--submit {
-    position: relative;
-  }
   .enable_pointer{
     pointer-events: all !important;
   }  
@@ -681,12 +653,6 @@
   .product-form__item.product-form__item--quantity label {
     font-size: 0.9375em;
   }
-  .header {
-    font-size: 1.25em;
-  }
-  .swatch.clearfix {
-    padding-left: 6px;
-  }
   @media screen and (max-width: 30000px) and (min-width: 768px) {
     .upsell_products form.product-form.product-form {
     width: 20px;
@@ -704,9 +670,6 @@
     .popup_image {
       float: left;
       width: 13%;
-    }
-    .upsell_products  .product-form__item.product-form__item--submit.custom_buton {
-      text-align: right;
     }
     .popup_title {
       float: left ;
@@ -726,17 +689,8 @@
       text-transform: capitalize;
       background-color: #ff3b3b;
     }
-    .upsell_products .product-form__cart-submit {
-      width: initial;
-    } 
     .popup_title {
       min-width: 67%;
-    }
-    .upsell_products .template-product .upsell_products .product-form__item.product-form__item--quantity {
-      display: block !important;
-    }
-    .product-form__item.product-form__item--submit.custom_buton button {
-      width: 100% !important;
     }
     .popup_title {
       text-align: left !important;
