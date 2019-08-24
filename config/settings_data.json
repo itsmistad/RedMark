@@ -64,6 +64,10 @@
     "default_currency": "USD",
     "scroll_top_enable": true,
     "scroll_top_img": "shopify:\/\/shop_images\/scrollup_78x46_69d7a9dc-4eb4-48da-a889-9cfc8c14477f.png",
+    "add_to_cart_button_color": "#ff3b3b",
+    "add_to_cart_button_text": "ADD TO CART",
+    "add_to_cart_button_soldouttext": "Sold Out",
+    "add_to_cart_button_textcolor": "#ffffff",
     "checkout_header_image": "",
     "checkout_logo_image": "",
     "checkout_logo_position": "left",
@@ -208,10 +212,6 @@
           "related_product": true,
           "product_price_text": "",
           "product_description_text": "",
-          "add_to_cart_button_color": "#ff3b3b",
-          "add_to_cart_button_text": "ADD TO CART",
-          "add_to_cart_button_soldtext": "Sold Out",
-          "add_to_cart_button_textcolor": "#ffffff",
           "collection_name": false
         }
       },

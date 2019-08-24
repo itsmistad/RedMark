@@ -2889,18 +2889,15 @@ h1.product-single__title {
 }
 
 .product-form__cart-submit {
+    background: {{ settings.add_to_cart_button_color }} !important;
+    color: {{ settings.add_to_cart_button_textcolor }};
+    opacity:1 !important;
   display: block;
   width: 100%;
   line-height: 1.4;
   padding-left: 5px;
   padding-right: 5px;
   white-space: normal;
-}
-
-@include media-query($medium-up) {
-  .product-form__cart-submit--small {
-    max-width: 100%;     //300px
-  }    
 }
 
 .product-single__description {

@@ -158,12 +158,12 @@
                 {% if section.settings.related_product %}
                   {% if test_1 !=blank %}
                     <div id="container_001">
-                      <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here8 fixed_btn btn product-form__cart-submit{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
+                      <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here8 fixed_btn btn product-form__cart-submit">
                         <span id="AddToCartText-{{ section.id }}">
                           {% unless current_variant.available %}
-                            {{ section.settings.add_to_cart_button_soldtext }}
+                            {{ settings.add_to_cart_button_soldouttext }}
                           {% else %}
-                            {{ section.settings.add_to_cart_button_text }}
+                            {{ settings.add_to_cart_button_text }}
                           {% endunless %}
                         </span>
                       </button>
@@ -172,18 +172,18 @@
                     <button type="submit" name="add" class="dummy_button_for btn product-form__cart-submit">
                       <span>
                         {% unless current_variant.available %}
-                          {{ section.settings.add_to_cart_button_soldtext }}
+                          {{ settings.add_to_cart_button_soldouttext }}
                         {% else %}
-                          {{ section.settings.add_to_cart_button_text }}
+                          {{ settings.add_to_cart_button_text }}
                         {% endunless %}
                       </span>
                     </button>
-                    <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here4 fixed_btn btn product-form__cart-submit{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
+                    <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here4 fixed_btn btn product-form__cart-submit">
                       <span id="AddToCartText-{{ section.id }}">
                         {% unless current_variant.available %}
-                          {{ section.settings.add_to_cart_button_soldtext }}
+                          {{ settings.add_to_cart_button_soldouttext }}
                         {% else %}
-                          {{ section.settings.add_to_cart_button_text }}
+                          {{ settings.add_to_cart_button_text }}
                         {% endunless %}
                       </span>
                     </button>
@@ -191,12 +191,12 @@
                 {% else %}
                   {% if test_1 !=blank %}
                     <div id="container_001">
-                      <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here8 btn product-form__cart-submit{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
+                      <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here8 btn product-form__cart-submit">
                         <span id="AddToCartText-{{ section.id }}">
                           {% unless current_variant.available %}
-                            {{ section.settings.add_to_cart_button_soldtext }}
+                            {{ settings.add_to_cart_button_soldouttext }}
                           {% else %}
-                            {{ section.settings.add_to_cart_button_text }}
+                            {{ settings.add_to_cart_button_text }}
                           {% endunless %}
                         </span>
                       </button>
@@ -205,18 +205,18 @@
                     <button type="submit" name="add" class="dummy_button_for btn product-form__cart-submit">
                       <span>
                         {% unless current_variant.available %}
-                          {{ section.settings.add_to_cart_button_soldtext }}
+                          {{ settings.add_to_cart_button_soldouttext }}
                         {% else %}
-                          {{ section.settings.add_to_cart_button_text }}
+                          {{ settings.add_to_cart_button_text }}
                         {% endunless %}
                       </span>
                     </button>
-                    <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here4 fixed_btn btn product-form__cart-submit{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
+                    <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here4 fixed_btn btn product-form__cart-submit">
                       <span id="AddToCartText-{{ section.id }}">
                         {% unless current_variant.available %}
-                          {{ section.settings.add_to_cart_button_soldtext }}
+                          {{ settings.add_to_cart_button_soldouttext }}
                         {% else %}
-                          {{ section.settings.add_to_cart_button_text }}
+                          {{ settings.add_to_cart_button_text }}
                         {% endunless %}
                       </span>
                     </button>
@@ -292,7 +292,7 @@
                     <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-form__input" pattern="[0-9]*">
                   </div>
                   <div class="product-form__item product-form__item--submit custom_buton">
-                    <button onclick="myFunction()" type="submit" name="add" id="AddToCart1" class="test btn product-form__cart-submit{% if product_drop.options.size == 1 and product_drop.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
+                    <button onclick="myFunction()" type="submit" name="add" id="AddToCart1" class="test btn product-form__cart-submit">
                       <span id="AddToCartText">
                         add to cart
                       </span>
@@ -532,11 +532,6 @@
   }
   .swatch.error code {
     font-family:monospace;
-  }
-  .product-form__cart-submit {
-    background: {{ section.settings.add_to_cart_button_color }} !important;
-    color: {{ section.settings.add_to_cart_button_textcolor }};
-    opacity:1 !important;
   }
   .font_style {
     text-transform: uppercase;
@@ -941,26 +936,6 @@
         "content": "Button Settings"
       },
       {
-        "type": "color",
-        "id": "add_to_cart_button_color",
-        "label": "Select Color for the button"
-      },
-      {
-        "type": "text",
-        "id": "width_add_to_cart_button",
-        "label": "Enter size of button"
-      },
-      {
-        "type": "text",
-        "id": "width_add_to_cart_button_1",
-        "label": "Enter size of button on mobile screen"
-      },
-      {
-        "type": "text",
-        "id": "add_to_cart_button_text",
-        "label": "Enter the text for the Add to Cart"
-      },
-      {
         "type": "text",
         "id": "font_size",
         "label": "Enter font size for the Add to Cart"
@@ -976,26 +951,6 @@
         "id": "stock_value_2",
         "label": "Enter text after stock value",
         "default": "left in stock!"
-      },
-      {
-        "type": "text",
-        "id": "text3",
-        "label": "Enter font size for stock values text"
-      },
-      {
-        "type": "text",
-        "id": "add_to_cart_button_soldtext",
-        "label": "Enter the Sold Out button Text"
-      },
-      {
-        "type": "color",
-        "id": "add_to_cart_button_textcolor",
-        "label": "Select Color for the text"
-      },
-      {
-        "type": "text",
-        "id": "add_to_cart_button_borderadius",
-        "label": "Enter the Border Radius for the button in px"
       },
       {
         "type": "header",
