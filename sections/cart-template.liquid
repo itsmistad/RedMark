@@ -94,15 +94,15 @@
           {%- assign car_total = cart.total_price | money_without_currency_format | money_without_currency | remove: '.00' | remove: ',' -%}
           {%- assign cart_order = section.settings.cart_order_above_box -%}
           {% assign diff = car_total | minus: cart_order %}
-          {% if diff > 0 %}
+          {% if diff >= 0 %}
             <div class="cart-section__secret-discount">
               <div class="cart-section__discount-line">
-                <span class="cart-section__emoji">🔥</span>
-                <span class="cart-section__discount-line-text">Woohoo, you're on fire! Looks like you found our secret discount.</span>
+                <span class="cart-section__emoji">{{ section.settings.discount_line_1_emoji }}</span>
+                <span class="cart-section__discount-line-text">{{ section.settings.discount_line_1 }}</span>
               </div>
               <div class="cart-section__discount-line">
-                <span class="cart-section__emoji">✔️</span>
-                <span class="cart-section__discount-line-text">Since your cart is over {{ section.settings.cart_order_above_box }} USD, here's a {{ section.settings.cart_discount_box }}% <b>{{ section.settings.discount_code }}</b> discount on us.</span>
+                <span class="cart-section__emoji">{{ section.settings.discount_line_2_emoji }}</span>
+                <span class="cart-section__discount-line-text">{{ section.settings.discount_line_2 }}</span>
               </div>
             </div>
           {% endif %}
@@ -154,6 +154,20 @@
 </div>
 <script>
   $(document).ready(function() {
+    for (let i = 1; i <=  $('.cart-section__discount-line').length; i++) {
+      var lineItem = $(`.cart-section__discount-line:nth-of-type(${i})`);
+      var textItem = lineItem.find(".cart-section__discount-line-text");
+      var text = textItem.text();
+      textItem.text(text.replace(
+        /\$cart_order_above_box/g, "{{ settings.cart_order_above_box }}"
+      ).replace(
+        /\$selected_currency/g, "{{ shop.currency }}"
+      ).replace(
+        /\$cart_discount_box/g, "{{ section.settings.cart_discount_box }}"
+      ).replace(
+        /\$discount_code/g, "{{ section.settings.discount_code }}"
+      ));
+    }
     $(".cart-section__qty-input").focusout(function() {
       if ($(this).val() < 1)
       $(this).val(1);
@@ -248,6 +262,26 @@
       "type": "text",
       "id": "discount_code",
       "label": "Discount Code"
+    },
+    {
+      "type": "text",
+      "id": "discount_line_1_emoji",
+      "label": "Line 1 Emoji"
+    },
+    {
+      "type": "text",
+      "id": "discount_line_1",
+      "label": "Line 1 Text"
+    },
+    {
+      "type": "text",
+      "id": "discount_line_2_emoji",
+      "label": "Line 2 Emoji"
+    },
+    {
+      "type": "text",
+      "id": "discount_line_2",
+      "label": "Line 2 Text"
     },
     {
       "type": "header",
