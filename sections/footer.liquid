@@ -79,12 +79,12 @@
       <div class="site-footer__social-media-buttons">
         <div class="items-container">
           <div class="item-wrapper">
-            <svg class="button-icon" onclick="window.open('{{ section.settings.facebook_link }}', '_blank');">
+            <svg class="button-icon" onclick="window.open('{{ settings.facebook_link }}', '_blank');">
               <use xlink:href="#facebook"></use>
             </svg>
           </div>
           <div class="item-wrapper">
-            <svg class="button-icon" onclick="window.open('{{ section.settings.instagram_link }}', '_blank');">
+            <svg class="button-icon" onclick="window.open('{{ settings.instagram_link }}', '_blank');">
               <use xlink:href="#instagram"></use>
             </svg>
           </div>
@@ -613,20 +613,6 @@
       "type": "color",
       "id": "footer_divider_color",
       "label": "Foreground Color"
-    },
-    {
-      "type": "header",
-      "content": "Social Media Links"
-    },
-    {
-      "type": "text",
-      "id": "facebook_link",
-      "label": "Facebook"
-    },
-    {
-      "type": "text",
-      "id": "instagram_link",
-      "label": "Instagram"
     }
   ]
 }

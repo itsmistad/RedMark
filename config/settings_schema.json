@@ -8,6 +8,25 @@
     "theme_support_url": "https:\/\/github.com\/itsmistad\/RedMark\/issues"
   },
   {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social Media Links"
+      },
+      {
+        "type": "text",
+        "id": "facebook_link",
+        "label": "Facebook Link"
+      },
+      {
+        "type": "text",
+        "id": "instagram_link",
+        "label": "Instagram Link"
+      }
+    ]
+  },
+  {
     "name": "Collection Grids",
     "settings": [
       {

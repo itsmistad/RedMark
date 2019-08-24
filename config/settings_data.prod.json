@@ -94,6 +94,8 @@
     "checkout_button_color": "#ff3b3b",
     "checkout_error_color": "#e32c2b",
     "checkout_button_fontsize": "16",
+    "facebook_link": "https:\/\/facebook.com\/RedMarkDeals",
+    "instagram_link": "https:\/\/instagram.com\/redmarkdeals",
     "max_num": "30",
     "max_num_1": "2",
     "min_num_2": "1",
@@ -185,9 +187,7 @@
           "menu_news_font": "0.75em",
           "menu_news_color": "#000000",
           "enable_shop_name": true,
-          "footer_divider_color": "#e4e8e8",
-          "facebook_link": "https:\/\/facebook.com\/RedMarkDeals",
-          "instagram_link": "https:\/\/instagram.com\/redmarkdeals"
+          "footer_divider_color": "#e4e8e8"
         }
       },
       "collection-template": {
@@ -212,6 +212,7 @@
           "related_product": true,
           "product_price_text": "",
           "product_description_text": "",
+          "show_empty_gallery_text": true,
           "collection_name": false
         }
       },

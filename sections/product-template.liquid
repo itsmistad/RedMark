@@ -92,14 +92,14 @@
             </span>
           {% endif %}
         </p>
-        <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form-{{ section.id }}" data-section="{{ section.id }}">
+        <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-section__form" data-section="{{ section.id }}">
           {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
             {% for option in product.options_with_values %}
-              <div class="selector-wrapper js product-form__item">
+              <div class="selector-wrapper js product-section__form-item">
                 <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
                   {{ option.name }}
                 </label>
-                <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                <select class="single-option-selector single-option-selector-{{ section.id }} product-section__form-input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
                   {% for value in option.values %}
                     <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
                   {% endfor %}
@@ -107,7 +107,7 @@
               </div>
             {% endfor %}
           {% endunless %}
-          <select name="id" id="ProductSelect-{{ section.id }}" data-section="{{ section.id }}" class="product-form__variants no-js">
+          <select name="id" id="ProductSelect-{{ section.id }}" data-section="{{ section.id }}" class="product-section__form-variants no-js">
             {% for variant in product.variants %}
               {% if variant.available %}
                 <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
@@ -126,88 +126,57 @@
             {% endif %}
           {% endif %}
           {% if section.settings.show_quantity_selector %}
-            <div class="product-form__item product-form__item--quantity">
-              <label for="Quantity">{{ 'products.product.quantity' | t }}</label>
-              <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-form__input" pattern="[0-9]*">
+            <div class="product-section__form-item product-section__form-quantity-wrapper">
+              <label for="Quantity" class="product-section__qty-label">{{ 'products.product.quantity' | t }}</label>
+              <input type="button" value="-" class="product-section__qty-decrease">
+              <input class="product-section__qty-input"
+                type="number" name="quantity" id="Quantity" value="1" min="1" max="99" pattern="[0-9]*">
+              <input type="button" value="+" class="product-section__qty-increase">
             </div>
           {% endif %}
-          <div class="product-form__item product-form__item--submit">
-            <div class="head_part_2">
-              {% if section.settings.related_product %}
-                {% if test_1 !=blank %}
-                  <div id="container_001">
-                    <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here8 fixed_btn btn product-form__cart-submit">
-                      <span id="AddToCartText-{{ section.id }}">
-                        {% unless current_variant.available %}
-                          {{ settings.add_to_cart_button_soldouttext }}
-                        {% else %}
-                          {{ settings.add_to_cart_button_text }}
-                        {% endunless %}
-                      </span>
-                    </button>
-                  </div>
+          <div class="product-section__form-item product-section__form-item--submit">
+            <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="btn product-section__form-cart-submit">
+              <span id="AddToCartText-{{ section.id }}">
+                {% unless current_variant.available %}
+                  {{ settings.add_to_cart_button_soldouttext }}
                 {% else %}
-                  <button type="submit" name="add" class="dummy_button_for btn product-form__cart-submit">
-                    <span>
-                      {% unless current_variant.available %}
-                        {{ settings.add_to_cart_button_soldouttext }}
-                      {% else %}
-                        {{ settings.add_to_cart_button_text }}
-                      {% endunless %}
-                    </span>
-                  </button>
-                  <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here4 fixed_btn btn product-form__cart-submit">
-                    <span id="AddToCartText-{{ section.id }}">
-                      {% unless current_variant.available %}
-                        {{ settings.add_to_cart_button_soldouttext }}
-                      {% else %}
-                        {{ settings.add_to_cart_button_text }}
-                      {% endunless %}
-                    </span>
-                  </button>
-                {% endif %}
-              {% else %}
-                {% if test_1 !=blank %}
-                  <div id="container_001">
-                    <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here8 btn product-form__cart-submit">
-                      <span id="AddToCartText-{{ section.id }}">
-                        {% unless current_variant.available %}
-                          {{ settings.add_to_cart_button_soldouttext }}
-                        {% else %}
-                          {{ settings.add_to_cart_button_text }}
-                        {% endunless %}
-                      </span>
-                    </button>
-                  </div>
-                {% else %}
-                  <button type="submit" name="add" class="dummy_button_for btn product-form__cart-submit">
-                    <span>
-                      {% unless current_variant.available %}
-                        {{ settings.add_to_cart_button_soldouttext }}
-                      {% else %}
-                        {{ settings.add_to_cart_button_text }}
-                      {% endunless %}
-                    </span>
-                  </button>
-                  <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="here4 fixed_btn btn product-form__cart-submit">
-                    <span id="AddToCartText-{{ section.id }}">
-                      {% unless current_variant.available %}
-                        {{ settings.add_to_cart_button_soldouttext }}
-                      {% else %}
-                        {{ settings.add_to_cart_button_text }}
-                      {% endunless %}
-                    </span>
-                  </button>
-                {% endif %}
-              {% endif %}
-            </div>
+                  {{ settings.add_to_cart_button_text }}
+                {% endunless %}
+              </span>
+            </button>
           </div>
         </form>
       </div>
       <div class="product-section__description" itemprop="description">
-        {{ product.description }}
+        
       </div>
     </div>
+  </div>
+  <div class="product-section__description-container">
+    <div class="product-section__description-header">
+      <div id="simple" class="product-section__header-item selected-header-item">
+        The Simple
+      </div>
+      <div id="technical" class="product-section__header-item">
+        The Technical
+      </div>
+    </div>
+    <div id="description-simple" class="product-section__description" itemprop="description">
+      {{ product.description }}
+    </div>
+    <div id="description-technical" class="product-section__description hidden"></div>
+  </div>
+  <div class="product-section__instagram-gallery text-center">
+    {% if section.settings.show_empty_gallery_text == true %}
+      <p class="product-section__empty-gallery-msg">
+        <span class="upper">
+          🤯<br/>
+          Doh! We're sorry.
+        </span><br/>
+        We currently don't have any pictures of this product on our Instagram.<br/>
+        <a href="{{ settings.instagram_link }}" target="_blank">Click here to check out our page!</a>
+      </p>
+    {% endif %}
   </div>
 </div>
 
@@ -236,14 +205,14 @@
                 <div class="popup_image">{{ upsell_second }}<img class="cart-section__image" src="{{ product_drop.featured_image.src | img_url: '200x200' }}" ></div>
                 <div class="popup_title">{{ product_drop.title }}</div>
                 <div class="popup_price">{{ product_drop.price | money }}</div>
-                <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form abc1">
+                <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-section__form product-section__form">
                   {% unless product_drop.options.size == 1 and product_drop.variants[0].title == 'Default Title' %}
                     {% for option in product_drop.options_with_values %}
-                      <div class="selector-wrapper js product-form__item">
+                      <div class="selector-wrapper js product-section__form-item">
                         <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
                           {{ option.name }}
                         </label>
-                        <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                        <select class="single-option-selector single-option-selector-{{ section.id }} product-section__form-input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
                           {% for value in option.values %}
                             <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
                           {% endfor %}
@@ -251,7 +220,7 @@
                       </div>
                     {% endfor %}
                   {% endunless %}
-                  <select name="id" id="ProductSelect" class="product-form__variants no-js">
+                  <select name="id" id="ProductSelect" class="product-section__form-variants no-js">
                     {% for variant in product_drop.variants %}
                       {% if variant.available %}
                         <option {% if variant == product_drop.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
@@ -262,11 +231,11 @@
                       {% endif %}
                     {% endfor %}
                   </select>
-                  <div class="product-form__item product-form__item--quantity">
-                    <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-form__input" pattern="[0-9]*">
+                  <div class="product-section__form-item product-section__form-item--quantity">
+                    <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-section__form-input" pattern="[0-9]*">
                   </div>
-                  <div class="product-form__item product-form__item--submit custom_buton">
-                    <button onclick="myFunction()" type="submit" name="add" id="AddToCart1" class="test btn product-form__cart-submit">
+                  <div class="product-section__form-item product-section__form-item--submit custom_buton">
+                    <button onclick="myFunction()" type="submit" name="add" id="AddToCart1" class="test btn product-section__form-cart-submit">
                       <span id="AddToCartText">
                         add to cart
                       </span>
@@ -305,16 +274,91 @@
 
 <script>
   $(function() {
-    var button = $("#AddToCart-product-template"),
-    submitButt = $("#disable_001");
-    button.on("click",function(e) {
-      submitButt.prop("disabled",false); // NOT a toggle
+    /*
+     * Populate descriptions and instagram gallery
+     */
+    var simpleDesc = $('#description-simple');
+    var technicalDesc = $('#description-technical');
+    var results = simpleDesc.find('.ig').length;
+    for (let i = 1; i <= results; i++)
+    {
+      var igElement = simpleDesc.find(`.ig:first()`);
+      if (igElement)
+      var postLink = igElement.text();
+      var imgLink = (postLink.endsWith('/') ? postLink : postLink + '/') + 'media?size=m';
+      igElement.remove();
+      $('.product-section__empty-gallery-msg').hide();
+      var gallery = $('.product-section__instagram-gallery');
+      gallery.append(`<a href="${postLink}" target="_blank" class="product-section__ig-img"><img src="${imgLink}"/></a>`);
+    }
+    if (simpleDesc.find('.technical').length > 0) {
+      var newTechnical = simpleDesc.find('.technical');
+      technicalDesc.html(newTechnical.html());
+      newTechnical.remove();
+    } else {
+      technicalDesc.html('<div class="text-center">Nothing to see here!</div>'); // '.technical' wasn't found, so... nothing?
+    }
+    if (simpleDesc.find('.simple').length > 0) { // This one NEEDS to be last because at this point we've lost the other elements.
+      var newSimple = simpleDesc.find('.simple');
+      simpleDesc.html(newSimple.html());
+    } else {
+      simpleDesc.html('<div class="text-center">Nothing to see here!</div>'); // '.simple' wasn't found, so... nothing?
+    }
+
+    /*
+     * Description button functionality
+     */
+    $('.product-section__header-item').click(function() {
+      var selectedClass = 'selected-header-item';
+      if (!$(this).hasClass(selectedClass)) {
+        var currentlySelected = $(`.product-section__header-item.${selectedClass}`);
+        currentlySelected.removeClass(selectedClass);
+        $(this).addClass(selectedClass);
+        var currentDesc = $(`#description-${currentlySelected.attr('id')}`);
+        var newDesc = $(`#description-${$(this).attr('id')}`);
+        currentDesc.hide();
+        newDesc.show();
+      }
+    })
+
+    /*
+     * Quantity inputs
+     */
+    $('.product-section__qty-input').focusout(function() {
+      if ($(this).val() < 1)
+      $(this).val(1);
+      else if ($(this).val() > 99)
+      $(this).val(99);
+    });
+    $('.product-section__qty-increase').on('click', function() {
+      var oldVal = $(this).siblings('.product-section__qty-input').val();
+      var newVal = parseInt(oldVal) + 1;
+      if (newVal < 100)
+        $(this).siblings('.product-section__qty-input').val(newVal);
+    });
+    $('.product-section__qty-decrease').on('click', function() {
+      var oldVal = $(this).siblings('.product-section__qty-input').val();
+      var newVal = parseInt(oldVal) - 1;
+      if (newVal > 0)
+        $(this).siblings('.product-section__qty-input').val(newVal);
     });
 
+    /*
+     * AddToCart input
+     */
+    var button = $('#AddToCart-product-template'),
+    submitButt = $('#disable_001');
+    button.on('click',function(e) {
+      submitButt.prop('disabled',false); // NOT a toggle
+    });
+
+    /*
+     * Enables image zoom functionality
+     */
     var zoomImg = $('img.zoom_hover');
     zoomImg.zoomIn({});
   });
-  $('#container_001').on( "click", '#upsell_product', function(e) {
+  $('#container_001').on( 'click', '#upsell_product', function(e) {
     $('#AddToCart-product-template').trigger('click');            
   });
 </script>
@@ -362,27 +406,23 @@
     display:none;
   }
   .swatch label {
-    /* Rounded corners */
-    -webkit-border-radius:2px;
-    -moz-border-radius:2px;
     border-radius:2px;
-    /* To give width and height */
     float:left;
-    /* Color swatches contain no text so they need to have a width. */
-    min-width:{{ width }} !important; 
-    height:{{ height }} !important;
-    /* No extra spacing between them */
-    margin:0;
-    /* The border when the button is not selected */
-    border:#ccc 1px solid;
-    /* Background color */
-    background-color:#ddd;
-    /* Styling text */
+    min-width: {{ width }} !important; 
+    height: {{ height }} !important;
+    margin: 0;
+    background-color: #000;
     font-size: 0.8125em;
-    text-align:center;
-    line-height:{{ height }};
-    white-space:nowrap;
-    text-transform:uppercase;
+    text-align: center;
+    line-height: {{ height }};
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #fff;
+    transition: 0.3s;
+  }
+  .swatch label:hover {
+    background-color: #555;
   }
   .swatch-element label { padding:0 10px; }
   .color.swatch-element label { padding:0; }
@@ -392,6 +432,13 @@
     -webkit-box-shadow:0px 1px 2px rgba(0,0,0,0.8);
     -moz-box-shadow:0px 1px 2px rgba(0,0,0,0.8);
     box-shadow:0px 1px 2px rgba(0,0,0,0.8);
+    transition: 0.2s;
+    border-color:transparent;
+  } 
+  .swatch input:checked + label:hover {
+    -webkit-box-shadow:0px 1px 6px 2px rgba(0,0,0,0.5);
+    -moz-box-shadow:0px 1px 6px 2px rgba(0,0,0,0.5);
+    box-shadow:0px 1px 6px 2px rgba(0,0,0,0.5);
     border-color:transparent;
   } 
   .swatch .swatch-element {
@@ -516,11 +563,8 @@
   .template-product p.product-section__price.product-section__price {
     font-size:  {{ section.settings.product_price_text }};
   }
-  .product-section__description{  
-    font-size:  {{ section.settings.product_description_text }} !important;
-  }
   @media screen and (max-width: 767px ) and (min-width: 320px) {
-  .upsell_products form.product-form.product-form {
+  .upsell_products form.product-section__form.product-section__form {
       width: 100%;
     }
   } 
@@ -558,13 +602,13 @@
     }
   }
   @media screen and (max-width: 767px) and (min-width: 320px) {
-    .template-cart .modal-dialog form.product-form {
+    .template-cart .modal-dialog form.product-section__form {
       width: 100%;
     }
-    .product-form__item.product-form__item--quantity label {
+    .product-section__form-item.product-section__form-item--quantity label {
       font-size: 1.5625em;
     }
-    .product-form__item.product-form__item--quantity input {
+    .product-section__form-item.product-section__form-item--quantity input {
       font-size: 1.5625em;
     }
     .header {
@@ -572,9 +616,6 @@
     }
     .text-center.return-link-wrapper {
       margin-top: 20px;
-    }
-    .head_part_2 {
-      padding-top: 0px !important;
     }
     .no_default_upsell {
       width: 49% !important;
@@ -584,16 +625,13 @@
       border-radius: 4px;
       pointer-events: none;
     }
-    .head_part_2 {
-      padding-top: 69px;
-    } 
     .template-product .upsell_products {
       padding-bottom: 45px;
     }
     .modal-footer {
       font-size: 0.875em;
     }
-    .template-product .upsell_products .product-form__item.product-form__item--quantity input#Quantity {
+    .template-product .upsell_products .product-section__form-item.product-section__form-item--quantity input#Quantity {
       font-size: 1.125em;
       width: 100%;
     }
@@ -609,9 +647,6 @@
       padding: 6px;
     }
   }  
-  .template-product .head_part_2 {
-    margin: 0 auto;
-  }   
   .template-product .btn-group-lg>.btn, .btn-lg {
     padding: 5px 16px;
     font-size: 1.125em;
@@ -649,12 +684,14 @@
   }
   .swatch.clearfix {
     width: 100%;
+    padding: 4px 0 10px;
+    border-top: 1px solid #eee;
   }
-  .product-form__item.product-form__item--quantity label {
+  .product-section__form-item.product-section__form-item--quantity label {
     font-size: 0.9375em;
   }
   @media screen and (max-width: 30000px) and (min-width: 768px) {
-    .upsell_products form.product-form.product-form {
+    .upsell_products form.product-section__form.product-section__form {
     width: 20px;
     }   
   }
@@ -733,8 +770,12 @@
 </style>
 {% schema %}
   {
-    "name": "Product pages",
+    "name": "Product Pages",
     "settings": [
+      {
+        "type": "header",
+        "content": "Image Size"
+      },
       {
         "type": "select",
         "id": "image_size",
@@ -751,13 +792,13 @@
           {
             "value": "large",
             "label": "Large"
-          },
-          {
-            "value": "full",
-            "label": "Full-width"
           }
         ],
         "default": "medium"
+      },
+      {
+        "type": "header",
+        "content": "Product Form"
       },
       {
         "type": "checkbox",
@@ -779,19 +820,23 @@
       },
       {
         "type": "checkbox",
-        "id": "enable_zoom",
-        "label": "Enable image zoom",
-        "default": true
-      },
-      {
-        "type": "checkbox",
         "id": "show_share_buttons",
         "label": "Show social sharing buttons",
         "default": true
       },
       {
         "type": "header",
-        "content": "Product name"
+        "content": "Product Gallery"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_zoom",
+        "label": "Enable image zoom",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Product Name"
       },
       {
         "type": "color",
@@ -876,6 +921,16 @@
         "id": "stock_value_2",
         "label": "Enter text after stock value",
         "default": "left in stock!"
+      },
+      {
+        "type": "header",
+        "content": "Instagram Gallery"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_empty_gallery_text",
+        "label": "Enable empty instagram gallery message",
+        "default": true
       },
       {
         "type": "header",
