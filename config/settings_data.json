@@ -211,8 +211,7 @@
           "swatches_color": "#ff3b3b",
           "related_product": true,
           "product_price_text": "",
-          "product_description_text": "",
-          "collection_name": false
+          "product_description_text": ""
         }
       },
       "cart-template": {

@@ -73,7 +73,6 @@
     </div>
     <div class="product-section__options-form">
       <h1 itemprop="headline" class="product-section__title">{{ product.title }}</h1>
-<span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{product.id}}" style="display: block;"></span>
       {% if section.settings.show_vendor %}
         <p itemprop="brand" class="product-section__vendor">{{ product.vendor }}</p>
       {% endif %}
@@ -93,6 +92,7 @@
             </span>
           {% endif %}
         </p>
+        <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{product.id}}"></span>
         <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-section__form" data-section="{{ section.id }}">
           {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
             {% for option in product.options_with_values %}
@@ -148,9 +148,6 @@
           </div>
         </form>
       </div>
-      <div class="product-section__description" itemprop="description">
-        
-      </div>
     </div>
   </div>
   <div class="product-section__description-container">
@@ -180,92 +177,83 @@
     {% endif %}
   </div>
 </div>
-
-<div id="openModal" class="modalDialog">
-  <div class="popup">	
-    <h2>Related Products</h2>
-  </div>
+<div id="stamped-main-widget" class="stamped-main-widget" data-widget-style="standard"
+  data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}"
+  data-url="{{ shop.url }}{{ product.url }}"
+  data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" 
+  data-description="" data-product-sku="{{product.handle}}">
+  {{ product.metafields.stamped.reviews }}
 </div>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<div class="container" id="myModal1">
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog" data-expires="{{ settings.session_time }}" data-delay="1">
-      <div class="modal-content">
-        <div class="modal-header">
-          <a href="/checkout">X</a>
-          <h4 class="modal-title">Related Products</h4>
-        </div>
-        <div class="modal-body">
-          {% for tags_r in product.tags %}
-            {% if tags_r contains 'upsell_' %}
-              {% assign test = tags_r | remove: 'upsell_' %}
-              {% assign product_drop  = all_products[test] %} 
-              <div class="upsell_products">
-                <div class="popup_image">{{ upsell_second }}<img class="cart-section__image" src="{{ product_drop.featured_image.src | img_url: '200x200' }}" ></div>
-                <div class="popup_title">{{ product_drop.title }}</div>
-                <div class="popup_price">{{ product_drop.price | money }}</div>
-                <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-section__form product-section__form">
-                  {% unless product_drop.options.size == 1 and product_drop.variants[0].title == 'Default Title' %}
-                    {% for option in product_drop.options_with_values %}
-                      <div class="selector-wrapper js product-section__form-item">
-                        <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
-                          {{ option.name }}
-                        </label>
-                        <select class="single-option-selector single-option-selector-{{ section.id }} product-section__form-input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
-                          {% for value in option.values %}
-                            <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                    {% endfor %}
-                  {% endunless %}
-                  <select name="id" id="ProductSelect" class="product-section__form-variants no-js">
-                    {% for variant in product_drop.variants %}
-                      {% if variant.available %}
-                        <option {% if variant == product_drop.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
-                          {{ variant.title }}
-                        </option>
-                      {% else %}
-                        <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
-                      {% endif %}
-                    {% endfor %}
-                  </select>
-                  <div class="product-section__form-item product-section__form-item--quantity">
-                    <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-section__form-input" pattern="[0-9]*">
-                  </div>
-                  <div class="product-section__form-item product-section__form-item--submit custom_buton">
-                    <button onclick="myFunction()" type="submit" name="add" id="AddToCart1" class="test btn product-section__form-cart-submit">
-                      <span id="AddToCartText">
-                        add to cart
-                      </span>
-                    </button>
-                    {{ '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' | stylesheet_tag }}
-                  </div>
-                </form>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-        <div class="modal-footer">
-          <a href="/checkout"  > No, Thanks </a>
-        </div>
+<div class="modal fade" id="upsell-modal" role="dialog">
+  <div class="modal-dialog" data-expires="{{ settings.session_time }}" data-delay="1">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="/checkout">X</a>
+        <h4 class="modal-title">Related Products</h4>
+      </div>
+      <div class="modal-body">
+        {% for tags_r in product.tags %}
+          {% if tags_r contains 'upsell_' %}
+            {% assign test = tags_r | remove: 'upsell_' %}
+            {% assign product_drop  = all_products[test] %} 
+            <div class="upsell_products">
+              <div class="popup_image">{{ upsell_second }}<img class="cart-section__image" src="{{ product_drop.featured_image.src | img_url: '200x200' }}" ></div>
+              <div class="popup_title">{{ product_drop.title }}</div>
+              <div class="popup_price">{{ product_drop.price | money }}</div>
+              <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-section__form product-section__form">
+                {% unless product_drop.options.size == 1 and product_drop.variants[0].title == 'Default Title' %}
+                  {% for option in product_drop.options_with_values %}
+                    <div class="selector-wrapper js product-section__form-item">
+                      <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                        {{ option.name }}
+                      </label>
+                      <select class="single-option-selector single-option-selector-{{ section.id }} product-section__form-input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                        {% for value in option.values %}
+                          <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  {% endfor %}
+                {% endunless %}
+                <select name="id" id="ProductSelect" class="product-section__form-variants no-js">
+                  {% for variant in product_drop.variants %}
+                    {% if variant.available %}
+                      <option {% if variant == product_drop.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                        {{ variant.title }}
+                      </option>
+                    {% else %}
+                      <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+                <div class="product-section__form-item product-section__form-item--quantity">
+                  <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-section__form-input" pattern="[0-9]*">
+                </div>
+                <div class="product-section__form-item product-section__form-item--submit custom_buton">
+                  <button onclick="myFunction()" type="submit" name="add" id="AddToCart1" class="test btn product-section__form-cart-submit">
+                    <span id="AddToCartText">
+                      add to cart
+                    </span>
+                  </button>
+                  {{ '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' | stylesheet_tag }}
+                </div>
+              </form>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <a href="/checkout"  > No, Thanks </a>
       </div>
     </div>
   </div>
 </div>
 
-{% if collection %}
-  {% if section.settings.collection_name %}
-    <div class="text-center return-link-wrapper">
-      <a href="{{ collection.url }}" class="btn btn--secondary btn--has-icon-before return-link">
-        {% include 'icon-arrow-left' %}
-        {{ 'products.product.back_to_collection' | t: title: collection.title }}
-      </a>
-    </div>
-  {% endif %}
-{% endif %}
+{% comment %}
+{{ collection.url }}
+{{ 'products.product.back_to_collection' | t: title: collection.title }}
+{% endcomment %}
 
 {% unless product.empty? %}
   <script type="application/json" id="ProductJson-{{ section.id }}">
@@ -276,35 +264,55 @@
 <script>
   $(function() {
     /*
+     * Add custom class to reviews stamp
+     */
+    var stampedIOBadge = $('.stamped-product-reviews-badge.stamped-main-badge');
+    stampedIOBadge.on('DOMSubtreeModified', function() {
+      var stampedBadgeSpan = stampedIOBadge.find('.stamped-badge');
+      if (stampedBadgeSpan.length > 0 && !stampedBadgeSpan.hasClass('product-section__form-reviews-stamp'))
+        stampedBadgeSpan.addClass('product-section__form-reviews-stamp');
+     });
+
+    /*
      * Populate descriptions and instagram gallery
      */
+    var simpleButton = $('#simple');
+    var technicalButton = $('#technical');
     var simpleDesc = $('#description-simple');
     var technicalDesc = $('#description-technical');
-    var results = simpleDesc.find('.ig').length;
-    for (let i = 1; i <= results; i++)
-    {
-      var igElement = simpleDesc.find(`.ig:first()`);
-      if (igElement)
-      var postLink = igElement.text();
-      var imgLink = (postLink.endsWith('/') ? postLink : postLink + '/') + 'media?size=m';
-      igElement.remove();
-      $('.product-section__empty-gallery-msg').hide();
-      var gallery = $('.product-section__instagram-gallery');
-      gallery.append(`<a href="${postLink}" target="_blank" class="product-section__ig-img"><img src="${imgLink}"/></a>`);
-    }
-    if (simpleDesc.find('.technical').length > 0) {
+    if (simpleDesc.html().trim().length > 0) {
+      var results = simpleDesc.find('.ig').length;
+      for (let i = 1; i <= results; i++)
+      {
+        var igElement = simpleDesc.find(`.ig:first()`);
+        if (igElement.length > 0)
+          var postLink = igElement.text();
+        var imgLink = (postLink.endsWith('/') ? postLink : postLink + '/') + 'media?size=m';
+        igElement.remove();
+        $('.product-section__empty-gallery-msg').hide();
+        var gallery = $('.product-section__instagram-gallery');
+        gallery.append(`<a href="${postLink}" target="_blank" class="product-section__ig-img"><img src="${imgLink}"/></a>`);
+      }
       var newTechnical = simpleDesc.find('.technical');
-      technicalDesc.html(newTechnical.html());
-      newTechnical.remove();
-    } else {
-      technicalDesc.html('<div class="text-center">Nothing to see here!</div>'); // '.technical' wasn't found, so... nothing?
-    }
-    if (simpleDesc.find('.simple').length > 0) { // This one NEEDS to be last because at this point we've lost the other elements.
+      if (newTechnical.length > 0) {
+        technicalDesc.html(newTechnical.html());
+        newTechnical.remove();
+      } else {
+        // '.technical' wasn't found, so let's hide the whole The Techinical section
+        technicalButton.css('display', 'none');
+        technicalDesc.css('display', 'none');
+      }
       var newSimple = simpleDesc.find('.simple');
-      simpleDesc.html(newSimple.html());
+      if (newSimple.length > 0) { // This one NEEDS to be last because at this point we've lost the other elements.
+        simpleDesc.html(newSimple.html());
+      } else if (newTechnical.length == 0) // '.simple' wasn't found, so change The Simple to "Description" if there's also no '.technical'
+          simpleButton.text('Description');
+      $('.stamped-main-widget').attr('data-description', simpleDesc.html().trim());
     } else {
-      simpleDesc.html('<div class="text-center">Nothing to see here!</div>'); // '.simple' wasn't found, so... nothing?
+      // No description, so hide ALL THE THINGS!
+      $('.product-section__description-container').css('display', 'none');
     }
+      
 
     /*
      * Description button functionality

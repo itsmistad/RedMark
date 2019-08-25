@@ -4016,40 +4016,6 @@ hr.bottom {
 }
 {% endif %}
 
-.modalDialog {
-  position: fixed;
-  font-family: $font-stack-body !important;
-  /* font-family: Arial, Helvetica, sans-serif; */
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 99999;
-  opacity:0;
-  -webkit-transition: opacity 400ms ease-in;
-  -moz-transition: opacity 400ms ease-in;
-  transition: opacity 400ms ease-in;
-  pointer-events: none;
-}
-.modalDialog:target {
-  opacity:1;
-  pointer-events: auto;
-}
-.modalDialog > div {
-  max-width: 500px;
-  margin: 10% auto;
-  padding: 5px 20px 13px 20px;
-  top: 30%;
-  left: 50%;
-  border-radius: 10px;
-  background: #fff;
-  background: -moz-linear-gradient(#fff, #999);
-  background: -webkit-linear-gradient(#fff, #999);
-  background: -o-linear-gradient(#fff, #999);
-  text-align: center;
-}
-
 .close {
   background: #606061;
   color: #FFFFFF;
@@ -4200,11 +4166,6 @@ hr.bottom {
   ul.search-results {
     margin-top: 12%;
   }
-
-  p.product-section__price.product-section__price {
-    font-size: em(floor($font-size-base * 1.25));
-  }
-
   .visitor_counter {
     padding-bottom: 17px;
   }
@@ -5550,9 +5511,6 @@ p.processing-currency-message {
 .template-cart .modal-dialog form.product-section__form {
   width: 20px;
 }
-.template-cart #myModal  {
-  text-align: center;
-}
 .template-cart .modal-dialog {
   margin: 30px auto;
   width: 300px;
@@ -6427,7 +6385,7 @@ h1.product-section__title {
   color: $color-body-text;
   font-size: em(floor($font-size-base * 1.25));
   font-weight: $font-weight-header;
-  margin-bottom: $grid-gutter;
+  margin-bottom: 0;
   @include media-query($small) {
     display: block;
     font-size: em(floor($font-size-base * 1.25) * 0.9);
@@ -6610,6 +6568,17 @@ h1.product-section__title {
       max-width: 450px;
       width: 100%;
       margin-left: 50px;
+      .product-section__form-reviews-stamp {
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        color: #595959;
+        align-items: center;
+        font-size: 0.8125em;
+        margin-bottom: 10px;
+      }
       .product-section__form {
         .product-section__form-quantity-wrapper {
           display: flex;
@@ -6692,6 +6661,14 @@ h1.product-section__title {
   }
   .upper {
     text-transform: uppercase;
+  }
+}
+/*=============================================
+=              Related Products               =
+=============================================*/
+.related-products__container {
+  .related-products__slider-container {
+    
   }
 }
 

@@ -36,6 +36,7 @@
         {{ 'fancy-box.css' | asset_url | stylesheet_tag }}
         {{ 'custom.css' | asset_url | stylesheet_tag }}
         {{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+        {{ 'ps.css' | asset_url | stylesheet_tag }}
         {% include 'google-fonts' %}
         <script>
             (function($){
@@ -59,6 +60,7 @@
             
             document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
         </script>
+        
         <!--[if (lte IE 9) ]>{{ 'match-media.min.js' | asset_url | script_tag }}<![endif]-->
         {% if template contains 'customers' %}
         <!--[if (gt IE 9)|!(IE)]><!-->
@@ -78,6 +80,7 @@
         <!--   <script src="{{ 'slider1.js' | asset_url }}" defer="defer"></script>
             <script src="{{ 'slider2.js' | asset_url }}" defer="defer"></script>
             -->
+        {{ 'ps.js' | asset_url | script_tag }}
         {{ '//ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js' | script_tag }}
         {{ 'cookie.js' | asset_url | script_tag }}
         {{ content_for_header }}

@@ -1,146 +1,116 @@
 {% if section.settings.show_related_products == true %}
-<hr>
-<div class="product-section__container page-width" itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true">
- 
-{% comment %}
-  Number of related items per row,
-  and number of rows.
-{% endcomment %}
-
-{% assign number_of_related_products_per_row = section.settings.related_grid_num %}
-{% assign number_of_rows = section.settings.related_grid_row %}
-
-{% comment %}
-  Heading.
-  Leave blank if you don't need one.
-{% endcomment %}
-
-{% assign heading = section.settings.related_title %}
-
-{% comment %}
-  Set either or both to true, if you want
-  to limit yourself to items with same vendor, and/or type.
-{% endcomment %}
-
-{% assign same_vendor = false %}
-{% assign same_type = false %}
-
-{% comment %}
-  Collections to ignore.
-  Never pick related items from those.
-{% endcomment %}
-
-{% assign exclusions = 'frontpage,all' | split: ',' %}
-
-{% comment %}
-  Looking for a relevant collection.
-{% endcomment %}
-
-{% if product.metafields.c_f['Related Products'] %}
-  {% assign collection = collections[product.metafields.c_f['Related Products']] %}
-{% endif %}
-
-{% assign found_a_collection = false %}
-{% if collection and collection.all_products_count > 1 %}
-  {% unless exclusions contains collection.handle %}
-    {% assign found_a_collection = true %}
-  {% endunless %}
-{% endif %}
-{% unless found_a_collection %}
-  {% for c in product.collections %}
-    {% unless exclusions contains c.handle or c.all_products_count < 2 %}
-      {% assign found_a_collection = true %}
-      {% assign collection = c %}
-      {% break %}
-    {% endunless %}
-  {% endfor %}
-{% endunless %}
-
-{% comment %}
-  If we have a relevant collection.
-{% endcomment %}
-
-{% if found_a_collection %}
-
-  {% assign counter = 0 %}
-  {% assign break_at = number_of_rows | times: number_of_related_products_per_row %}
-  {% assign current_product = product %}
-  
-  {% case number_of_related_products_per_row %}
-    {% when '1' %}
-      {% assign grid_item_width = '' %}
-    {% when '2' %}
-      {% assign grid_item_width = 'small--one-half medium-up--one-half' %}
-    {% when '3' %}
-      {% assign grid_item_width = 'small--one-half medium-up--one-third' %}
-    {% when '4' %}
-      {% assign grid_item_width = 'small--one-half medium-up--one-quarter' %}
-    {% when '5' %}
-      {% assign grid_item_width = 'small--one-half medium-up--one-fifth' %}
-    {% when '6' %}
-      {% assign grid_item_width = 'small--one-half medium-up--one-sixth' %}
-    {% else %}
-      {% assign grid_item_width = 'small--one-half medium-up--one-quarter' %}
-  {% endcase %}
-
-
-  {% capture related_items %}
-<div class="grid grid--uniform{% if collection.products_count > 0 %} grid--view-items{% endif %}">
-
-  {% for product in collection.products %}
-  {% unless product.handle == current_product.handle %}
-  {% unless same_vendor and current_product.vendor != product.vendor %}
-  {% unless same_type and current_product.type != product.type %}
-  <div class="grid__item {{ grid_item_width }}">
-    {% include 'product-card-grid-related' %}
-  </div>
-  {% assign counter = counter | plus: 1 %}
-  {% if counter == break_at %}
-  {% break %}
-  {% endif %}
-  {% endunless %}
-  {% endunless %}
-  {% endunless %}
-  {% endfor %}
-</div>
-  {% endcapture %}
-
-  {% assign related_items = related_items | trim %}
-
-  {% unless related_items == blank %}
-
-  <aside class="grid">
-    <div class="grid__item">
-      {% unless heading == blank %}
-      <header class="section-header">
-        <h2 itemprop="name" class="section-header__title related_heading">{{ heading }}</h2>
-      </header>
+  <div class="related-products__container page-width" itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true">
+    {% assign same_vendor = false %}
+    {% assign same_type = false %}
+    {% assign exclusions = 'frontpage,all' | split: ',' %}
+    {% if product.metafields.c_f['Related Products'] %}
+      {% assign collection = collections[product.metafields.c_f['Related Products']] %}
+    {% endif %}
+    {% assign found_a_collection = false %}
+    {% if collection and collection.all_products_count > 1 %}
+      {% unless exclusions contains collection.handle %}
+        {% assign found_a_collection = true %}
       {% endunless %}
-      <div class="grid-uniform test">
-        {{ related_items }}
-      </div>
-    </div>
-  </aside>
+    {% endif %}
+    {% unless found_a_collection %}
+      {% for c in product.collections %}
+        {% unless exclusions contains c.handle or c.all_products_count < 2 %}
+          {% assign found_a_collection = true %}
+          {% assign collection = c %}
+          {% break %}
+        {% endunless %}
+      {% endfor %}
+    {% endunless %}
 
-  {% endunless %}
-     
+    {% comment %}
+      If we have a relevant collection.
+    {% endcomment %}
+
+    {% if found_a_collection %}
+      {% assign current_product = product %}
+      {% capture related_items %}
+        {% for product in collection.products %}
+          {% unless product.handle == current_product.handle %}
+            {% unless same_vendor and current_product.vendor != product.vendor %}
+              {% unless same_type and current_product.type != product.type %}
+                {% include 'product-card-ps' %}
+              {% endunless %}
+            {% endunless %}
+          {% endunless %}
+        {% endfor %}
+      {% endcapture %}
+
+      {% assign related_items = related_items | trim %}
+      {% unless related_items == blank %}
+        {% unless section.settings.related_title == blank %}
+          <div class="section-header">
+            <h2 itemprop="name" class="section-header__title related_heading">{{ section.settings.related_title }}</h2>
+          </div>
+        {% endunless %}
+        <div class="related-products__slider-container">
+          <div class="psrelated" style="display:none;" id="psrelatedproducts">
+            <div class="ps-carousel ps-loaded ps-drag">
+              <div class="ps-nav">
+                <div class="ps-prev"><i class="fa fa-angle-left"></i></div>
+              </div>
+              <div class="ps-stage-outer">
+                <div class="ps-stage">
+                  {{ related_items }}
+                </div>
+              </div>
+              <div class="ps-nav">
+                <div class="ps-next"><i class="fa fa-angle-right"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endunless %}
+    {% endif %}
+  </div>
 {% endif %}
-  
-</div>
-{% endif %}
+
+<script>
+$(function() {
+  $('#ps-related-productss').psCarousel({
+    loop: true,
+    center: false,
+    items: 3,
+    margin: 30,
+    autoplay: true,
+    dots: true,
+    nav: true,
+    autoplayTimeout: 8500,
+    smartSpeed: 450,
+    navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+    responsive: {
+      0: {
+        items: 2
+      },
+      768: {
+        items: 3
+      },
+      1170: {
+        items: 5
+      }
+    }
+  });
+});
+</script>
+
 <style>
-   .related_custom{
-     color:{{ section.settings.related_product_name }};
+  .related_custom{
+    color:{{ section.settings.related_product_name }};
   }
   .related_compare{
-  color:{{ section.settings.related_actual_price }};
+    color:{{ section.settings.related_actual_price }};
   }
   .related_actual{
-   color:{{ section.settings.related_Compare }};
+    color:{{ section.settings.related_Compare }};
   }
   .related_heading {
     color:{{ section.settings.related_heading }};
-}
+  }
+  -
 </style>
 
 {% schema %}
@@ -193,51 +163,7 @@
       "id": "related_title",
       "type": "text",
       "label": "Section title",
-      "default": "Other fine products"
-    },
-    {
-      "type": "select",
-      "id": "related_grid_num",
-      "label": "Products per row (Desktop)",
-      "default": "4",
-      "options": [
-        {
-          "value": "2",
-          "label": "2"
-        },
-        {
-          "value": "3",
-          "label": "3"
-        },
-        {
-          "value": "4",
-          "label": "4"
-        },
-        {
-          "value": "5",
-          "label": "5"
-        }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "related_grid_row",
-      "label": "Number of rows (Desktop)",
-      "default": "1",
-      "options": [
-        {
-          "value": "1",
-          "label": "1"
-        },
-        {
-          "value": "2",
-          "label": "2"
-        },
-        {
-          "value": "3",
-          "label": "3"
-        }
-      ]
+      "default": "Stuff you might like"
     }
   ]
 }
