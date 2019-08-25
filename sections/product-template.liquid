@@ -73,6 +73,7 @@
     </div>
     <div class="product-section__options-form">
       <h1 itemprop="headline" class="product-section__title">{{ product.title }}</h1>
+<span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{product.id}}" style="display: block;"></span>
       {% if section.settings.show_vendor %}
         <p itemprop="brand" class="product-section__vendor">{{ product.vendor }}</p>
       {% endif %}
