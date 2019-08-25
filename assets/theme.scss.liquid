@@ -6484,9 +6484,6 @@ h1.product-section__title {
 .zoomImg {
   background-color: $color-body;
 }
-.product-section__photo {
-  min-height: 1px;
-}
 @include media-query($small) {
   .thumbnails-slider--active {
     .product-section__thumbnails {
@@ -6584,6 +6581,7 @@ h1.product-section__title {
   .product-section {
     display: flex;
     justify-content: space-between;
+    width: 100%;
     .product-section__gallery-container {
       display: flex;
       flex-direction: row-reverse;
