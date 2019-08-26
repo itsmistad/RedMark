@@ -159,7 +159,7 @@
       var textItem = lineItem.find(".cart-section__discount-line-text");
       var text = textItem.text();
       textItem.text(text.replace(
-        /\$cart_order_above_box/g, "{{ settings.cart_order_above_box }}"
+        /\$cart_order_above_box/g, "{{ section.settings.cart_order_above_box }}"
       ).replace(
         /\$selected_currency/g, "{{ shop.currency }}"
       ).replace(
