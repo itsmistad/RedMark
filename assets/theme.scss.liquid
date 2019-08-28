@@ -1347,10 +1347,6 @@ h6 {
   @extend h1;
 }
 
-.h2 {
-  @extend h2;
-}
-
 .h3 {
   @extend h3;
 }
@@ -3903,20 +3899,6 @@ form#email_signuptwo {
   button.klaviyo_submit_button {width: auto;margin: 5px auto 0;}
 
 }
-
-.template-index .fancybox-overlay{
-  background:rgba(0,0,0,.9);
-}
-.template-index .fancybox-overlay a{
-  opacity:1;
-}
-.template-index .user_gallery a,
-.template-index .user_gallery a img{
-  display:block;
-}
-.template-index .fancybox-opened .fancybox-title{
-  display:none;
-}
 #insta-panel {
   margin-top: 20px;
 }
@@ -3937,13 +3919,6 @@ header.collection-header .section-header.collection_title {
     width: 24%;
     display: inline-block;
     float: none;
-    vertical-align: top;
-  }
-  .template-index .grid--view-items .grid__item.small--one-half.medium-up--one-quarter {
-    float: none;
-    width: 24%;
-    padding-bottom: 0;
-    display: inline-block;
     vertical-align: top;
   }
 }
@@ -3971,8 +3946,31 @@ img.articl_img_section {
   margin: 0 auto;
   margin-bottom: 15px;
 }
-.template-index .article__grid-image-container {
-  padding-top: 0 !important;
+
+/*=============================================
+=             Screen Size Mixins              =
+=============================================*/
+/*
+ * By default, all styles are configured for
+ * screens between the widths of 1440 and 
+ * 2560 pixels.
+ */
+
+@mixin for-phone-only {
+  @media (max-width: 599px) { @content; }
+}
+@mixin for-tablet-portrait-up {
+  @media (min-width: 600px) { @content; }
+}
+@mixin for-tablet-landscape-up {
+  @media (min-width: 900px) { @content; }
+}
+@mixin for-laptop-up {
+  @media (min-width: 1200px) and (max-width: 1439px) { @content; }
+}
+// This is where "for-desktop-up" would be defined, but styles are configured that way by default [1440px ~ 2560px].
+@mixin for-ultra-wide-up {
+  @media (min-width: 2561px) { @content; }
 }
 
 /*=============================================
@@ -4014,7 +4012,7 @@ img.articl_img_section {
   position: relative;
   z-index: $z-index-announcement-bar;
 }
-@media screen and ( min-width: 768px ){
+@media screen and ( min-width: 768px ) {
   .announcement-bar__message, .cookie-bar__message {
     display: inline-block;
   }
@@ -4040,33 +4038,6 @@ img.articl_img_section {
 }
 
 /*----------  Main Header  ----------*/
-@media screen and (max-width: 767px) and (min-width: 320px){
-  .template-index .input-group.newsletter-form input#mail {
-    width: 100%;
-    margin-bottom: 10px;
-  }    
-  div#SearchDrawer {
-    z-index: 99999;
-  }    
-  h1.h2.site-header__logo {
-    margin: 0px;
-  }    
-  button.btn--link.site-header__menu.js-mobile-nav-toggle.mobile-nav--open {
-    padding-top: 18px;
-  }
-  .coupon_content .input-group.newsletter-form input{
-    width:100%;
-    margin-bottom:5px;
-  }
-}
-@media only screen and (max-width: 749px) {
-  h1.h2.site-header__logo, .h2.site-header__logo.h1{
-    max-width: 100%;
-  }
-  .template-index .page-width.slider123 .slider.slick-slider button.slick-next.slick-arrow {
-    display: none !important;
-  }
-}
 .slick-slide img {
   width: 100% !important;
 }
@@ -4111,9 +4082,6 @@ img.articl_img_section {
   .site-header__logo {
     padding-left: 0px ;
   }
-  h1.h2.site-header__logo {
-    max-width: 114px;
-  } 
   .site-header__menu,
   .site-header__search-toggle,
   .site-header__cart,
@@ -4129,21 +4097,10 @@ img.articl_img_section {
   .site-header__account {
     top: 50%;
   }  
-  h1.h2.site-header__logo a img {
-    margin: 0 auto;
-    text-align:center !important;
-    max-width:100%;
-  }  
   .site-header__logo-image {
     margin: 0 auto;
     max-width: 315px;
   }
-  h1.h2.site-header__logo, .h2.site-header__logo.h1 {
-    max-width: 100%;
-  }  
-  .site-header__search.small--hide {
-    display: none;
-  } 
   .site-header .logo-align--left.one_left {
     display: inline-block;
     width: 100%;
@@ -4355,9 +4312,6 @@ a.site-header__cart.righ {
   .site-header__logo {
     padding-left: 0px ;
   }
-  h1.h2.site-header__logo {
-    max-width: 114px;
-  } 
   .site-header__icons {
     padding-right: $gutter-site-mobile;
   }
@@ -4441,11 +4395,6 @@ img.cross_icon {
 @media screen and (max-width:749px) {
   .site-header__icons-wrapper a {
     padding-left: 0px !important;
-  }
-}
-@media screen and (min-width:320px) and (max-width:767px){
-  h1.h2.site-header__logo {
-    padding-top: 10px;
   }
 }
 
@@ -5893,11 +5842,6 @@ body.template-collection .coll-grid.grid__item.small--one-half.medium-up--one-qu
 }
 .section-header.text-center h1 {
   font-weight: bold;
-}
-p.small--hide.cart-section_remove a {
-  font-size: em(floor($font-size-base * 0.6875));
-  letter-spacing: 0px;
-  padding: 0px;
 }
 body.template-product hr {
   margin: 15px 0px;
