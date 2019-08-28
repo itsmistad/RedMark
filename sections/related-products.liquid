@@ -33,7 +33,7 @@
           {% unless product.handle == current_product.handle %}
             {% unless same_vendor and current_product.vendor != product.vendor %}
               {% unless same_type and current_product.type != product.type %}
-                {% include 'product-card-slider' %}
+                {% include 'product-card-related' %}
               {% endunless %}
             {% endunless %}
           {% endunless %}
@@ -44,7 +44,7 @@
       {% unless related_items == blank %}
         {% unless section.settings.related_title == blank %}
           <div class="section-header">
-            <h2 itemprop="name" class="section-header__title related_heading">{{ section.settings.related_title }}</h2>
+            <h2 itemprop="name" class="section-header__title">{{ section.settings.related_title }}</h2>
           </div>
         {% endunless %}
         <div class="related-products__slider-container">
@@ -108,42 +108,6 @@ $(function() {
 {
   "name": "Related products",
   "settings": [
-      {
-      "type": "header",
-      "content": "Heading"
-      },
-      {
-        "type": "color",
-        "id": "related_heading",
-        "label": "Color"
-      },
-      {
-      "type": "header",
-      "content": "Product Title"
-      },
-      {
-        "type": "color",
-        "id": "related_product_name",
-        "label": "Color"
-      },
-      {
-      "type": "header",
-      "content": "Actual Price"
-      },
-      {
-        "type": "color",
-        "id": "related_actual_price",
-        "label": "Color"
-      },
-      {
-      "type": "header",
-      "content": "Compare At Price"
-      },
-      {
-        "type": "color",
-        "id": "related_Compare",
-        "label": "Color"
-      },
     {
       "type": "checkbox",
       "id": "show_related_products",

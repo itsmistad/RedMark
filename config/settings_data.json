@@ -232,14 +232,8 @@
       "related-products": {
         "type": "related-products",
         "settings": {
-          "related_heading": "#341e1e",
-          "related_product_name": "#060606",
-          "related_actual_price": "#1c1c1c",
-          "related_Compare": "#1c1c1c",
           "show_related_products": true,
-          "related_title": "More Products For You",
-          "related_grid_num": "5",
-          "related_grid_row": "1"
+          "related_title": "More Products For You"
         }
       },
       "1494466252873": {
