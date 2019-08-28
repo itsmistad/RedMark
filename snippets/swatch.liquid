@@ -63,7 +63,7 @@
 </div>
 {% else %}
 <div class="swatch clearfix" data-option-index="{{ option_index }}">
-  <div class="header">{{ swatch }}</div>
+  <h4 class="header">{{ swatch }}</h4>
   {% assign values = '' %}
   {% for variant in product.variants %}
     {% assign value = variant.options[option_index] %}

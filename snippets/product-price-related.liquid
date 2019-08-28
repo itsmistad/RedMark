@@ -16,26 +16,26 @@
 {% if compare_at_price > price %}
   {% if price_varies %}
     <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
-    <s class="product-price__price ds related_compare">{{ compare_at_price | money }}</s>
+    <s class="product-price__price">{{ compare_at_price | money }}</s>
     <span class="product-price__price product-price__sale sale_act_price">
-      <span class="product__price related_actual">{{ money_price }}</span>
-     {% comment %} <span class="product-price__sale-label 1">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
+      <span class="product__price">{{ money_price }}</span>
+     {% comment %} <span class="product-price__sale-label">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
     </span>
   {% else %}
     <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
-    <s class="product-price__price da related_compare">{{ compare_at_price | money }}</s>
-    <span class="product-price__price product-price__sale sale_act_price related_actual">
+    <s class="product-price__price">{{ compare_at_price | money }}</s>
+    <span class="product-price__price product-price__sale sale_act_price">
       {{ money_price }}
-     {% comment %} <span class="product-price__sale-label 2">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
+     {% comment %} <span class="product-price__sale-label">{{ 'products.product.on_sale' | t }}</span> {% endcomment %}
     </span>
   {% endif %}
 {% else %}
 
   {% if price_varies %}
-    <span class="product__price sale_act_price related_actual">{{ money_price }}</span>
+    <span class="product__price sale_act_price">{{ money_price }}</span>
   {% else %}
     <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
-    <span class="product-price__price dd sale_act_price related_actual">{{ money_price }}</span>
+    <span class="product-price__price sale_act_price">{{ money_price }}</span>
   {% endif %}
 {% endif %}
 

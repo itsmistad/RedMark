@@ -8,6 +8,25 @@
     "theme_support_url": "https:\/\/github.com\/itsmistad\/RedMark\/issues"
   },
   {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social Media Links"
+      },
+      {
+        "type": "text",
+        "id": "facebook_link",
+        "label": "Facebook Link"
+      },
+      {
+        "type": "text",
+        "id": "instagram_link",
+        "label": "Instagram Link"
+      }
+    ]
+  },
+  {
     "name": "Collection Grids",
     "settings": [
       {
@@ -169,22 +188,31 @@
     ]
   },
   {
-    "name": "Cart",
+    "name": "Product Pages",
     "settings": [
       {
         "type": "header",
-        "content": "Checkout"
+        "content": "Add To Cart"
       },
       {
         "type": "color",
-        "id": "checkout_button_color",
-        "label": "Background Color"
+        "id": "add_to_cart_button_color",
+        "label": "Select Color for the Button"
       },
       {
         "type": "text",
-        "id": "checkout_button_fontsize",
-        "label": "Font Size",
-        "default": "20"
+        "id": "add_to_cart_button_text",
+        "label": "Enter the Text for the Add to Cart"
+      },
+      {
+        "type": "text",
+        "id": "add_to_cart_button_soldouttext",
+        "label": "Enter the Sold Out Button Text"
+      },
+      {
+        "type": "color",
+        "id": "add_to_cart_button_textcolor",
+        "label": "Select Color for the Text"
       }
     ]
   },

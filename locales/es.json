@@ -62,14 +62,6 @@
     }
   },
   "sections": {
-    "slideshow": {
-      "next_slide": "Siguiente diapositiva",
-      "previous_slide": "Anterior diapositiva",
-      "pause_slideshow": "Pausar la presentación",
-      "play_slideshow": "Reproducir la presentación",
-      "play_video": "Reproduce el video",
-      "close_video": "Cerca de vídeo"
-    },
     "map": {
       "get_directions": "Obtener las direcciones",
       "address_error": "No se puede encontrar esa dirección",

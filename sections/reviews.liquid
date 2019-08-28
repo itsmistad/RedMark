@@ -9,8 +9,8 @@
           <img src="{{ section.settings.imge_1 | img_url }}" alt="{{ section.settings.imge_1.alt | escape }}" />
         </div>
         <div class="grid__item medium-up--three-fifths small--one-half">          
-            <p class="review-text">{{ section.settings.subtext_1_style_2 }}</p>
-            <p class="review-name">{{ section.settings.text_1_style_2 }}</p>
+          <p class="review-text">{{ section.settings.subtext_1_style_2 }}</p>
+          <p class="review-name">{{ section.settings.text_1_style_2 }}</p>
         </div>
       </div>
     </div>
@@ -20,8 +20,8 @@
           <img src="{{ section.settings.imge_2 | img_url }}" alt="{{ section.settings.imge_2.alt | escape }}" />
         </div>
         <div class="grid__item medium-up--three-fifths small--one-half">          
-            <p class="review-text">{{ section.settings.subtext_1_style_3 }}</p>
-            <p class="review-name">{{ section.settings.text_1_style_3 }}</p>
+          <p class="review-text">{{ section.settings.subtext_1_style_3 }}</p>
+          <p class="review-name">{{ section.settings.text_1_style_3 }}</p>
         </div>
       </div>
     </div>
@@ -31,219 +31,200 @@
           <img src="{{ section.settings.imge_3 | img_url }}" alt="{{ section.settings.imge_3.alt | escape }}" />
         </div>
         <div class="grid__item medium-up--three-fifths small--one-half">          
-            <p class="review-text">{{ section.settings.subtext_1_style_4 }}</p>
-            <p class="review-name">{{ section.settings.text_1_style_4 }}</p>
+          <p class="review-text">{{ section.settings.subtext_1_style_4 }}</p>
+          <p class="review-name">{{ section.settings.text_1_style_4 }}</p>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-{% schema %}
-{
-  "name":"Reviews",
-  "class":"index-section",
-  "settings":[
-    {
-      "type":"header",
-      "content":"Heading"
-    },
-    {
-      "type":"text",
-      "id":"heading_final",
-      "label":"Enter Title"
-    },
-    {
-      "type":"color",
-      "id":"heading_color",
-      "label":"Enter Font Color"
-    },
-    {
-      "type":"text",
-      "id":"heading_size",
-      "label":"Enter Font Size"
-    },
-    {
-      "type":"header",
-      "content":"Edit Review"
-    },
-    {
-      "type":"color",
-      "id":"edit_cust_name_color",
-      "label":"Enter Font Color"
-    },
-    {
-      "type":"text",
-      "id":"edit_cust_name_size",
-      "label":"Enter Font Size"
-    },
-    {
-      "type":"header",
-      "content":"Edit Customer Name"
-    },
-    {
-      "type":"color",
-      "id":"edit__name_color",
-      "label":"Enter Font Color"
-    },
-    {
-      "type":"text",
-      "id":"edit__name_size",
-      "label":"Enter Font Size"
-    },
-    {
-      "type":"header",
-      "content":"Image Round/Square"
-    },
-    {
-      "type":"radio",
-      "id":"round_square",
-      "label":"Image Round/Square",
-      "default":"round",
-      "options":[
-        {
-          "value":"round",
-          "label":"Round"
-        },
-        {
-          "value":"square",
-          "label":"Square"
-        }
-      ]
-    },
-    {
-      "type":"header",
-      "content":"Review 1"
-    },
-    {
-      "type":"image_picker",
-      "id":"imge_1",
-      "label":"Upload the image"
-    },
-    {
-      "type":"text",
-      "id":"text_1_style_2",
-      "label":"Enter Customer Name"
-    },
-    {
-      "type":"text",
-      "id":"subtext_1_style_2",
-      "label":"Enter Review"
-    },
-    {
-      "type":"header",
-      "content":"Review 2"
-    },
-    {
-      "type":"image_picker",
-      "id":"imge_2",
-      "label":"Upload the image"
-    },
-    {
-      "type":"text",
-      "id":"text_1_style_3",
-      "label":"Enter Customer Name"
-    },
-    {
-      "type":"text",
-      "id":"subtext_1_style_3",
-      "label":"Enter Review"
-    },
-    {
-      "type":"header",
-      "content":"Review 3"
-    },
-    {
-      "type":"image_picker",
-      "id":"imge_3",
-      "label":"Upload the image"
-    },
-    {
-      "type":"text",
-      "id":"text_1_style_4",
-      "label":"Enter Customer Name"
-    },
-    {
-      "type":"text",
-      "id":"subtext_1_style_4",
-      "label":"Enter Review"
-    },
-    {
-      "type":"header",
-      "content":"Hide Reviews"
-    },
-    {
-      "type":"checkbox",
-      "id":"hide",
-      "label":"Enable to Hide",
-      "default":false
-    }
-  ],
-  "presets":[
-    {
-      "name":"Reviews",
-      "category":"Section"
-    }
-  ]
-}
-{% endschema %}
-
-
 <style>
-{% if   section.settings.hide %}
-  .page-width.reviews {
-    display: none;
-}
+  {% if section.settings.hide %}
+    .page-width.reviews {
+      display: none;
+    }
   {% endif %}
-.review-name {
+  .review-name {
     color: {{ section.settings.edit__name_color }};
     font-weight: bold;
     margin-bottom: 0;
-    font-size: {{ section.settings.edit__name_size }}px;
-}
- 
-p.review-text {
-    color: {{ section.settings.edit_cust_name_color }};
-    font-size: {{ section.settings.edit_cust_name_size }}px;
-}  
-
-
-  
-  
-
-  
-
-  
-  {% if section.settings.round_square == 'round' %}
-  .reviews .grid__item.medium-up--two-fifths.small--one-half img {
-    border-radius: 50%;
-}
-  {% endif %}
-
-  {% if section.settings.round_square == 'square' %}
-  .reviews .grid__item.medium-up--two-fifths.small--one-half img {
-    border-radius: 0%;
-}
-  {% endif %}
-
-  
-  
-.reviews .grid__item.medium-up--three-fifths.small--one-half {
-    padding-left: 0px;
-}
-.reviews .section-header {
-    text-align: center;
-}
-.reviews .section-header {
-    text-align: center;
-    color:  {{ section.settings.heading_color }};
-    font-size: {{ section.settings.heading_size }}px;   
-} 
-  
-@media screen and (min-width:320px) and (max-width:767px) {
-  .reviews .grid__item.medium-up--one-third {
-    padding-bottom: 20px;
+    font-size: {{ section.settings.edit__name_size }};
   }
-}  
-  
+  p.review-text {
+    color: {{ section.settings.edit_cust_name_color }};
+    font-size: {{ section.settings.edit_cust_name_size }};
+  }  
+  {% if section.settings.round_square == 'round' %}
+    .reviews .grid__item.medium-up--two-fifths.small--one-half img {
+      border-radius: 50%;
+    }
+  {% endif %}
+  {% if section.settings.round_square == 'square' %}
+    .reviews .grid__item.medium-up--two-fifths.small--one-half img {
+      border-radius: 0%;
+    }
+  {% endif %}
+  .reviews .grid__item.medium-up--three-fifths.small--one-half {
+    padding-left: 0px;
+  }
+  .reviews .section-header {
+    text-align: center;
+    margin-top: 20px;
+    color:  {{ section.settings.heading_color }};
+    font-size: {{ section.settings.heading_size }};   
+  } 
+  @media screen and (min-width:320px) and (max-width:767px) {
+    .reviews .grid__item.medium-up--one-third {
+      padding-bottom: 20px;
+    }
+  }  
 </style>
+
+{% schema %}
+  {
+    "name":"Reviews",
+    "class":"index-section",
+    "settings":[
+      {
+        "type":"header",
+        "content":"Heading"
+      },
+      {
+        "type":"text",
+        "id":"heading_final",
+        "label":"Enter Title"
+      },
+      {
+        "type":"color",
+        "id":"heading_color",
+        "label":"Enter Font Color"
+      },
+      {
+        "type":"text",
+        "id":"heading_size",
+        "label":"Enter Font Size"
+      },
+      {
+        "type":"header",
+        "content":"Edit Review"
+      },
+      {
+        "type":"color",
+        "id":"edit_cust_name_color",
+        "label":"Enter Font Color"
+      },
+      {
+        "type":"text",
+        "id":"edit_cust_name_size",
+        "label":"Enter Font Size"
+      },
+      {
+        "type":"header",
+        "content":"Edit Customer Name"
+      },
+      {
+        "type":"color",
+        "id":"edit__name_color",
+        "label":"Enter Font Color"
+      },
+      {
+        "type":"text",
+        "id":"edit__name_size",
+        "label":"Enter Font Size"
+      },
+      {
+        "type":"header",
+        "content":"Image Round/Square"
+      },
+      {
+        "type":"radio",
+        "id":"round_square",
+        "label":"Image Round/Square",
+        "default":"round",
+        "options":[
+          {
+            "value":"round",
+            "label":"Round"
+          },
+          {
+            "value":"square",
+            "label":"Square"
+          }
+        ]
+      },
+      {
+        "type":"header",
+        "content":"Review 1"
+      },
+      {
+        "type":"image_picker",
+        "id":"imge_1",
+        "label":"Upload the image"
+      },
+      {
+        "type":"text",
+        "id":"text_1_style_2",
+        "label":"Enter Customer Name"
+      },
+      {
+        "type":"text",
+        "id":"subtext_1_style_2",
+        "label":"Enter Review"
+      },
+      {
+        "type":"header",
+        "content":"Review 2"
+      },
+      {
+        "type":"image_picker",
+        "id":"imge_2",
+        "label":"Upload the image"
+      },
+      {
+        "type":"text",
+        "id":"text_1_style_3",
+        "label":"Enter Customer Name"
+      },
+      {
+        "type":"text",
+        "id":"subtext_1_style_3",
+        "label":"Enter Review"
+      },
+      {
+        "type":"header",
+        "content":"Review 3"
+      },
+      {
+        "type":"image_picker",
+        "id":"imge_3",
+        "label":"Upload the image"
+      },
+      {
+        "type":"text",
+        "id":"text_1_style_4",
+        "label":"Enter Customer Name"
+      },
+      {
+        "type":"text",
+        "id":"subtext_1_style_4",
+        "label":"Enter Review"
+      },
+      {
+        "type":"header",
+        "content":"Hide Reviews"
+      },
+      {
+        "type":"checkbox",
+        "id":"hide",
+        "label":"Enable to Hide",
+        "default":false
+      }
+    ],
+    "presets":[
+      {
+        "name":"Reviews",
+        "category":"Section"
+      }
+    ]
+  }
+{% endschema %}

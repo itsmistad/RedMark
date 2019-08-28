@@ -62,14 +62,6 @@
     }
   },
   "sections": {
-    "slideshow": {
-      "next_slide": "Nächster Schieber",
-      "previous_slide": "Vorheriger Schieber",
-      "pause_slideshow": "Diashow pausieren",
-      "play_slideshow": "Diashow abspielen",
-      "play_video": "Video abspielen",
-      "close_video": "Video schliessen"
-    },
     "map": {
       "get_directions": "Richtungen",
       "address_error": "Kann die Adresse nicht finden",

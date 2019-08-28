@@ -32,9 +32,7 @@
         {% endif %}
         {% include 'social-meta-tags' %}
         {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
-        {{ 'progress.css' | asset_url | stylesheet_tag }}
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
-        {{ 'progress.js' | asset_url | script_tag }}
         {{ 'fancy-box.css' | asset_url | stylesheet_tag }}
         {{ 'custom.css' | asset_url | stylesheet_tag }}
         {{ 'slick-theme.css' | asset_url | stylesheet_tag }}
@@ -61,6 +59,7 @@
             
             document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
         </script>
+        
         <!--[if (lte IE 9) ]>{{ 'match-media.min.js' | asset_url | script_tag }}<![endif]-->
         {% if template contains 'customers' %}
         <!--[if (gt IE 9)|!(IE)]><!-->
@@ -168,7 +167,6 @@
                     soldOutBtnLabel: 'Sold Out',
                     howLongTillBtnReturnsToNormal: 1000, // in milliseconds.
                     cartCountSelector: '.site-header__cart-count',
-                    cartCountSpanSelector: '.site-header__cart-count span',
                     cartTotalSelector: '#cart-price',
                     feedbackPosition: 'nextButton',
                     // What you will never need to change
@@ -298,8 +296,9 @@
                         $('.scrollup').fadeOut();
                     }
                     var scrollBottom = $(window).scrollTop() + window.innerHeight;
-                    if (scrollBottom > $(document).height() - 51) {
-                        $('#chat-widget-container').css('transform', `translateY(-${scrollBottom-($(document).height() - 51)}px)`);
+                    var offset = $('.page-width.page-width-copyright').offset().top;
+                    if (scrollBottom > offset) {
+                        $('#chat-widget-container').css('transform', `translateY(-${scrollBottom-offset}px)`);
                         $('#smile-ui-container').fadeOut(100);
                     } else {
                         $('#chat-widget-container').css('transform', 'translateY(0)');
