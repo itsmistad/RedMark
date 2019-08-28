@@ -412,24 +412,6 @@
             "text_size": "large"
           }
         },
-        "slideshow": {
-          "type": "slideshow",
-          "blocks": {
-            "slideshow-0": {
-              "type": "image",
-              "settings": {}
-            },
-            "slideshow-1": {
-              "type": "image",
-              "settings": {}
-            }
-          },
-          "block_order": [
-            "slideshow-0",
-            "slideshow-1"
-          ],
-          "settings": {}
-        },
         "featured-collections": {
           "type": "collection",
           "settings": {
@@ -443,8 +425,7 @@
       },
       "content_for_index": [
         "hero",
-        "featured-collections",
-        "slideshow"
+        "featured-collections"
       ]
     }
   }

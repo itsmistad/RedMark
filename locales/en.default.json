@@ -65,14 +65,6 @@
     }
   },
   "sections": {
-    "slideshow": {
-      "next_slide": "Next slide",
-      "previous_slide": "Previous slide",
-      "pause_slideshow": "Pause slideshow",
-      "play_slideshow": "Play slideshow",
-      "play_video": "Play video",
-      "close_video": "Close video"
-    },
     "map": {
       "get_directions": "Get directions",
       "address_error": "Error looking up that address",

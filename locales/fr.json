@@ -62,14 +62,6 @@
     }
   },
   "sections": {
-    "slideshow": {
-      "next_slide": "Diapositive suivante",
-      "previous_slide": "Diapositive précédente",
-      "pause_slideshow": "Mettre en pause le diaporama",
-      "play_slideshow": "Jouer le diaporama",
-      "play_video": "Lire la vidéo",
-      "close_video": "Fermer la vidéo"
-    },
     "map": {
       "get_directions": "Obtenir des directions",
       "address_error": "Vous ne trouvez pas cette adresse",

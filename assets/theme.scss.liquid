@@ -379,13 +379,6 @@ $svg-select-icon: #{'{{ "ico-select.svg" | asset_url }}'};
 $color-background-hero-button: #fff;
 $color-text-hero-button: #000;
 
-/*================ Hero Slider ================*/
-$color-slideshow-arrows: #000;
-$color-slideshow-dots: #fff;
-
-$transition-text-slideshow: all 0.6s cubic-bezier(0.44, 0.13, 0.48, 0.87);
-$transition-image-slideshow: opacity 0.8s cubic-bezier(0.44, 0.13, 0.48, 0.87);
-
 /*================ Typography ================*/
 {% if settings.type_base_family contains 'Google' %}
 {% assign type_base_parts = settings.type_base_family | split: '_' %}
@@ -445,8 +438,8 @@ and slick-theme.scss (at Slick Slider Theme). Upgrade each area individually.
 - Remove `outline: none` from `.slick-dots li button`
 ==============================================================================*/
 $slick-font-family: "slick-icons, sans-serif";
-$slick-arrow-color: $color-slideshow-arrows;
-$slick-dot-color: $color-slideshow-dots;
+$slick-arrow-color: "#000";
+$slick-dot-color: "#fff";
 $slick-dot-color-active: $slick-dot-color !default;
 $slick-prev-character: '\2190';
 $slick-next-character: '\2192';
@@ -1447,7 +1440,7 @@ li {
   margin-bottom: $gutter-site;
 }
 
-/*================ Hero and slideshow headers ================*/
+/*================ Hero headers ================*/
 .mega-title,
 .mega-subtitle {
   text-shadow: 0 0 15px $color-text-shadow;
@@ -3062,410 +3055,6 @@ Blog article grid
   }
 }
 
-/*============================================================================
-Hero slider
-
-Extends default slick slider styles.
-Extra specificity in selectors is used to override defaults.
-==============================================================================*/
-$slideshow-height-small: auto;
-$slideshow-height-medium: auto;
-$slideshow-height-large: auto;
-$slideshow-loader: #fff;
-$z-index-slideshow-image: 1;
-$z-index-slideshow-video: 2;
-$z-index-slideshow-text: 3;
-$z-index-slideshow-controls: 4;
-$color-slideshow-close-bg: #fff;
-$color-slideshow-close-text: #000;
-
-.slideshow-wrapper {
-  position: relative;
-}
-
-.slideshow {
-  overflow: hidden;
-  height: $slideshow-height-small - 350;
-  margin-bottom: 0;
-
-  &.slideshow--medium {
-    height: $slideshow-height-medium - 222;
-  }
-
-  &.slideshow--large {
-    height: $slideshow-height-large - 343;
-  }
-
-  @include media-query($medium-up) {
-    height: $slideshow-height-small;
-
-    /*     &.slideshow--medium {
-    height: 457px ;
-  } */
-
-    &.slideshow--large {
-      height: $slideshow-height-large;
-    }
-  }
-
-  // Make sure slides fill full height
-  .slideshow__slide,
-  .slick-list,
-  .slick-track {
-    height: 100%;
-  }
-
-  .slick-prev,
-  .slick-next {
-    top: 0;
-    height: 100%;
-    margin-top: 0;
-    width: 40px;
-  }
-
-  .slick-prev {
-    left: 0;
-  }
-
-  .slick-next {
-    right: 0;
-  }
-
-  .slick-dots {
-    bottom: 45px;
-    text-align: center;
-    left: 50%;
-    transform: translateX(-50%);
-
-    // sass-lint:disable SelectorDepth
-    li button::before {
-      color: $color-slideshow-dots;
-    }
-  }
-}
-
-.video-is-playing .slick-dots {
-  // sass-lint:disable no-important
-  display: none !important;
-}
-
-// Pause button (focusable by keyboard only)
-.slideshow__pause:focus {
-  clip: auto;
-  width: auto;
-  height: auto;
-  margin: 0;
-  color: $color-btn-primary-text;
-  background-color: $color-btn-primary;
-  padding: $gutter-site / 2;
-  z-index: $z-index-skip-to-content;
-  transition: none;
-
-  .video-is-playing & {
-    display: none;
-  }
-}
-
-.slideshow__pause-stop {
-  display: block;
-
-  .is-paused & {
-    display: none;
-  }
-}
-
-.slideshow__pause-play {
-  display: none;
-
-  .is-paused & {
-    display: block;
-  }
-}
-
-/*================ General slide styles ================*/
-.slideshow__slide {
-  position: relative;
-  overflow: hidden;
-}
-
-.slideshow__link {
-  display: block;
-  /*   position: absolute; */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  &:active,
-  &:focus {
-    opacity: 1;
-  }
-}
-
-.slideshow__overlay {
-  @include overlay($z-index-slideshow-text);
-}
-
-/*================ Slide images ================*/
-// z-index stacking issues in oldIE
-.ie9 {
-  .slideshow__slide {
-    // sass-lint:disable no-important
-    z-index: 1 !important;
-  }
-
-  .slick-dots {
-    z-index: 2;
-  }
-}
-
-/*================ Slide text ================*/
-.slideshow__text-wrap {
-  height: 100%;
-
-  .slideshow__link & {
-    cursor: inherit;
-  }
-
-  .slideshow__slide--has-background-video & {
-    padding-top: $gutter-site * 3;
-  }
-
-  .video-is-playing & {
-    display: none;
-  }
-
-  .slideshow__slide.video-is-paused & {
-    display: none;
-  }
-}
-
-.slideshow__text-content {
-  text-align: center;
-  position: absolute;
-  width: 100%;
-  top: 45%;
-  @include transform(translateY(-40%));
-  opacity: 0;
-  transition: $transition-text-slideshow;
-  transition-delay: 0.3s;
-  z-index: $z-index-slideshow-text;
-
-  .slick-active &,
-  .no-js & {
-    @include transform(translateY(-50%));
-    opacity: 1;
-  }
-
-  &::after {
-    content: '';
-    @include spinner(40px, $slideshow-loader);
-    @include animation(spin 0.65s infinite linear);
-    opacity: 1;
-    transition: all 1s cubic-bezier(0.29, 0.63, 0.44, 1);
-    bottom: -$gutter-site;
-    left: 50%;
-  }
-
-  .slick-initialized &,
-  .no-js & {
-    &::after {
-      opacity: 0;
-      visibility: hidden;
-      content: none;
-    }
-  }
-}
-
-.slideshow__title {
-  color: $color-overlay-title-text;
-}
-
-.slideshow__subtitle {
-  display: block;
-  color: $color-overlay-title-text;
-}
-
-/*================ Video styles ================*/
-.slideshow__slide--has-background-video::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: $z-index-slideshow-video;
-}
-
-.slideshow__video {
-  display: none;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: $z-index-slideshow-video;
-}
-
-// Background video
-.slideshow__video--background {
-  position: relative;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.2s ease-in;
-
-  .autoplay &.video-is-loaded {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
-// Place invisible element over video to prevent clicks
-.slideshow__slide--background-video::after {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: $z-index-slideshow-video;
-}
-
-.slideshow__video--chrome {
-  display: none;
-  opacity: 0;
-  visibility: none;
-  width: 100%;
-  height: 100%;
-  transition: all 0.2s ease-in;
-
-  // YouTube video will not load if iframe is display: none
-  .ie9 & {
-    display: block;
-  }
-
-  .slideshow__slide.video-is-playing &,
-  .slideshow__slide.video-is-paused & {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
-/*================ Video control buttons ================*/
-.slideshow__video-control {
-  display: none;
-  visibility: hidden;
-  opacity: 0;
-  position: absolute;
-  padding: 5px;
-  z-index: $z-index-slideshow-controls;
-  transition: all 0.1s ease-out;
-
-  &:hover,
-  &:focus {
-    opacity: 0.7;
-  }
-}
-
-// Video loader shown when initializing
-.video-loader {
-  @include spinner(40px, $slideshow-loader);
-  @include animation(spin 0.65s infinite linear);
-  transition: all 0.1s ease-out 0.5s;
-  z-index: $z-index-slideshow-controls;
-  top: 50%;
-  left: 50%;
-
-  .ie9 &,
-  .video-is-loaded &,
-  .video-is-playing &,
-  .video-is-paused &,
-  .autoplay &,
-  .no-autoplay & {
-    content: none;
-    display: none;
-  }
-
-  .video-is-loading &,
-  .autoplay .video-is-loading &,
-  .no-autoplay .video-is-loading & {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
-.slideshow__video-control--play-wrapper {
-  height: 30px;
-
-  @include media-query($medium-up) {
-    height: 45px;
-  }
-}
-
-@include media-query($medium-up) {
-  .slideshow__video-control--play-wrapper--push {
-    margin-top: $grid-gutter;
-  }
-}
-
-.slideshow__video-control--play {
-  opacity: 0;
-  color: $color-overlay-title-text;
-  position: relative;
-  margin: 0 auto;
-
-  .slideshow__video--background {
-    top: 50%;
-    @include transform(translateY(-50%));
-  }
-
-  .video-is-loaded & {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-  }
-
-  .video-is-loading &,
-  .video-is-playing &,
-  .slideshow__slide.video-is-paused & {
-    display: none;
-    visibility: hidden;
-    opacity: 0;
-  }
-
-  .icon {
-    width: 42px;
-    height: 100%;
-
-    @include media-query($medium-up) {
-      width: 65px;
-    }
-  }
-}
-
-.slideshow__video-control--close {
-  top: 10px;
-  right: 10px;
-  background-color: $color-slideshow-close-bg;
-  color: $color-slideshow-close-text;
-
-  .video-is-playing &,
-  .slideshow__slide.video-is-paused & {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-  }
-
-  .icon {
-    display: block;
-    width: 20px;
-    height: 20px;
-  }
-}
-
-
 /*================ Module | Filters and Sort toolbar and selection ================*/
 $toolbar-height: 55px;
 $toolbar-height-small: 46px;
@@ -4151,46 +3740,7 @@ hr.bottom {
   display: none !important;
 }
 
-@media screen and (min-width: 320px) and (max-width: 767px){
-
-  .grid--table>.grid__item{display:block;}
-  .grid__item.small--one-half.medium--one-third.large-up--one-quarter.logo-align--center img {
-    max-width: inherit;
-    margin: 0 auto !important;
-    /*     position: absolute; */
-    top: 8%;
-    left: 8%;
-    padding-left: 0px !important;
-  }
-
-  ul.search-results {
-    margin-top: 12%;
-  }
-  .visitor_counter {
-    padding-bottom: 17px;
-  }
-  div#clockdiv .timeUnit {
-    padding: 0px 3px;
-  }
-
-  .slideshow.slideshow--large {
-    height: auto !important;
-  }
-  .visitor_counter {
-    width: 100%;
-    text-align:center;
-  }
-
-}
-
 @media screen and (min-width: 768px) and (max-width: 1024px){
-  .slideshow.slideshow--large {
-    height: auto !important;
-  }
-  div#clockdiv .timeUnit {
-    padding: 0px 10px;
-  }  
-
   .font_style {
     text-transform: uppercase; 
     font-size: 1.125em !important;
@@ -4200,12 +3750,10 @@ hr.bottom {
     position: absolute;
     left: 54.5%;
   }
-
   .first_text {
     position: absolute;
     right: 54%;
   }
-
 }
 
 @media screen and (min-width:320px) and (max-width:767px){
@@ -6454,9 +6002,6 @@ h1.product-section__title {
       }
     }
   }
-  .product-section__gallery-container {
-    position: relative;
-  }
   .thumbnails-wrapper {
     position: relative;
     text-align: center;
@@ -6545,9 +6090,16 @@ h1.product-section__title {
       display: flex;
       flex-direction: row-reverse;
       justify-content: space-between;
+      min-height: 512px;
       width: 100%;
-      .product-section__photo {
-        margin: 0 auto;
+      position: relative;
+      .product-section__photo-wrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+      .thumbnails-wrapper {
+        margin-right: 10px;
       }
       .product-section__thumbnails {
         .product-section__thumbnails-item {
@@ -6568,12 +6120,12 @@ h1.product-section__title {
     .product-section__options-form {
       max-width: 450px;
       width: 100%;
-      margin-left: 50px;
+      margin-left: 10px;
       .product-section__form-reviews-stamp {
         letter-spacing: 1.5px;
         text-transform: uppercase;
         display: flex;
-        flex-direction: row-reverse;
+        flex-direction: row;
         justify-content: space-between;
         color: #595959;
         align-items: center;
@@ -6669,7 +6221,112 @@ h1.product-section__title {
 =============================================*/
 .related-products__container {
   .related-products__slider-container {
-    
+    position: relative;
+  }
+}
+
+/*=============================================
+=           Generic Slick Carousel            =
+=============================================*/
+.slick-slider__carousel {
+  -webkit-tap-highlight-color: transparent;
+  transition: 0.4s;
+  cursor: grab;
+  .slick-slider__item {
+    min-height: 1px;
+    -webkit-backface-visibility: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 8px 15px;
+    transition: 0.4s;
+    .slick-slider__card {
+      box-shadow: 0px 0px 6px rgba(0,0,0,0.2);
+      transition: 0.4s;
+      cursor: pointer;
+      .slick-slider__item-product-title {
+        font-size: 0.8125em;
+        font-weight: bold;
+        padding-top: 10px;
+        letter-spacing: 0.5px;
+      }
+      .slick-slider__item-product-price {
+        .slick-slider__item-product-sale-price {
+          display: flex;
+          flex-direction: row;
+          font-size: 0.75em;
+          .product-price__price {
+            padding-right: 5px;
+          }
+          .product-price__sold-out {
+            text-transform: uppercase;
+            color: #ddd;
+          }
+        }
+      }
+      .slick-slider__item-img-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          transition: 0.4s;
+        }
+      }
+      &:hover {
+        img {
+          box-shadow: 0px 0px 7px 1px rgba(0,0,0,0.4);
+        }
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
+button.slick-prev-btn,
+button.slick-next-btn {
+  transition: 0.3s;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #000;
+  z-index: 999;
+  &:hover {
+    background-color: #ff3b3b;
+    box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.4);
+  }
+  &:before {
+    display: none !important;
+  }
+  img {
+    width: 50%;
+    position: relative;
+    z-index: 999;
+  }
+}
+button.slick-prev-btn {
+  left: -5px;
+  img {
+    left: -1px;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+}
+button.slick-next-btn {
+  right: -5px;
+  img {
+    left: 1px;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
   }
 }
 

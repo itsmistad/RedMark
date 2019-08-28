@@ -34,22 +34,15 @@
       {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
       {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
       {% include 'sale_tag' %}
-      <div id="FeaturedImageZoom-{{ section.id }}" class="product-section__photo" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
-        <div class="zoomIn">
-        <img itemprop="image" src="{{ product.featured_image.src | img_url: product_image_size_url }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="{% if enable_zoom %}zoom_hover{% endif %} product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+      <div class="product-section__photo-wrapper">
+        <div id="FeaturedImageZoom-{{ section.id }}" class="product-section__photo" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
+          <div class="zoomIn">
+          <img itemprop="image" src="{{ product.featured_image.src | img_url: product_image_size_url }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="{% if enable_zoom %}zoom_hover{% endif %} product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+          </div>
         </div>
       </div>
       {% if product.images.size > 1 %}
-        {% if product.images.size > 3 %}
-          {%- assign enable_thumbnail_slides = true -%}
-        {% endif %}
-        <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} thumbnails-slider--active{% endif %}">
-          {% if enable_thumbnail_slides == true %}
-            <button type="button" class="btn btn--link thumbnails-slider__btn thumbnails-slider__prev thumbnails-slider__prev--{{ section.id }}">
-              {% include 'icon-chevron-left' %}
-              <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
-            </button>
-          {% endif %}
+        <div class="thumbnails-wrapper">
           <ul class="product-section__thumbnails product-section__thumbnails-{{ section.id }}">
             {% for image in product.images %}
               <li class="product-section__thumbnails-item">
@@ -62,12 +55,6 @@
               </li>
             {% endfor %}
           </ul>
-          {% if enable_thumbnail_slides == true %}
-            <button type="button" class="btn btn--link thumbnails-slider__btn thumbnails-slider__next thumbnails-slider__next--{{ section.id }}">
-              {% include 'icon-chevron-right' %}
-              <span class="icon__fallback-text">{{ 'sections.slideshow.next_slide' | t }}</span>
-            </button>
-          {% endif %}
         </div>
       {% endif %}
     </div>
@@ -92,7 +79,7 @@
             </span>
           {% endif %}
         </p>
-        <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{product.id}}"></span>
+        <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}"></span>
         <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-section__form" data-section="{{ section.id }}">
           {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
             {% for option in product.options_with_values %}

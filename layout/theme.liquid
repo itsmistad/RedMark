@@ -36,7 +36,6 @@
         {{ 'fancy-box.css' | asset_url | stylesheet_tag }}
         {{ 'custom.css' | asset_url | stylesheet_tag }}
         {{ 'slick-theme.css' | asset_url | stylesheet_tag }}
-        {{ 'ps.css' | asset_url | stylesheet_tag }}
         {% include 'google-fonts' %}
         <script>
             (function($){
@@ -80,7 +79,6 @@
         <!--   <script src="{{ 'slider1.js' | asset_url }}" defer="defer"></script>
             <script src="{{ 'slider2.js' | asset_url }}" defer="defer"></script>
             -->
-        {{ 'ps.js' | asset_url | script_tag }}
         {{ '//ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js' | script_tag }}
         {{ 'cookie.js' | asset_url | script_tag }}
         {{ content_for_header }}
@@ -298,8 +296,9 @@
                         $('.scrollup').fadeOut();
                     }
                     var scrollBottom = $(window).scrollTop() + window.innerHeight;
-                    if (scrollBottom > $(document).height() - 51) {
-                        $('#chat-widget-container').css('transform', `translateY(-${scrollBottom-($(document).height() - 51)}px)`);
+                    var offset = $('.page-width.page-width-copyright').offset().top;
+                    if (scrollBottom > offset) {
+                        $('#chat-widget-container').css('transform', `translateY(-${scrollBottom-offset}px)`);
                         $('#smile-ui-container').fadeOut(100);
                     } else {
                         $('#chat-widget-container').css('transform', 'translateY(0)');
