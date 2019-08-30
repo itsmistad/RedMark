@@ -1,5 +1,5 @@
 <div data-section-id="{{ section.id }}" data-section-type="header-section" >
-  <div class="whole_header">
+  <div class="site-header__container">
     {% if settings.enable_cookie_bar != blank %}
       <div class="cookie-bar">
         <img class="cross_icon" id="cookie-bar__close" alt="close button for the cookie policy bar" src="{{ "cross.png" | asset_url }}"> 
@@ -8,87 +8,63 @@
         </span>
       </div>
     {% endif %}
-    <header class="site-header border-bottom logo--left" role="banner">
-      <div id="logo_here"> <!-- Needs class after `grid` removal -->
-        {% if section.settings.align_logo == 'center' %}
-          <div> <!-- Needs class after `grid` removal -->
-            <div class="site-header__search">       
-            </div>
-          </div>
-        {% endif %}
-        {% if section.settings.align_logo == 'center' %}
-          {%- assign logo_classes = 'logo-align--center' -%}
+    <div class="site-header__main-container border-bottom logo--left" role="banner">
+      <div class="site-header__logo" itemscope itemtype="http://schema.org/Organization">
+        {% if section.settings.logo %}
+          <a href="{{ shop.url }}" itemprop="url">
+            {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+            <img srcset="{{ section.settings.logo | img_url : 'master' }}"
+                alt="{{ section.settings.logo.alt | default: shop.name }}"
+                id="toplogo"
+                class="site-header__logo-image" itemprop="logo">
+          </a>
         {% else %}
-          {%- assign logo_classes = 'logo-align--left' -%}
+          <a class="site-header__logo-link" href="{{ shop.url }}" itemprop="url">{{ shop.name }}</a>
         {% endif %}
-        <div class="{{ logo_classes }}">
-          <div class="site-header__logo" itemscope itemtype="http://schema.org/Organization">
-            {% if section.settings.logo %}
-              <a href="{{ shop.url }}" itemprop="url" class="site-header__logo-image{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}">
-                {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
-                <img srcset="{{ section.settings.logo | img_url : 'master' }}"
-                    alt="{{ section.settings.logo.alt | default: shop.name }}"
-                    id="toplogo"
-                    class="alds" itemprop="logo">
-              </a>
-            {% else %}
-              <a class="site-header__logo-link" href="{{ shop.url }}" itemprop="url">{{ shop.name }}</a>
-            {% endif %}
-          </div>
-        </div>
-        {% if section.settings.align_logo == 'left' %}
-          <nav class="" id="AccessibleNav" role="navigation"> <!-- Needs class after `grid` removal -->
-            {% include 'site-nav' %}
-          </nav>
-        {% endif %}
-        <div class="site-header__icons {% if shop.customer_accounts_enabled %} site-header__icons--plus{% endif %}"> <!-- Needs class after `grid` removal -->
-          <div class="site-header__icons-wrapper">
-            {% if section.settings.align_logo == 'left' %}
-              <div class="site-header__search">
-                {% include 'search-form' %}
-              </div>
-              {% if shop.customer_accounts_enabled %}
-                {% if customer %}
-                  <a href="/account" class="site-header__account">
-                    {% include 'icon-login' %}
-                    <span class="icon__fallback-text">{{ 'layout.customer.account' | t }}</span>
-                  </a>
-                {% else %}
-                  <a href="/account/login" class="site-header__account">
-                    {% include 'icon-login' %}
-                    <span class="icon__fallback-text">{{ 'layout.customer.log_in' | t }}</span>
-                  </a>
-                {% endif %}
-              {% endif %}
-              <a href="/cart" class="site-header__cart">
-                {% include 'icon-cart' %}
-                <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
-                <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
-                <div id="CartCount" class="site-header__cart-count {% if cart.item_count == 0 %} hidden-count {% endif %}">
-                  {{ cart.item_count }}
-                </div>
-              </a>
-            {% endif %}         
-            <button type="button" class="btn--link site-header__search-toggle js-drawer-open-top ">
-              {% include 'icon-search' %}
-              <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
-            </button>
-            {% unless linklists[section.settings.main_linklist] == blank %}
-              <button type="button" class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open">
-                {% include 'icon-hamburger' %}
-                {% include 'icon-close' %}
-                <span class="icon__fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
-              </button>
-            {% endunless %}  
-          </div>
-        </div>
       </div>
-    </header>
-    {% if section.settings.align_logo == 'center' %}
-      <nav class="border-bottom"  id="AccessibleNav" role="navigation">
-        {% include 'site-nav', nav_alignment: 'site-nav--centered' %}
+      <nav class="site-header__desktop-nav" id="AccessibleNav" role="navigation">
+        {% include 'site-nav' %}
       </nav>
-    {% endif %}
+      {% comment %}
+      {% unless linklists[section.settings.main_linklist] == blank %}
+        <button type="button" class="btn--link site-header__mobile-nav js-mobile-nav-toggle mobile-nav--open">
+          {% include 'icon-hamburger' %}
+          {% include 'icon-close' %}
+          <span class="icon__fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
+        </button>
+      {% endunless %}  
+      {% endcomment %}
+      <div class="site-header__icons">
+        <div class="site-header__search">
+          {% include 'search-form' %}
+        </div>
+        {% if shop.customer_accounts_enabled %}
+          {% if customer %}
+            <a href="/account" class="site-header__account">
+              {% include 'icon-login' %}
+              <span class="icon__fallback-text">{{ 'layout.customer.account' | t }}</span>
+            </a>
+          {% else %}
+            <a href="/account/login" class="site-header__account">
+              {% include 'icon-login' %}
+              <span class="icon__fallback-text">{{ 'layout.customer.log_in' | t }}</span>
+            </a>
+          {% endif %}
+        {% endif %}
+        <a href="/cart" class="site-header__cart">
+          {% include 'icon-cart' %}
+          <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
+          <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
+          <div id="CartCount" class="site-header__cart-count {% if cart.item_count == 0 %} hidden-count {% endif %}">
+            {{ cart.item_count }}
+          </div>
+        </a>       
+        <button type="button" class="btn--link site-header__search-toggle js-drawer-open-top ">
+          {% include 'icon-search' %}
+          <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
+        </button>
+      </div>
+    </div>
     {% if section.settings.message %}
       <div class="announcement-bar"  >
         <img class="cross_icon" id="announcement-bar__close" alt="close button the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
@@ -210,45 +186,12 @@
   .announcement-bar__message {
     color: {{ section.settings.color_text }};
   }
-  a[class*="site-header__logo"]:hover,  
-  a[class*="site-header__logo"]:focus {
-    opacity: 1 !important;
-  }
   div.site-nav__dropdown {
     z-index: 9999;
   }
   {% if section.settings.logo != blank %}
     .site-header__logo-image {
       max-width: {{ section.settings.logo_max_width }}px !important;
-    }
-  {% endif %}
-  {% if section.settings.align_logo == 'left' %}
-    .site-header__logo-image {
-      margin: 0;
-    }
-  {% endif %}
-  {% if section.settings.align_logo == 'center' %}
-    .search-bar__submit, .search-header__submit {
-      top: -5px;
-    }  
-    @media screen and (max-width: 767px) and (min-width: 320px)
-    {
-      .grid__item.small--one-half.medium-up--one-quarter.logo-align--left.one_left {
-        width: 100%;
-        float: left;
-      }     
-      .grid__item.small--one-whole.medium-up--one-quarter.text-right.site-header__icons.site-header__icons--plus.two_left {
-        width: 100%;
-        float: left;
-      }
-    }
-    @media screen and (max-width: 767px) and (min-width: 320px)
-    {
-      .centerer {
-        position: relative;
-        bottom: 20px;
-        right:0px;
-      }
     }
   {% endif %}
   {% unless shop.customer_accounts_enabled %}
@@ -316,16 +259,6 @@
       {
         "type": "header",
         "content": "Logo"
-      },  
-      {
-        "type": "radio",
-        "id": "align_logo",
-        "label": "Logo alignment",
-        "default": "left",
-        "options": [
-          {"value": "left", "label": "Left"},
-          {"value": "center", "label": "Centered"}
-        ]
       },
       {
         "type": "image_picker",
