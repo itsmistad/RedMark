@@ -71,36 +71,39 @@
         <div class="desktop-nav__link-container">
           <div class="desktop-nav__sub">
             <h4>Test Header</h4>
-            <a>Test Anchor 1</a>
-            <a>Test Anchor 2</a>
-            <a>Test Anchor 3</a>
-            <a>Test Anchor 4</a>
-            <a>Test Anchor 5</a>
-            <a>Test Anchor 6</a>
-            <a>Test Anchor 7</a>
-            <a>Test Anchor 8</a>
+            <span><a>Test Anchor</a></span>
+            <span><a>Test Anchor</a></span>
+            <span><a>Test Anchor</a></span>
+            <span><a>Test Anchor</a></span>
+            <span><a>Test Anchor</a></span>
+            <span><a>Test Anchor</a></span>
+            <span><a>Test Anchor</a></span>
+            <span><a>Test Anchor</a></span>
+            <span><a>Test Anchor</a></span>
           </div>
           <div class="desktop-nav__sub">
               <h4>Test Header</h4>
-              <a>Test Anchor 1</a>
-              <a>Test Anchor 2</a>
-              <a>Test Anchor 3</a>
-              <a>Test Anchor 4</a>
-              <a>Test Anchor 5</a>
-              <a>Test Anchor 6</a>
-              <a>Test Anchor 7</a>
-              <a>Test Anchor 8</a>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
           </div>
           <div class="desktop-nav__sub">
               <h4>Test Header</h4>
-              <a>Test Anchor 1</a>
-              <a>Test Anchor 2</a>
-              <a>Test Anchor 3</a>
-              <a>Test Anchor 4</a>
-              <a>Test Anchor 5</a>
-              <a>Test Anchor 6</a>
-              <a>Test Anchor 7</a>
-              <a>Test Anchor 8</a>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
+              <span><a>Test Anchor</a></span>
           </div>
         </div>
         <div class="desktop-nav__img-container">
@@ -113,6 +116,35 @@
 
 <script>
 $(function() {
-  $()
+  /*
+   * This is a really neat hack that prevents the dropdown box
+   * from immediately disappearing when :hover is removed.
+   * It provides a 180ms grace period between the nav link and
+   * the dropdown. If neither a dropdown box NOR a nav link are
+   * being hovered by the end of that grace period, we officially
+   * "de-hover". It also allows fast inter-nav-link hovering.
+   */
+  var currentNavItem = null;
+  $('.desktop-nav__item').hover(function() {
+    currentNavItem = $(this);
+    var addHover = function(j) {
+      if (j.html() == currentNavItem.html() && j.is(':hover') && !currentNavItem.hasClass('hover'))
+        currentNavItem.addClass('hover');
+    };
+    setTimeout(addHover, 50, $(this));
+  }, function () {
+    setTimeout(function(j) {
+      if (j.html() != currentNavItem.html() && j.hasClass('hover'))
+        j.removeClass('hover');
+      else 
+        setTimeout(function(k) {
+          if (!k.is(':hover') && k.hasClass('hover'))
+          {
+            k.removeClass('hover');
+            currentNavItem = null;
+          }
+        }, 150, j);
+    }, 30, $(this));
+  })
 });
 </script>
