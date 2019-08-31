@@ -66,12 +66,39 @@
       </div>
     </div>
     {% if section.settings.message %}
-      <div class="announcement-bar"  >
+      <div class="announcement-bar">
         <img class="cross_icon" id="announcement-bar__close" alt="close button the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
         {% if section.settings.message %}
-          <span class="announcement-bar__message">
-            {{ section.settings.message_text | escape }}
-          </span>   
+          <div class="announcement-bar__slider-container">
+            {% assign messages = section.settings.message_text_1 | append: "||" | append: section.settings.message_text_2 | append: "||" | append: section.settings.message_text_3 | append: "||" | append: section.settings.message_text_4 | append: "||" | append: section.settings.message_text_5 %}
+            {% assign messages = messages | split: "||"  | compact %}
+            {% if messages.size > 1 %}
+              <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
+                  <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+              </button>
+              <div class="slick-slider__carousel" id="announcement-bar__carousel">
+                {% for message_text in messages %}
+                  {% if message_text != blank %}
+                    <div class="slick-slider__item">
+                      <div class="slick-slider__card" tabindex="-1">
+                        <span class="announcement-bar__message">
+                          {{ message_text }}
+                        </span>   
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
+                <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+              </button>
+            {% elsif messages[0] != blank %}
+             <span class="announcement-bar__message">
+                {{ messages[0] }}
+              </span>   
+            {% endif %}
+          </div>
+          
         {% endif %}
       </div>
     {% endif %}
@@ -79,14 +106,6 @@
 </div>
 
 <script>
-  $(window).load(function(){
-    if (!readCookie('hideannouncement')) {
-      setTimeout(function() 
-      {
-        $('.announcement-bar').slideDown("slow");
-      }, 3000);
-    }
-  });
   $(document).ready(function() {
     if (!readCookie('hidecookiepolicy')) {
       $('.cookie-bar').show();
@@ -97,6 +116,19 @@
     if (readCookie('hideannouncement')) {
       $('.announcement-bar').hide();
       adjustContainerPadding(2);
+    } else {
+      $('#announcement-bar__carousel').slick({
+        dots: false,
+        infinite: true,
+        speed: 400,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        swipeToSlide: true,
+        touchThreshold: 8,
+        autoplay: true,
+        autoplaySpeed: 4000,
+        arrows: false
+      });
     }
 
     $('#cookie-bar__close').click(function() {
@@ -335,21 +367,24 @@
         "default": "0"
       },
       {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Announcement color",
+        "default": "#7796A8"
+      },
+      {
+        "type": "header",
+        "content": "Announcement Messages"
+      },
+      {
         "type": "text",
-        "id": "message_text",
-        "label": "Announcement text",
-        "default": "Announce something here"
+        "id": "announcement_text_width",
+        "label": "Announcement text width"
       },
       {
         "type": "text",
         "id": "message_text_font_size",
         "label": "Font size"
-      },
-      {
-        "type": "color",
-        "id": "color_bg",
-        "label": "Announcement color",
-        "default": "#7796A8"
       },
       {
         "type": "color",
@@ -359,15 +394,34 @@
       },
       {
         "type": "text",
-        "id": "announcement_text_width",
-        "label": "Announcement text width"
+        "id": "message_text_1",
+        "label": "Announcement text",
+        "default": "Announce something here"
       },
-
       {
-      "type": "header",
-      "content": "Divider"
+        "type": "text",
+        "id": "message_text_2",
+        "label": "Announcement text"
+      },
+      {
+        "type": "text",
+        "id": "message_text_3",
+        "label": "Announcement text"
+      },
+      {
+        "type": "text",
+        "id": "message_text_4",
+        "label": "Announcement text"
+      },
+      {
+        "type": "text",
+        "id": "message_text_5",
+        "label": "Announcement text"
+      },
+      {
+        "type": "header",
+        "content": "Divider"
       },       
-
       {
         "type": "checkbox",
         "id": "header_divider",

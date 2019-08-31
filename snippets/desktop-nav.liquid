@@ -1,115 +1,41 @@
 <ul class="desktop-nav">
   {% for link in linklists[section.settings.main_linklist].links %}
-    {%- assign child_list_handle = link.title | handleize -%}
-
-    {% comment %}
-      Check if third-level nav exists on each parent link.
-    {% endcomment %}
-    {% comment %}
-    {%- assign three_level_nav = false -%}
-    {% if link.links != blank %}
-      {% if link.levels == 2 %}
-        {%- assign three_level_nav = true -%}
-      {% endif %}
+    {% if forloop.index > 6 %}
+      {% continue %}
     {% endif %}
-
-    {% if link.links != blank %}
-      <li class="desktop-nav--has-dropdown{% if three_level_nav %} desktop-nav--has-centered-dropdown{% endif %}{% if link.active %} desktop-nav--active{% endif %}">
-        <button class="desktop-nav__link desktop-nav__link--main desktop-nav__link--button"{% if link.active %} aria-current="page"{% endif %} type="button" aria-haspopup="true" aria-expanded="false" aria-controls="SiteNavLabel-{{ child_list_handle }}">
-          {{ link.title }}
-          {% include 'icon-chevron-down' %}
-        </button>
-
-        <div class="desktop-nav__dropdown{% if three_level_nav %} desktop-nav__dropdown--centered{% endif %}" id="SiteNavLabel-{{ child_list_handle }}">
-          {% if three_level_nav %}
-            <div class="desktop-nav__childlist">
-              <ul class="desktop-nav__childlist-grid">
-                {% if link.links != blank %}
-                  {% for childlink in link.links %}
-                    <li class="desktop-nav__childlist-item">
-                      <a href="{{ childlink.url }}" class="desktop-nav__link desktop-nav__child-link desktop-nav__child-link--parent"{% if childlink.active %} aria-current="page"{% endif %}>
-                        {{ childlink.title | escape }}
-                      </a>
-                      {% if childlink.links != blank %}
-                        <ul class="sub_child" display="none">
-                        {% for grandchildlink in childlink.links %}
-                          <li>
-                            <a href="{{ grandchildlink.url }}" class="desktop-nav__link desktop-nav__child-link"{% if grandchildlink.active %} aria-current="page"{% endif %}>
-                              {{ grandchildlink.title | escape }}
-                            </a>
-                          </li>
-                        {% endfor %}
-                        </ul>
-                      {% endif %}
-                    </li>
-                  {% endfor %}
-                {% endif %}
-              </ul>
-            </div>
-          {% else %}
-            <ul>
-              {% for childlink in link.links %}
-                <li {% if childlink.active %}class="desktop-nav--active"{% endif %}>
-                  <a href="{{ childlink.url }}" class="desktop-nav__link desktop-nav__child-link{% if forloop.last %} desktop-nav__link--last{% endif %}"{% if childlink.active %} aria-current="page"{% endif %}>
-                    {{ childlink.title | escape }}
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </div>
-      </li>
-    {% else %}
-    {% endif %}
-    {% endcomment %}
-
-    <li class="desktop-nav__item {% if link.active %}desktop-nave__active{% endif %}">
+    <li class="desktop-nav__item {% if link.active %}desktop-nav__active{% endif %}">
       <a href="{{ link.url }}" class="desktop-nav__link" {% if link.active %} aria-current="page"{% endif %}>
         {{ link.title }}
       </a>
-      <div class="desktop-nav__dropdown border-bottom">
-        <div class="desktop-nav__link-container">
-          <div class="desktop-nav__sub">
-            <h4>Test Header</h4>
-            <span><a>Test Anchor</a></span>
-            <span><a>Test Anchor</a></span>
-            <span><a>Test Anchor</a></span>
-            <span><a>Test Anchor</a></span>
-            <span><a>Test Anchor</a></span>
-            <span><a>Test Anchor</a></span>
-            <span><a>Test Anchor</a></span>
-            <span><a>Test Anchor</a></span>
-            <span><a>Test Anchor</a></span>
+      {% if link.links != blank and link.levels > 0 %}
+        <div class="desktop-nav__dropdown border-bottom">
+          <div class="desktop-nav__link-container">
+            {% for childlink in link.links %}
+              {% if forloop.index > 4 %}
+                {% break %}
+              {% endif %}
+              <div class="desktop-nav__sub">
+                {% if childlink.url == "/" %} 
+                    <h4>{{ childlink.title }}</h4>
+                {% endif %}
+                {% if childlink.links != blank and childlink.levels > 0 %}
+                  {% for grandchildlink in childlink.links %}
+                    {% if forloop.index > 10 %}
+                      {% break %}
+                    {% endif %}
+                    <a href="{{ grandchildlink.url }}" {% if grandchildlink.active %}style="desktop-nav__active" aria-current="page"{% endif %}>
+                      {{ grandchildlink.title }}
+                    </a>
+                  {% endfor %} 
+                {% endif %}
+              </div>
+            {% endfor %}
           </div>
-          <div class="desktop-nav__sub">
-              <h4>Test Header</h4>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-          </div>
-          <div class="desktop-nav__sub">
-              <h4>Test Header</h4>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
-              <span><a>Test Anchor</a></span>
+          <div class="desktop-nav__img-container">
+            <img src="https://cdn.redmarkdeals.com/img/placeholder.png"/>
           </div>
         </div>
-        <div class="desktop-nav__img-container">
-          <img src="https://cdn.redmarkdeals.com/img/placeholder.png"/>
-        </div>
-      </div>
+      {% endif %}
     </li>
   {% endfor %}
 </ul>
@@ -143,7 +69,7 @@ $(function() {
             k.removeClass('hover');
             currentNavItem = null;
           }
-        }, 150, j);
+        }, 170, j);
     }, 30, $(this));
   })
 });
