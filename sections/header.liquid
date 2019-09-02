@@ -1,263 +1,109 @@
-{% if section.settings.message %}
-<style>
-  .announcement-bar {
-    background-color: {{ section.settings.color_bg }};
-  }
-  .announcement-bar__message {
-    color: {{ section.settings.color_text }};
-  }
-</style>
-{% endif %} 
 <div data-section-id="{{ section.id }}" data-section-type="header-section" >
-<div class="whole_header">
+  <div class="site-header__container">
     {% if settings.enable_cookie_bar != blank %}
-    <div class="cookie-bar">
-      <img class="cross_icon" id="cookie-bar__close" alt="close button for the cookie policy bar" src="{{ "cross.png" | asset_url }}"> 
-      <span class="cookie-bar__message">
-        {{ settings.cookie_bar_text }}&nbsp;<a href="{{ settings.cookie_bar_link_url }}">{{ settings.cookie_bar_link_text }}</a>
-      </span>
-    </div>
-    {% endif %}
-  <header class="site-header border-bottom logo--left" role="banner">
-    <div class="grid grid--no-gutters grid--table" id="logo_here">
-      {% if section.settings.align_logo == 'center' %}
-      <div class="grid__item small--hide medium-up--one-quarter ">
-        <div class="site-header__search">       
-        </div>
+      <div class="cookie-bar">
+        <img class="cross_icon" id="cookie-bar__close" alt="close button for the cookie policy bar" src="{{ "cross.png" | asset_url }}"> 
+        <span class="cookie-bar__message">
+          {{ settings.cookie_bar_text }}&nbsp;<a href="{{ settings.cookie_bar_link_url }}">{{ settings.cookie_bar_link_text }}</a>
+        </span>
       </div>
-      {% endif %}
-      {% if section.settings.align_logo == 'center' %}
-      {%- assign logo_classes = 'medium--one-third large-up--one-quarter logo-align--center' -%}
-      {% else %}
-      {%- assign logo_classes = 'medium-up--one-quarter logo-align--left one_left' -%}
-      {% endif %}
-      <div class="grid__item small--whole {{ logo_classes }}">
-        {% comment %}
-        Use the uploaded logo from theme settings if enabled.
-        Site name gets precedence with H1 tag on homepage, div on other pages.
-        {% endcomment %}
-        {% if template == 'index' %}
-        <h1 class="h2 site-header__logo" itemscope itemtype="http://schema.org/Organization">
-          {% else %}
-          <div class="h2 site-header__logo" itemscope itemtype="http://schema.org/Organization">
-            {% endif %}
-            {% if section.settings.logo %}
-            <a href="{{ shop.url }}" itemprop="url" class="site-header__logo-image{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}">
-              {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
-              <img srcset="{{ section.settings.logo | img_url : 'master' }}"
-                   alt="{{ section.settings.logo.alt | default: shop.name }}"
-                   id="toplogo"
-                   class="alds" itemprop="logo">
-            </a>
-            {% else %}
-            <a class="site-header__logo-link" href="{{ shop.url }}" itemprop="url">{{ shop.name }}</a>
-            {% endif %}
-            {% if template == 'index' %}
-            </h1>
-          {% else %}
-          </div>
+    {% endif %}
+    <div class="site-header__main-container border-bottom logo--left" role="banner">
+      <div class="site-header__logo" itemscope itemtype="http://schema.org/Organization">
+        {% if section.settings.logo %}
+          <a href="{{ shop.url }}" itemprop="url">
+            {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+            <img srcset="{{ section.settings.logo | img_url : 'master' }}"
+                alt="{{ section.settings.logo.alt | default: shop.name }}"
+                id="toplogo"
+                class="site-header__logo-image" itemprop="logo">
+          </a>
+        {% else %}
+          <a class="site-header__logo-link" href="{{ shop.url }}" itemprop="url">{{ shop.name }}</a>
         {% endif %}
       </div>
-      {% if section.settings.align_logo == 'left' %}
-      <nav class="grid__item medium-up--one-half small--hide " id="AccessibleNav" role="navigation">
-        {% include 'site-nav' %}
+      <nav class="site-header__desktop-nav" id="AccessibleNav" role="navigation">
+        {% include 'desktop-nav' %}
       </nav>
-      {% endif %}
-      <div class="grid__item small--one-whole medium-up--one-quarter text-right site-header__icons{% if shop.customer_accounts_enabled %} site-header__icons--plus{% endif %} two_left">
-        <div class="site-header__icons-wrapper {% if shop.customer_accounts_enabled %} righs {% else %} leftss {% endif %}">
-          {% if section.settings.align_logo == 'left' %}
-          <div class="site-header__search small--hide">
-            {% include 'search-form' %}
-          </div>
-          {% if shop.customer_accounts_enabled %}
-          {% if customer %}
-          <a href="/account" class="site-header__account">
-            {% include 'icon-login' %}
-            <span class="icon__fallback-text">{{ 'layout.customer.account' | t }}</span>
-          </a>
-          {% else %}
-          <a href="/account/login" class="site-header__account">
-            {% include 'icon-login' %}
-            <span class="icon__fallback-text">{{ 'layout.customer.log_in' | t }}</span>
-          </a>
-          {% endif %}
-          {% endif %}
-          <a href="/cart" class="site-header__cart">
-            {% include 'icon-cart' %}
-            <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
-            <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
-            <div id="CartCount" class="site-header__cart-count {% if cart.item_count == 0 %} hidden-count {% endif %}">
-              {{ cart.item_count }}
-            </div>
-          </a>
-          {% endif %}         
-          <button type="button" class="btn--link site-header__search-toggle js-drawer-open-top ">
-            {% include 'icon-search' %}
-            <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
-          </button>
-          {% unless linklists[section.settings.main_linklist] == blank %}
-          <button type="button" class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open">
-            {% include 'icon-hamburger' %}
-            {% include 'icon-close' %}
-            <span class="icon__fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
-          </button>
-          {% endunless %}  
+      {% comment %}
+      {% unless linklists[section.settings.main_linklist] == blank %}
+        <button type="button" class="btn--link site-header__mobile-nav js-mobile-nav-toggle mobile-nav--open">
+          {% include 'icon-hamburger' %}
+          {% include 'icon-close' %}
+          <span class="icon__fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
+        </button>
+      {% endunless %}  
+      {% endcomment %}
+      <div class="site-header__icons">
+        <button type="button" class="btn--link site-header__search-toggle js-drawer-open-top ">
+          {% include 'icon-search' %}
+          <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
+        </button>
+        <div class="site-header__search">
+          {% include 'search-form' %}
         </div>
+        {% if shop.customer_accounts_enabled %}
+          {% if customer %}
+            <a href="/account" class="site-header__account">
+              {% include 'icon-login' %}
+              <span class="icon__fallback-text">{{ 'layout.customer.account' | t }}</span>
+            </a>
+          {% else %}
+            <a href="/account/login" class="site-header__account">
+              {% include 'icon-login' %}
+              <span class="icon__fallback-text">{{ 'layout.customer.log_in' | t }}</span>
+            </a>
+          {% endif %}
+        {% endif %}
+        <a href="/cart" class="site-header__cart">
+          {% include 'icon-cart' %}
+          <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
+          <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
+          <div id="CartCount" class="site-header__cart-count {% if cart.item_count == 0 %} hidden-count {% endif %}">
+            {{ cart.item_count }}
+          </div>
+        </a>
       </div>
     </div>
-  </header>
-
-  {% if section.settings.align_logo == 'center' %}
-  <nav class="small--hide border-bottom"  id="AccessibleNav" role="navigation">
-    {% include 'site-nav', nav_alignment: 'site-nav--centered' %}
-  </nav>
-  {% endif %}
-  <!--     Announcement Starts here     -->
-  {% if section.settings.message %}
-  <div class="announcement-bar"  >
-    <img class="cross_icon" id="announcement-bar__close" alt="close button the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
     {% if section.settings.message %}
-    <span class="announcement-bar__message">
-      {{ section.settings.message_text | escape }}
-    </span>   
+      <div class="announcement-bar">
+        <img class="cross_icon" id="announcement-bar__close" alt="close button the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
+        {% if section.settings.message %}
+          <div class="announcement-bar__slider-container">
+            {% assign messages = section.settings.message_text_1 | append: "||" | append: section.settings.message_text_2 | append: "||" | append: section.settings.message_text_3 | append: "||" | append: section.settings.message_text_4 | append: "||" | append: section.settings.message_text_5 %}
+            {% assign messages = messages | split: "||"  | compact %}
+            {% if messages.size > 1 %}
+              <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
+                  <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+              </button>
+              <div class="slick-slider__carousel" id="announcement-bar__carousel">
+                {% for message_text in messages %}
+                  {% if message_text != blank %}
+                    <div class="slick-slider__item">
+                      <div class="slick-slider__card" tabindex="-1">
+                        <span class="announcement-bar__message">
+                          {{ message_text }}
+                        </span>   
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
+                <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+              </button>
+            {% elsif messages[0] != blank %}
+             <span class="announcement-bar__message">
+                {{ messages[0] }}
+              </span>   
+            {% endif %}
+          </div>
+          
+        {% endif %}
+      </div>
     {% endif %}
   </div>
-  {% endif %}
-
-<!--     Announcement Ends here     -->
 </div>
-
-<style>
-a[class*="site-header__logo"]:hover,  
-a[class*="site-header__logo"]:focus {
-    opacity: 1 !important;
-}
-   div.site-nav__dropdown {
-    z-index: 9999;
-}
-{% if section.settings.logo != blank %}
-.site-header__logo-image {
-        max-width: {{ section.settings.logo_max_width }}px !important;
-      }
-    {% endif %}
-
-    {% if section.settings.align_logo == 'left' %}
-      .site-header__logo-image {
-        margin: 0;
-      }
-    {% endif %}
-    {% if section.settings.align_logo == 'center' %}
-     .search-bar__submit, .search-header__submit {
-        top: -5px;
-      }
-    
- @media screen and (max-width: 767px) and (min-width: 320px)
-   {
-
-.grid__item.small--one-half.medium-up--one-quarter.logo-align--left.one_left {
-    width: 100%;
-    float: left;
-}     
-     
-.grid__item.small--one-whole.medium-up--one-quarter.text-right.site-header__icons.site-header__icons--plus.two_left {
-    width: 100%;
-    float: left;
-}
-   }
-
-    
-    
-     @media screen and (max-width: 767px) and (min-width: 320px)
-{
-  .centerer {
-    position: relative;
-    bottom: 20px;
-    right:0px;
-}
-}
-    {% endif %}
-    
-  
-    
-  </style>
-</div>
-<style>
-  {% unless shop.customer_accounts_enabled %}
-  .lefts {
-    right: 70px;
-}
-  {% endunless %}
-  
-{% if section.settings.cross  %}
-img.cross_icon{
- display:block;
-}
-  {% else %}
-  img.cross_icon{
- display:none;
-}
-{% endif %} 
-  
- ul#SiteNav li {
-   font-size: {{section.settings.menu_font_size}};
-}  
-   
-  span.announcement-bar__message {
-    
-    font-size:  {{ section.settings.message_text_font_size }} !important;
-    
-}
-  
-  ul#SiteNav li a {
-    font-weight: {{ section.settings.menu_font_weight }};
-}
-  
-  nav#AccessibleNav ul li a {
-    color: {{ section.settings.menu_font_color }};
-}
-  
-header.site-header.border-bottom.logo--left {
-    border-bottom: 0px;
-}  
-svg:not(:root) {
-  fill:{{ section.settings.Svg }};
-}
-{% if section.settings.header_divider  %}
-header.site-header.border-bottom.logo--left {
-    border-bottom: 1px solid {{ section.settings.header_divider_color }} ;
-}
-  {% else %}
- header.site-header.border-bottom.logo--left {
-    border-bottom: 0px solid #000;
-}
-{% endif %} 
-  
-/* -------------------  header background----------------------- */
-.whole_header {
-  position: fixed;
-  width: 100vw;
-  z-index: 1000;
-} 
-  
-header.site-header.border-bottom.logo--left {
-  min-height: 70px;
-  background-color: rgba(255, 255, 255, 0.95);
-}
-  
-span.announcement-bar__message {
-  width: 100%;
-  margin: 0 auto;
-  max-width: {{ section.settings.announcement_text_width }}px;
-}  
-
-    @media screen and (min-width:320px) and (max-width:767px) { 
- h1.h2.site-header__logo a img {
-    margin:0 auto;
-}
-  }
-  
-</style>
-
 
 <script>
   $(document).ready(function() {
@@ -267,11 +113,22 @@ span.announcement-bar__message {
       $('.cookie-bar').hide();
       adjustContainerPadding(1);
     }
-    if (!readCookie('hideannouncement')) {
-      $('.announcement-bar').show();
-    } else {
+    if (readCookie('hideannouncement')) {
       $('.announcement-bar').hide();
       adjustContainerPadding(2);
+    } else {
+      $('#announcement-bar__carousel').slick({
+        dots: false,
+        infinite: true,
+        speed: 400,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        swipeToSlide: true,
+        touchThreshold: 8,
+        autoplay: true,
+        autoplaySpeed: 4000,
+        arrows: false
+      });
     }
 
     $('#cookie-bar__close').click(function() {
@@ -360,6 +217,68 @@ span.announcement-bar__message {
   }
 </script>
 
+<style>
+  .announcement-bar {
+    background-color: {{ section.settings.color_bg }};
+  }
+  .announcement-bar__message {
+    color: {{ section.settings.color_text }};
+  }
+  div.desktop-nav__dropdown {
+    z-index: 9999;
+  }
+  {% if section.settings.logo != blank %}
+    .site-header__logo-image {
+      max-width: {{ section.settings.logo_max_width }}px !important;
+    }
+  {% endif %}
+  {% unless shop.customer_accounts_enabled %}
+    .lefts {
+      right: 70px;
+    } 
+  {% endunless %}
+  {% if section.settings.cross  %}
+    img.cross_icon {
+      display:block;
+    }
+  {% else %}
+    img.cross_icon {
+      display:none;
+    }
+  {% endif %} 
+  span.announcement-bar__message {
+    font-size:  {{ section.settings.message_text_font_size }} !important;
+  }
+  nav#AccessibleNav ul li a {
+    color: {{ section.settings.menu_font_color }};
+  }
+  header.site-header.border-bottom.logo--left {
+    border-bottom: 0px;
+  }  
+  svg:not(:root) {
+    fill:{{ section.settings.Svg }};
+  }
+  {% if section.settings.header_divider  %}
+    header.site-header.border-bottom.logo--left {
+        border-bottom: 1px solid {{ section.settings.header_divider_color }} ;
+    }
+  {% else %}
+    header.site-header.border-bottom.logo--left {
+      border-bottom: 0px solid #000;
+    }
+  {% endif %} 
+  /* -------------------  header background----------------------- */
+  .whole_header {
+    position: fixed;
+    width: 100vw;
+    z-index: 1000;
+  } 
+  span.announcement-bar__message {
+    width: 100%;
+    margin: 0 auto;
+    max-width: {{ section.settings.announcement_text_width }}px;
+  }
+</style>
 
 {% schema %}
   {
@@ -368,16 +287,6 @@ span.announcement-bar__message {
       {
         "type": "header",
         "content": "Logo"
-      },  
-      {
-        "type": "radio",
-        "id": "align_logo",
-        "label": "Logo alignment",
-        "default": "left",
-        "options": [
-          {"value": "left", "label": "Left"},
-          {"value": "center", "label": "Centered"}
-        ]
       },
       {
         "type": "image_picker",
@@ -458,21 +367,24 @@ span.announcement-bar__message {
         "default": "0"
       },
       {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Announcement color",
+        "default": "#7796A8"
+      },
+      {
+        "type": "header",
+        "content": "Announcement Messages"
+      },
+      {
         "type": "text",
-        "id": "message_text",
-        "label": "Announcement text",
-        "default": "Announce something here"
+        "id": "announcement_text_width",
+        "label": "Announcement text width"
       },
       {
         "type": "text",
         "id": "message_text_font_size",
         "label": "Font size"
-      },
-      {
-        "type": "color",
-        "id": "color_bg",
-        "label": "Announcement color",
-        "default": "#7796A8"
       },
       {
         "type": "color",
@@ -482,25 +394,82 @@ span.announcement-bar__message {
       },
       {
         "type": "text",
-        "id": "announcement_text_width",
-        "label": "Announcement text width"
+        "id": "message_text_1",
+        "label": "Announcement text",
+        "default": "Announce something here"
       },
-
       {
-      "type": "header",
-      "content": "Divider"
+        "type": "text",
+        "id": "message_text_2",
+        "label": "Announcement text"
+      },
+      {
+        "type": "text",
+        "id": "message_text_3",
+        "label": "Announcement text"
+      },
+      {
+        "type": "text",
+        "id": "message_text_4",
+        "label": "Announcement text"
+      },
+      {
+        "type": "text",
+        "id": "message_text_5",
+        "label": "Announcement text"
+      },
+      {
+        "type": "header",
+        "content": "Divider"
       },       
-
       {
         "type": "checkbox",
         "id": "header_divider",
-        "label": "Enable Divider",
+        "label": "Enable divider",
         "default": true
       },
       {
         "type": "color",
         "id": "header_divider_color",
         "label": "Font Color"
+      },
+      {
+        "type": "header",
+        "content": "Desktop Navigation"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_left_image",
+        "label": "Enable left image",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "left_image",
+        "label": "Left Image"
+      },
+      {
+        "type": "text",
+        "id": "left_image_url",
+        "label": "Left Image URL",
+        "default": "#"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_right_image",
+        "label": "Enable right image",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "right_image",
+        "label": "Right Image"
+      },
+      {
+        "type": "text",
+        "id": "right_image_url",
+        "label": "Right Image URL",
+        "default": "#"
       }
     ]
   }

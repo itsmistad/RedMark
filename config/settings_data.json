@@ -105,7 +105,7 @@
     "show_collection_image": false,
     "sale_text": "sale",
     "layout": "grid",
-    "title": "Featured collection",
+    "title": "Featured Collection",
     "collection": "shirts",
     "show_view_all": false,
     "settings.max_num": "3",
@@ -114,7 +114,6 @@
       "header": {
         "type": "header",
         "settings": {
-          "align_logo": "left",
           "logo": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_c8b41e97-ec05-4754-8b0d-086e0f15f46c.png",
           "logo_max_width": "160",
           "main_linklist": "",

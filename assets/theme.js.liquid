@@ -945,16 +945,16 @@ theme.Header = (function() {
   var selectors = {
     body: 'body',
     navigation: '#AccessibleNav',
-    siteNavHasDropdown: '.site-nav--has-dropdown',
-    siteNavChildLinks: '.site-nav__child-link',
-    siteNavActiveDropdown: '.site-nav--active-dropdown',
-    siteNavLinkMain: '.site-nav__link--main',
-    siteNavChildLink: '.site-nav__link--last'
+    siteNavHasDropdown: '.desktop-nav--has-dropdown',
+    siteNavChildLinks: '.desktop-nav__child-link',
+    siteNavActiveDropdown: '.desktop-nav--active',
+    siteNavLinkMain: '.desktop-nav__link',
+    siteNavChildLink: '.desktop-nav__link--last'
   };
 
   var config = {
-    activeClass: 'site-nav--active-dropdown',
-    childLinkClass: 'site-nav__child-link'
+    activeClass: 'desktop-nav--active',
+    childLinkClass: 'desktop-nav__child-link'
   };
 
   var cache = {};
@@ -1072,7 +1072,7 @@ theme.Search = (function() {
     searchSubmit: '.search__submit',
     searchInput: '.search__input',
 
-    siteHeader: '.site-header',
+    siteHeader: '.site-header__main-container',
     siteHeaderSearchToggle: '.site-header__search-toggle',
     siteHeaderSearch: '.site-header__search',
 
@@ -1135,7 +1135,7 @@ theme.Search = (function() {
     $(selectors.searchSubmit).on('click', function(evt) {
       var $el = $(evt.target);
       var $input = $el.parents(selectors.search).find(selectors.searchInput);
-      if ($input.val().length === 0) {
+      if ($input.val().trim().length === 0) {
         evt.preventDefault();
         searchFocus($input);
       }
