@@ -36,34 +36,30 @@
   {% endif %}
 </div>
 
-  <style>
-    
-    {% if section.settings.check_box_02 %}
+<style>
+  {% if section.settings.check_box_02 %}
     h3.collection-grid-item__title {
-    display: none;
-}
-    {% endif %}
-    
-   .section-header.text-center.custom_9 h2{
+      display: none;
+    }
+  {% endif %}
+  .section-header.text-center.custom_9 h2 {
     font-size: {{ section.settings.font_size_01 }};
     color: {{ section.settings.font_color_01 }};
-}
-    
-    .collection-grid-item__title-wrapper h3 {
+  }
+  .collection-grid-item__title-wrapper h3 {
     font-size:  {{ section.settings.font_size_02 }};
     color:  {{ section.settings.font_color_02 }}  !important ;
-}
-    @media screen and (max-width : 767px )  and (min-width : 320px) {
+  }
+  @media screen and (max-width : 767px ) and (min-width : 320px) {
     .collection-grid-item__title-wrapper h3 {
-    font-size:  {{ section.settings.font_size_03 }};
+      font-size:  {{ section.settings.font_size_03 }};
     }
-    }
-  </style>
-
+  }
+</style>
 
 {% schema %}
   {
-    "name": "Collection list",
+    "name": "Collection List",
     "class": "index-section",
     "max_blocks": 12,
     "settings": [
@@ -71,7 +67,7 @@
         "type": "text",
         "id": "title",
         "label": "Heading",
-        "default": "Collection list"
+        "default": "Collection List"
       },
       {
         "type": "text",
@@ -102,7 +98,6 @@
         "id": "font_color_02",
         "label": "Font Color"
       },
-
       {
         "type": "checkbox",
         "id": "check_box_02",
@@ -153,7 +148,7 @@
     ],
     "presets": [
       {
-        "name": "Collection list",
+        "name": "Collection List",
         "category": "Section",
         "settings": {
           "grid": "3"
