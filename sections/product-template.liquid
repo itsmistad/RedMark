@@ -1,10 +1,3 @@
-{% for tags_r in product.tags %}
-  {% if tags_r contains 'upsell_' %}
-    {% assign test = tags_r | remove: 'upsell_' %}
-    {% assign test_1  = all_products[test] %}  
-  {% endif %}
-{% endfor %}
-
 <div class="product-section__container page-width"  itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true"> 
   <meta itemprop="name" content="{{ product.title }}">
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
@@ -172,6 +165,10 @@
   {{ product.metafields.stamped.reviews }}
 </div>
 
+{% comment %}
+  This is the upsell widget (which needs more work before being enabled).
+{% endcomment %}
+{% comment %}
 <div class="modal fade" id="upsell-modal" role="dialog">
   <div class="modal-dialog" data-expires="{{ settings.session_time }}" data-delay="1">
     <div class="modal-content">
@@ -236,6 +233,7 @@
     </div>
   </div>
 </div>
+{% endcomment %}
 
 {% comment %}
 {{ collection.url }}
@@ -417,24 +415,12 @@
     color: #fff;
     transition: 0.3s;
   }
-  .swatch label:hover {
-    background-color: #555;
-  }
   .swatch-element label { padding:0 10px; }
   .color.swatch-element label { padding:0; }
   /* Styling selected swatch */
   /* Slightly raised */
-  .swatch input:checked + label {
-    -webkit-box-shadow:0px 1px 2px rgba(0,0,0,0.8);
-    -moz-box-shadow:0px 1px 2px rgba(0,0,0,0.8);
-    box-shadow:0px 1px 2px rgba(0,0,0,0.8);
-    transition: 0.2s;
-    border-color:transparent;
-  } 
-  .swatch input:checked + label:hover {
-    -webkit-box-shadow:0px 1px 6px 2px rgba(0,0,0,0.5);
-    -moz-box-shadow:0px 1px 6px 2px rgba(0,0,0,0.5);
-    box-shadow:0px 1px 6px 2px rgba(0,0,0,0.5);
+  .swatch label:hover {
+    box-shadow:0px 0px 5px rgba(0,0,0,0.7);
     border-color:transparent;
   } 
   .swatch .swatch-element {

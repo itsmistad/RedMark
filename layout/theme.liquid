@@ -168,7 +168,6 @@
                     howLongTillBtnReturnsToNormal: 1000, // in milliseconds.
                     cartCountSelector: '.site-header__cart-count',
                     cartTotalSelector: '#cart-price',
-                    feedbackPosition: 'nextButton',
                     // What you will never need to change
                     addToCartBtnSelector: '[type="submit"]',
                     addToCartFormSelector: 'form[action="/cart/add"]',
@@ -178,19 +177,8 @@
                 var _showFeedback = function(success, html, $addToCartForm) {
                     $('.ajaxified-cart-feedback').remove();
                     var feedback = '<p class="ajaxified-cart-feedback ' + success + '">' + html + '</p>';
-                    switch (_config.feedbackPosition) {
-                        case 'aboveForm':
-                            $addToCartForm.before(feedback);
-                            break;
-                        case 'belowForm':
-                            $addToCartForm.after(feedback);
-                            break;
-                        case 'nextButton':
-                        default:
-                            $addToCartForm.find(_config.addToCartBtnSelector).after(feedback);
-                            break;
-                    }
-                    $('.ajaxified-cart-feedback').slideDown(800);
+                    $addToCartForm.find(_config.addToCartBtnSelector).after(feedback);
+                    $('.ajaxified-cart-feedback').animate({ height: "100%", opacity: 1 }, 400);
                 };
                 var _setText = function($button, label) {
                     if ($button.children().length) {
@@ -221,7 +209,7 @@
                                     // Re-enable add to cart button.
                                     $addToCartBtn.addClass('inverted');
                                     _setText($addToCartBtn, _config.addedToCartBtnLabel);
-                                    _showFeedback('success', '<i class="fa fa-check"></i> Added to cart! <input type="button" class="btn btn--small-wide" style="color:white;" onclick="location.href=\'/checkout\';" value="{{ "products.product.go_to_checkout" | t }}" />', $addToCartForm);
+                                    _showFeedback('success', '<span><i class="fa fa-check"></i> Added to cart!</span><input type="button" class="btn btn--small-wide" style="color:white;" onclick="location.href=\'/checkout\';" value="{{ "products.product.go_to_checkout" | t }}" />', $addToCartForm);
                                     window.setTimeout(function() {
                                         $addToCartBtn.prop('disabled', false).removeClass('disabled').removeClass('inverted');
                                         _setText($addToCartBtn, _config.addToCartBtnLabel);

@@ -1,5 +1,7 @@
 {
   "current": {
+    "facebook_link": "https:\/\/facebook.com\/RedMarkDeals",
+    "instagram_link": "https:\/\/instagram.com\/redmarkdeals",
     "collection_style_1": "collectionstyleone",
     "grid": "4",
     "rows": "8",
@@ -15,6 +17,10 @@
     "cookie_bar_text": "RedMark's website uses cookies to provide you with the best browsing experience. By using our website, you agree to our use of cookies.",
     "cookie_bar_link_text": "Read More",
     "cookie_bar_link_url": "https:\/\/redmarkdeals.com\/pages\/cookie-policy",
+    "add_to_cart_button_color": "#ff3b3b",
+    "add_to_cart_button_text": "Add to Cart",
+    "add_to_cart_button_soldouttext": "Sold Out",
+    "add_to_cart_button_textcolor": "#ffffff",
     "cart_drawer_enable": false,
     "cart_drawer_color": "#fff",
     "cart_drawer_caption_color": "#f7f8f9",
@@ -75,10 +81,6 @@
     "default_currency": "USD",
     "scroll_top_enable": true,
     "scroll_top_img": "shopify:\/\/shop_images\/scrollup.png",
-    "add_to_cart_button_color": "#ff3b3b",
-    "add_to_cart_button_text": "Add to Cart",
-    "add_to_cart_button_soldouttext": "Sold Out",
-    "add_to_cart_button_textcolor": "#ffffff",
     "checkout_header_image": "",
     "checkout_logo_image": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_34175e33-c9a4-424e-a757-8a5994297823.png",
     "checkout_logo_position": "left",
@@ -94,8 +96,6 @@
     "checkout_button_color": "#ff3b3b",
     "checkout_error_color": "#e32c2b",
     "checkout_button_fontsize": "16",
-    "facebook_link": "https:\/\/facebook.com\/RedMarkDeals",
-    "instagram_link": "https:\/\/instagram.com\/redmarkdeals",
     "max_num": "30",
     "max_num_1": "2",
     "min_num_2": "1",
@@ -107,7 +107,7 @@
     "show_collection_image": false,
     "sale_text": "sale",
     "layout": "grid",
-    "title": "Featured collection",
+    "title": "Featured Collection",
     "collection": "shirts",
     "show_view_all": false,
     "settings.max_num": "3",
@@ -118,7 +118,7 @@
         "settings": {
           "logo": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_34175e33-c9a4-424e-a757-8a5994297823.png",
           "logo_max_width": "160",
-          "main_linklist": "",
+          "main_linklist": "main-menu",
           "menu_font_size": "1.25em",
           "menu_font_weight": "100",
           "menu_font_color": "#000000",
@@ -128,17 +128,23 @@
           "cross": true,
           "days_till_hide_expires": "0",
           "seconds_till_hide_expires": "1800",
+          "color_bg": "#ff3b3b",
+          "announcement_text_width": "500",
           "message_text_font_size": "0.875em",
+          "color_text": "#ffffff",
           "message_text_1": "Unlock a secret with any order over $30 USD 👀",
           "message_text_2": "Free shipping on orders over $20 USD 📦",
-          "message_text_3": "Check out our new collection <a href=\"#\">here!</a> 💯",
+          "message_text_3": "Check out our new collection <a href=\"#\">here!<\/a> 💯",
           "message_text_4": "",
           "message_text_5": "",
-          "color_bg": "#ff3b3b",
-          "color_text": "#ffffff",
-          "announcement_text_width": "500",
           "header_divider": true,
-          "header_divider_color": "#e4e8e8"
+          "header_divider_color": "#e4e8e8",
+          "enable_left_image": "false",
+          "left_image": "",
+          "left_image_url": "#",
+          "enable_right_image": "false",
+          "right_image": "",
+          "right_image_url": "#"
         }
       },
       "footer": {
@@ -208,14 +214,23 @@
           "show_quantity_selector": true,
           "show_variant_labels": true,
           "show_vendor": false,
-          "enable_zoom": true,
           "show_share_buttons": true,
+          "enable_zoom": true,
+          "main_product_color": "",
+          "main_product_size": "",
           "enable_swatches": true,
           "swatches_color": "#ff3b3b",
           "related_product": true,
+          "cut_through_product_color": "",
+          "simple_product_color": "",
           "product_price_text": "",
           "product_description_text": "",
-          "show_empty_gallery_text": true
+          "font_size": "",
+          "stock_value_1": "Hurry only",
+          "stock_value_2": "left in stock!",
+          "show_empty_gallery_text": true,
+          "Fixed": false,
+          "top_enable": false
         }
       },
       "cart-template": {
@@ -227,11 +242,11 @@
           "min_spend_discount_enable": true,
           "cart_discount_box": "10",
           "cart_order_above_box": "30",
+          "discount_code": "RED10",
           "discount_line_1_emoji": "🔥",
           "discount_line_1": "Woohoo, you're on fire! Looks like you found our secret discount.",
           "discount_line_2_emoji": "✔️",
           "discount_line_2": "Since your cart is over $cart_order_above_box $selected_currency, here's a $cart_discount_box% <b>$discount_code<\/b> discount on us.",
-          "discount_code": "RED10",
           "processing_currency_text": "$shopname processes all orders in $shopcurrency. While the content of your cart is currently displayed in <span class=\"selected-currency\"><\/span>, you will check out using $shopcurrency at the most current exchange rate.",
           "shipping_text_enable": false,
           "shipping_text": "You can edit me and write whatever you want here"
@@ -338,11 +353,13 @@
       },
       "1541070475907": {
         "type": "homepage-rich-text",
-        "disabled": true,
         "settings": {
           "full_width": false,
           "section_title": "Talk about your brand",
-          "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>"
+          "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
+          "header_color": "#ffffff",
+          "body_color": "#e8e8e8",
+          "background_color": "#000000"
         }
       },
       "1544593914681": {
@@ -384,15 +401,15 @@
           "heading_color": "#fff",
           "content": "Sign up for our newsletter for more awesome deals and get a coupon for your next purchase",
           "content_size": "0.875em",
-          "content_color": "#fff",
+          "content_color": "#E8E8E8",
           "bg_color": "#000000"
         }
       }
     },
     "content_for_index": [
       "1494488548879",
-      "1494466252873",
       "1541070475907",
+      "1494466252873",
       "1544593914681",
       "1565474292060",
       "1494487788342"

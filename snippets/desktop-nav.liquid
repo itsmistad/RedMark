@@ -23,7 +23,7 @@
                     {% if forloop.index > 10 %}
                       {% break %}
                     {% endif %}
-                    <a href="{{ grandchildlink.url }}" {% if grandchildlink.active %}style="desktop-nav__active" aria-current="page"{% endif %}>
+                    <a href="{{ grandchildlink.url }}" {% if grandchildlink.active %} class="desktop-nav__active" aria-current="page" {% endif %}>
                       {{ grandchildlink.title }}
                     </a>
                   {% endfor %} 
@@ -31,9 +31,28 @@
               </div>
             {% endfor %}
           </div>
-          <div class="desktop-nav__img-container">
-            <img src="https://cdn.redmarkdeals.com/img/placeholder.png"/>
-          </div>
+          {% if section.settings.enable_left_image and section.settings.left_image != blank %}
+            <div class="desktop-nav__img-container left">
+              {% if section.settings.left_image_url != blank %}
+                <a href="{{ section.settings.left_image_url }}">
+                  <img src="{{ section.settings.left_image | img_url : 'master' }}"/>
+                </a>
+              {% else %}
+                <img src="{{ section.settings.left_image | img_url : 'master' }}"/>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% if section.settings.enable_right_image and section.settings.right_image != blank %}
+            <div class="desktop-nav__img-container right">
+              {% if section.settings.right_image_url != blank %}
+                <a href="{{ section.settings.right_image_url }}">
+                  <img src="{{ section.settings.right_image | img_url : 'master' }}"/>
+                </a>
+              {% else %}
+                <img src="{{ section.settings.right_image | img_url : 'master' }}"/>
+              {% endif %}
+            </div>
+          {% endif %}
         </div>
       {% endif %}
     </li>

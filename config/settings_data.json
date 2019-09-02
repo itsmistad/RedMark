@@ -105,7 +105,7 @@
     "show_collection_image": false,
     "sale_text": "sale",
     "layout": "grid",
-    "title": "Featured collection",
+    "title": "Featured Collection",
     "collection": "shirts",
     "show_view_all": false,
     "settings.max_num": "3",
