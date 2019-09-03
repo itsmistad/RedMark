@@ -104,6 +104,7 @@
     "min_num": "0",
     "sale_text": "sale",
     "layout": "grid",
+    "title": "Featured Collection",
     "collection": "shirts",
     "show_view_all": false,
     "settings.max_num": "3",
@@ -305,16 +306,15 @@
           "edit__name_color": "#000000",
           "edit__name_size": "0.8125em",
           "round_square": "square",
-          "imge_1": "",
+          "img_1": "",
           "text_1_style_2": "- Name",
           "subtext_1_style_2": "Review #1",
-          "imge_2": "",
+          "img_2": "",
           "text_1_style_3": "- Name",
           "subtext_1_style_3": "Review #2",
-          "imge_3": "",
+          "img_3": "",
           "text_1_style_4": "- Name",
-          "subtext_1_style_4": "Review #3",
-          "hide": false
+          "subtext_1_style_4": "Review #3"
         }
       },
       "1541070475907": {

@@ -1,49 +1,38 @@
 <div class="page-width reviews">
-  <div class="grid">
-    <div class="section-header">
-      <h2 class="header">{{ section.settings.heading_final }}</h2>
-    </div>
-    <div class="grid__item medium-up--one-third">
-      <div class="grid">
-        <div class="grid__item medium-up--two-fifths small--one-half">
-          <img src="{{ section.settings.imge_1 | img_url }}" alt="{{ section.settings.imge_1.alt | escape }}" />
-        </div>
-        <div class="grid__item medium-up--three-fifths small--one-half">          
-          <p class="review-text">{{ section.settings.subtext_1_style_2 }}</p>
-          <p class="review-name">{{ section.settings.text_1_style_2 }}</p>
-        </div>
+  <div class="section-header">
+    <h2 class="header">{{ section.settings.heading_final }}</h2>
+  </div>
+  <div class="reviews-section">
+    <div class="reviews-section__review">
+      <div class="reviews-section__icon">
+        <img src="{{ section.settings.img_1 | img_url }}" alt="{{ section.settings.img_1.alt | escape }}" />
+      </div>
+      <div class="reviews-section__text-content">          
+        <p class="review-text">{{ section.settings.subtext_1_style_2 }}</p>
+        <p class="review-name">{{ section.settings.text_1_style_2 }}</p>
       </div>
     </div>
-    <div class="grid__item medium-up--one-third">
-      <div class="grid">
-        <div class="grid__item medium-up--two-fifths small--one-half">
-          <img src="{{ section.settings.imge_2 | img_url }}" alt="{{ section.settings.imge_2.alt | escape }}" />
-        </div>
-        <div class="grid__item medium-up--three-fifths small--one-half">          
-          <p class="review-text">{{ section.settings.subtext_1_style_3 }}</p>
-          <p class="review-name">{{ section.settings.text_1_style_3 }}</p>
-        </div>
+    <div class="reviews-section__review">
+      <div class="reviews-section__icon">
+        <img src="{{ section.settings.img_2 | img_url }}" alt="{{ section.settings.img_2.alt | escape }}" />
+      </div>
+      <div class="reviews-section__text-content">          
+        <p class="review-text">{{ section.settings.subtext_1_style_3 }}</p>
+        <p class="review-name">{{ section.settings.text_1_style_3 }}</p>
       </div>
     </div>
-    <div class="grid__item medium-up--one-third">
-      <div class="grid">
-        <div class="grid__item medium-up--two-fifths small--one-half">
-          <img src="{{ section.settings.imge_3 | img_url }}" alt="{{ section.settings.imge_3.alt | escape }}" />
-        </div>
-        <div class="grid__item medium-up--three-fifths small--one-half">          
-          <p class="review-text">{{ section.settings.subtext_1_style_4 }}</p>
-          <p class="review-name">{{ section.settings.text_1_style_4 }}</p>
-        </div>
+    <div class="reviews-section__review">
+      <div class="reviews-section__icon">
+        <img src="{{ section.settings.img_3 | img_url }}" alt="{{ section.settings.img_3.alt | escape }}" />
+      </div>
+      <div class="reviews-section__text-content">          
+        <p class="review-text">{{ section.settings.subtext_1_style_4 }}</p>
+        <p class="review-name">{{ section.settings.text_1_style_4 }}</p>
       </div>
     </div>
   </div>
 </div>
 <style>
-  {% if section.settings.hide %}
-    .page-width.reviews {
-      display: none;
-    }
-  {% endif %}
   .review-name {
     color: {{ section.settings.edit__name_color }};
     font-weight: bold;
@@ -55,29 +44,43 @@
     font-size: {{ section.settings.edit_cust_name_size }};
   }  
   {% if section.settings.round_square == 'round' %}
-    .reviews .grid__item.medium-up--two-fifths.small--one-half img {
+    .reviews-section__icon img {
       border-radius: 50%;
     }
   {% endif %}
   {% if section.settings.round_square == 'square' %}
-    .reviews .grid__item.medium-up--two-fifths.small--one-half img {
+    .reviews-section__icon img {
       border-radius: 0%;
     }
   {% endif %}
-  .reviews .grid__item.medium-up--three-fifths.small--one-half {
-    padding-left: 0px;
-  }
   .reviews .section-header {
     text-align: center;
     margin-top: 20px;
     color:  {{ section.settings.heading_color }};
     font-size: {{ section.settings.heading_size }};   
-  } 
-  @media screen and (min-width:320px) and (max-width:767px) {
-    .reviews .grid__item.medium-up--one-third {
-      padding-bottom: 20px;
-    }
-  }  
+  }
+  .reviews .reviews-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .reviews-section__review {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .reviews-section__icon {
+    display: block;
+    width: 128px;
+    height: 128px;
+  }
+  .reviews-section__icon img {
+    width: 100%;
+  }
+  .reviews-section__text-content {
+    padding-left: 30px;
+  }
 </style>
 
 {% schema %}
@@ -158,7 +161,7 @@
       },
       {
         "type":"image_picker",
-        "id":"imge_1",
+        "id":"img_1",
         "label":"Upload the image"
       },
       {
@@ -177,7 +180,7 @@
       },
       {
         "type":"image_picker",
-        "id":"imge_2",
+        "id":"img_2",
         "label":"Upload the image"
       },
       {
@@ -196,7 +199,7 @@
       },
       {
         "type":"image_picker",
-        "id":"imge_3",
+        "id":"img_3",
         "label":"Upload the image"
       },
       {
@@ -208,16 +211,6 @@
         "type":"text",
         "id":"subtext_1_style_4",
         "label":"Enter Review"
-      },
-      {
-        "type":"header",
-        "content":"Hide Reviews"
-      },
-      {
-        "type":"checkbox",
-        "id":"hide",
-        "label":"Enable to Hide",
-        "default":false
       }
     ],
     "presets":[
