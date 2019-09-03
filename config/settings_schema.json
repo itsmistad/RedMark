@@ -34,25 +34,6 @@
         "content": "Collection Style"
       },
       {
-        "type": "radio",
-        "id": "collection_style_1",
-        "options": [
-          {
-            "value": "collectionstyleone",
-            "label": "Style 1"
-          },
-          {
-            "value": "collectionstyletwo",
-            "label": "Style 2"
-          },
-          {
-            "value": "collectionstylethree",
-            "label": "Style 3"
-          }
-        ],
-        "default": "collectionstyleone"
-      },
-      {
         "type": "select",
         "id": "grid",
         "label": "Products per row",
@@ -143,12 +124,6 @@
         "id": "show_vendor",
         "label": "Show product vendors",
         "default": false
-      },
-      {
-        "type": "checkbox",
-        "id": "tags_enable",
-        "label": "Enable Filer (Collection page)",
-        "default": true
       },
       {
         "type": "checkbox",

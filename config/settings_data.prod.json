@@ -2,7 +2,6 @@
   "current": {
     "facebook_link": "https:\/\/facebook.com\/RedMarkDeals",
     "instagram_link": "https:\/\/instagram.com\/redmarkdeals",
-    "collection_style_1": "collectionstyleone",
     "grid": "4",
     "rows": "8",
     "button_text": "Add To Cart",
@@ -11,8 +10,7 @@
     "button_background_color": "#cb2a2a",
     "show_sale_tag": false,
     "show_vendor": false,
-    "tags_enable": true,
-    "sort_enable": false,
+    "sort_enable": true,
     "enable_cookie_bar": true,
     "cookie_bar_text": "RedMark's website uses cookies to provide you with the best browsing experience. By using our website, you agree to our use of cookies.",
     "cookie_bar_link_text": "Read More",
@@ -104,10 +102,8 @@
     "color_text_field_text_1": "#ffffff",
     "text_field_text_2": "#4a974a",
     "min_num": "0",
-    "show_collection_image": false,
     "sale_text": "sale",
     "layout": "grid",
-    "title": "Featured Collection",
     "collection": "shirts",
     "show_view_all": false,
     "settings.max_num": "3",
@@ -139,12 +135,12 @@
           "message_text_5": "",
           "header_divider": true,
           "header_divider_color": "#e4e8e8",
-          "enable_left_image": "false",
+          "enable_left_image": false,
+          "left_image_url": "",
           "left_image": "",
-          "left_image_url": "#",
-          "enable_right_image": "false",
-          "right_image": "",
-          "right_image_url": "#"
+          "enable_right_image": false,
+          "right_image_url": "",
+          "right_image": ""
         }
       },
       "footer": {
@@ -155,22 +151,22 @@
           "bg_color": "#000000",
           "text_color": "#ffffff",
           "badge_img_1": "",
-          "badge_svg_1": "https:\/\/cdn.redmarkdeals.com\/svgs\/shipping.svg",
+          "badge_svg_1": "https:\/\/cdn.redmarkdeals.com\/svg\/shipping.svg",
           "badge_img_1_alt": "free shipping around the globe",
           "badge_img_1_width": "80",
           "badge_img_1_text": "Free shipping<br>around the 🌎",
           "badge_img_2": "",
-          "badge_svg_2": "https:\/\/cdn.redmarkdeals.com\/svgs\/box.svg",
+          "badge_svg_2": "https:\/\/cdn.redmarkdeals.com\/svg\/box.svg",
           "badge_img_2_alt": "simple return and refund process",
           "badge_img_2_width": "60",
           "badge_img_2_text": "Simple return<br>process 📦",
           "badge_img_3": "",
-          "badge_svg_3": "https:\/\/cdn.redmarkdeals.com\/svgs\/secure.svg",
+          "badge_svg_3": "https:\/\/cdn.redmarkdeals.com\/svg\/secure.svg",
           "badge_img_3_alt": "safe and secure encrypted checkout",
           "badge_img_3_width": "60",
           "badge_img_3_text": "Safe and secure<br>checkout  🔐",
           "badge_img_4": "",
-          "badge_svg_4": "https:\/\/cdn.redmarkdeals.com\/svgs\/fire.svg",
+          "badge_svg_4": "https:\/\/cdn.redmarkdeals.com\/svg\/fire.svg",
           "badge_img_4_alt": "100% customer satisfaction and awesome experience",
           "badge_img_4_width": "60",
           "badge_img_4_text": "100% awesome<br>experience 🔥",
@@ -321,36 +317,6 @@
           "hide": false
         }
       },
-      "1494488548879": {
-        "type": "collection",
-        "settings": {
-          "title": "Awesome Deals",
-          "title_font_size": "2.375em",
-          "heading_color": "#000000",
-          "center_title_price": true,
-          "center_title_bold": true,
-          "hide_section": false,
-          "product_title": "#ff3b3b",
-          "product_title_font": "",
-          "product_title_cutthrough": "#888888",
-          "product_title_actual1": "#959595",
-          "product_title_font_price": "",
-          "collection": "",
-          "grid": "5",
-          "rows": "1",
-          "show_view_all": false,
-          "cta_button_1": "",
-          "cta_link_1": "",
-          "background_color_cus_test": "",
-          "border_color_cus_tes": "",
-          "font_color__cus_te": "",
-          "padding_button_1": "",
-          "padding_button_2": "",
-          "width_button": "",
-          "border_button": "",
-          "font_size_button_1": ""
-        }
-      },
       "1541070475907": {
         "type": "homepage-rich-text",
         "settings": {
@@ -401,15 +367,50 @@
           "heading_color": "#fff",
           "content": "Sign up for our newsletter for more awesome deals and get a coupon for your next purchase",
           "content_size": "0.875em",
-          "content_color": "#E8E8E8",
+          "content_color": "#e8e8e8",
           "bg_color": "#000000"
+        }
+      },
+      "1567465870165": {
+        "type": "banner",
+        "settings": {
+          "enable_phone": false,
+          "enable_tablet": false,
+          "enable_laptop": false,
+          "enable_desktop": true,
+          "enable_ultrawide": false,
+          "enable_content_phone": false,
+          "enable_content_tablet": false,
+          "enable_content_laptop": false,
+          "enable_content_desktop": true,
+          "enable_content_ultrawide": false,
+          "banner_height": "300",
+          "banner_image_url_phone": "",
+          "banner_image_url_tablet": "",
+          "banner_image_url_laptop": "",
+          "banner_image_url_desktop": "https:\/\/i.imgur.com\/xa7NuYk.jpg",
+          "banner_image_url_ultrawide": "",
+          "banner_image_justify": "center center",
+          "bg_color": "#b9b9b9",
+          "horizontal_align": "right",
+          "vertical_align": "bottom",
+          "header": "Header text",
+          "body": "Body text",
+          "button": "Button",
+          "button_url": "https:\/\/redmarkdeals.com",
+          "header_color": "#ffffff",
+          "body_color": "#ffffff",
+          "button_color": "#ffffff",
+          "button_text_color": "#000000",
+          "button_hover_color": "#000000",
+          "button_text_hover_color": "#ffffff"
         }
       }
     },
     "content_for_index": [
-      "1494488548879",
       "1541070475907",
       "1494466252873",
+      "1567465870165",
       "1544593914681",
       "1565474292060",
       "1494487788342"
@@ -428,20 +429,13 @@
             "text_size": "large"
           }
         },
-        "featured-collections": {
-          "type": "collection",
-          "settings": {
-            "collection": "frontpage"
-          }
-        },
         "footer": {
           "type": "footer",
           "settings": {}
         }
       },
       "content_for_index": [
-        "hero",
-        "featured-collections"
+        "hero"
       ]
     }
   }

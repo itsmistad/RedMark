@@ -79,7 +79,7 @@
 
         <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
 
-        <p class="product-section__price product-section__price-{{ section.id }}{% unless current_variant.available %} product-price--sold-out{% endunless %}">
+        <p class="product-section__price product-section__price-{{ section.id }}">
           {% if compare_at_price > price %}
               <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
               <s id="ComparePrice-{{ section.id }}">{{ compare_at_price | money }}</s>

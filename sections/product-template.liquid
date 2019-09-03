@@ -59,7 +59,7 @@
       <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
         <meta itemprop="priceCurrency" content="{{ shop.currency }}">
         <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
-        <p class="product-section__price product-section__price-{{ section.id }}{% unless current_variant.available %} product-price--sold-out{% endunless %}">
+        <p class="product-section__price product-section__price-{{ section.id }}">
           {% if current_variant.compare_at_price > current_variant.price %}
             <s id="ComparePrice-{{ section.id }}">{{ current_variant.compare_at_price | money }}</s>
             <span class="product-price__price product-price__price-{{ section.id }} product-price__sale product-price__sale--single">
@@ -545,118 +545,11 @@
   .template-product p.product-section__price.product-section__price {
     font-size:  {{ section.settings.product_price_text }};
   }
-  @media screen and (max-width: 767px ) and (min-width: 320px) {
-  .upsell_products form.product-section__form.product-section__form {
-      width: 100%;
-    }
-  } 
-  .template-product .modal-footer {
-    border-top: 0px solid #e5e5e5;
-  }
-  .template-product .modal-header {
-    text-align: center;
-  }
-  .template-product .modal-header a {
-    position: absolute;
-    right: 16px;
-    border-radius: 50%;
-    background-color: #ccc;
-    width: 33px;
-    padding: 5px;
-  }  
-  .template-product .upsell_products .popup_price {
-    text-align: center;
-  }  
-  .template-product .upsell_products .popup_title {
-    text-align: center;
-  }
-  @media screen and (max-width: 30000px) and (min-width: 1024px) {
-    .upsell_products {
-      width: 50%;
-      float: left;
-    }
-  }
-  @media (min-width: 768px) {
-    .template-cart .modal-dialog {
-      margin: 30px auto;
-      width: 665px !important;
-      top: 15% !important;
-    }
-  }
-  @media screen and (max-width: 767px) and (min-width: 320px) {
-    .template-cart .modal-dialog form.product-section__form {
-      width: 100%;
-    }
-    .product-section__form-item.product-section__form-item--quantity label {
-      font-size: 1.5625em;
-    }
-    .product-section__form-item.product-section__form-item--quantity input {
-      font-size: 1.5625em;
-    }
-    .header {
-      font-size: 1.5625em;
-    }
-    .text-center.return-link-wrapper {
-      margin-top: 20px;
-    }
-    .no_default_upsell {
-      width: 49% !important;
-      float: none !important; 
-      background-color: #7796a8;
-      padding: 11px 0px;
-      border-radius: 4px;
-      pointer-events: none;
-    }
-    .template-product .upsell_products {
-      padding-bottom: 45px;
-    }
-    .modal-footer {
-      font-size: 0.875em;
-    }
-    .template-product .upsell_products .product-section__form-item.product-section__form-item--quantity input#Quantity {
-      font-size: 1.125em;
-      width: 100%;
-    }
-    .template-product .upsell_products .popup_title {
-      font-size: 0.9375em;
-    }
-    .template-product .upsell_products .popup_price {
-      font-size: 1.125em;
-    } 
-    .template-product .modal-header a {
-      position: absolute;
-      right: 31px;
-      padding: 6px;
-    }
-  }  
   .template-product .btn-group-lg>.btn, .btn-lg {
     padding: 5px 16px;
     font-size: 1.125em;
     line-height: 1.3333333;
     border-radius: 6px;
-  }
-  input.no_upsell.btn.btn--small-wide {
-    padding: 11px 25px;
-    font-size: 1.125em;
-    line-height: 1.3333333;
-    border-radius: 2px;
-  }
-  .enable_pointer{
-    pointer-events: all !important;
-  }  
-  .no_default_upsell {
-    width: 31%;
-    float: right;
-    background-color: #7796a8;
-    padding: 11px 0px;
-    border-radius: 4px;
-    pointer-events: none;
-  }
-  .no_default_upsell span a {
-    font-size: 1.1875em;
-    text-decoration: none;
-    color: #fff;
-    font-weight: 500;
   }
   .template-product a {
     text-decoration: none !important;
@@ -671,67 +564,6 @@
   }
   .product-section__form-item.product-section__form-item--quantity label {
     font-size: 0.9375em;
-  }
-  @media screen and (max-width: 30000px) and (min-width: 768px) {
-    .upsell_products form.product-section__form.product-section__form {
-    width: 20px;
-    }   
-  }
-  @media screen and (max-width: 30000px) and (min-width: 1024px) {     
-    .modal-dialog {
-      top:10% !important;
-    }
-    .upsell_products {
-      width: 100% !important;
-      float: left !important;
-      padding-bottom: 16px;
-    }
-    .popup_image {
-      float: left;
-      width: 13%;
-    }
-    .popup_title {
-      float: left ;
-      padding-left: 15px ;
-    }
-    .popup_price {
-      width: 35%;
-      float: left;
-      text-align: left;
-      padding-left: 17px;
-    }
-    .popup_title {
-      font-size: 1.125em;
-      font-weight: bold;
-    }
-    button#AddToCart {
-      text-transform: capitalize;
-      background-color: #ff3b3b;
-    }
-    .popup_title {
-      min-width: 67%;
-    }
-    .popup_title {
-      text-align: left !important;
-    }
-    .popup_price {
-      text-align: left !important;
-    }
-    .upsell_products  p.ajaxified-cart-feedback.success a {
-      display: none;
-    }
-    .upsell_products  p.ajaxified-cart-feedback.success {
-      right: 0px;
-    }
-  }  
-  .modal-footer {
-      text-align: center;
-  }
-  .template-product .modal {
-    background: rgba(0, 0, 0, 0.7) !important;  
-  }
-  .modal-backdrop.fade.in {
-    display: none;
   }
   .template-product a.site-header__logo-link {
     font-size: 1.1875em;

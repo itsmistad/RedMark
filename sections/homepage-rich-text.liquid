@@ -1,23 +1,21 @@
 <div class="page-width rich-text">
-  <div class="grid">
-    <div class="grid__item {% unless section.settings.full_width %} medium-up--two-thirds medium-up--push-one-sixth{% endunless %}">
-      {% if section.settings.section_title != blank %}
-        <div class="rich-text__heading text-center">
-          <h2 class="h3">{{ section.settings.section_title | escape }}</h2>
-        </div>
-      {% endif %}
-      {% if section.settings.text != blank %}
-        <div class="rich-text__text rte-setting text-center">{{ section.settings.text }}</div>
-      {% endif %}
+  {% if section.settings.section_title != blank %}
+    <div class="rich-text__heading text-center">
+      <h2 class="h3">{{ section.settings.section_title | escape }}</h2>
     </div>
-  </div>
+  {% endif %}
+  {% if section.settings.text != blank %}
+    <div class="rich-text__text rte-setting text-center">{{ section.settings.text }}</div>
+  {% endif %}
 </div>
 
 <style>
-  .page-width.rich-text {
-    margin: 10px 0;
-    padding: 20px 0;
+  #shopify-section-{{ section.id }} {
     background-color: {{ section.settings.background_color }};
+  }
+  .page-width.rich-text {
+    margin: 10px auto;
+    padding: 20px 0;
   }
   .rich-text__heading h2 {
     color: {{ section.settings.header_color }};
@@ -25,6 +23,8 @@
   .rich-text__text p {
     font-size: 0.875em;
     color: {{ section.settings.body_color }};
+    max-width: 600px;
+    margin: 0 auto;
   }
 </style>
 

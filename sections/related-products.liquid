@@ -49,13 +49,13 @@
         {% endunless %}
         <div class="related-products__slider-container">
           <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
-              <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+            <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
           </button>
           <div class="slick-slider__carousel" id="related-products__carousel">
             {{ related_items }}
           </div>
           <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
-              <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+            <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
           </button>
         </div>
       {% endunless %}
