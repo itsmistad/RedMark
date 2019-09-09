@@ -1,6 +1,5 @@
 {
   "current": {
-    "collection_style_1": "collectionstyleone",
     "grid": "4",
     "rows": "8",
     "button_text": "Add To Cart",
@@ -9,7 +8,6 @@
     "button_background_color": "#cb2a2a",
     "show_sale_tag": true,
     "show_vendor": false,
-    "tags_enable": true,
     "sort_enable": false,
     "enable_cookie_bar": true,
     "cookie_bar_text": "RedMark's website uses cookies to provide you with the best browsing experience. By using our website, you agree to our use of cookies.",
@@ -102,10 +100,8 @@
     "color_text_field_text_1": "#ffffff",
     "text_field_text_2": "#4a974a",
     "min_num": "0",
-    "show_collection_image": false,
     "sale_text": "sale",
     "layout": "grid",
-    "title": "Featured Collection",
     "collection": "shirts",
     "show_view_all": false,
     "settings.max_num": "3",
@@ -236,7 +232,7 @@
         }
       },
       "1494466252873": {
-        "type": "collection-list",
+        "type": "collection-slider",
         "blocks": {
           "1494466252873-0": {
             "type": "featured_collection",
@@ -263,15 +259,7 @@
           "1494466252873-2"
         ],
         "settings": {
-          "title": "Awesome Collections",
-          "font_size_01": "38px",
-          "font_color_01": "#000000",
-          "font_size_02": "10px",
-          "font_size_03": "",
-          "font_color_02": "#ff3b3b",
-          "check_box_02": true,
-          "For_bold": false,
-          "grid": "3"
+          "title": "Awesome Collections"
         }
       },
       "1494487788342": {
@@ -293,8 +281,7 @@
           "subtext_1_style_3": "Review #2",
           "imge_3": "",
           "text_1_style_4": "- Name",
-          "subtext_1_style_4": "Review #3",
-          "hide": false
+          "subtext_1_style_4": "Review #3"
         }
       },
       "1494488548879": {
@@ -303,8 +290,6 @@
           "title": "Awesome Deals",
           "title_font_size": "38px",
           "heading_color": "#000000",
-          "center_title_price": true,
-          "center_title_bold": true,
           "hide_section": false,
           "product_title": "#ff3b3b",
           "product_title_font": "",

@@ -1,7 +1,6 @@
 {
   "general": {
     "accessibility": {
-      "skip_to_content": "Passer au contenu",
       "close_modal": "Fermer (Esc)"
     },
     "meta": {
