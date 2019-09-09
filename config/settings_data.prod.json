@@ -104,7 +104,6 @@
     "min_num": "0",
     "sale_text": "sale",
     "layout": "grid",
-    "title": "Featured Collection",
     "collection": "shirts",
     "show_view_all": false,
     "settings.max_num": "3",
@@ -256,45 +255,6 @@
           "related_title": "More you might like"
         }
       },
-      "1494466252873": {
-        "type": "collection-list",
-        "blocks": {
-          "1494466252873-0": {
-            "type": "featured_collection",
-            "settings": {
-              "collection": ""
-            }
-          },
-          "1494466252873-1": {
-            "type": "featured_collection",
-            "settings": {
-              "collection": ""
-            }
-          },
-          "1494466252873-2": {
-            "type": "featured_collection",
-            "settings": {
-              "collection": ""
-            }
-          }
-        },
-        "block_order": [
-          "1494466252873-0",
-          "1494466252873-1",
-          "1494466252873-2"
-        ],
-        "settings": {
-          "title": "Awesome Collections",
-          "font_size_01": "2.375em",
-          "font_color_01": "#000000",
-          "font_size_02": "0.625em",
-          "font_size_03": "",
-          "font_color_02": "#ff3b3b",
-          "check_box_02": true,
-          "For_bold": false,
-          "grid": "3"
-        }
-      },
       "1494487788342": {
         "type": "reviews",
         "settings": {
@@ -337,6 +297,8 @@
           "show_variant_labels": true,
           "show_vendor": false,
           "enable_zoom": true,
+          "enable_swatches": true,
+          "swatches_color": "#ff3b3b",
           "show_share_buttons": true
         }
       },
@@ -384,14 +346,20 @@
           "enable_content_laptop": false,
           "enable_content_desktop": true,
           "enable_content_ultrawide": false,
-          "banner_height": "300",
           "banner_image_url_phone": "",
+          "banner_height_phone": "",
           "banner_image_url_tablet": "",
+          "banner_height_tablet": "",
           "banner_image_url_laptop": "",
+          "banner_height_laptop": "",
           "banner_image_url_desktop": "https:\/\/i.imgur.com\/xa7NuYk.jpg",
+          "banner_height_desktop": "300",
           "banner_image_url_ultrawide": "",
+          "banner_height_ultrawide": "",
           "banner_image_justify": "center center",
-          "bg_color": "#b9b9b9",
+          "bg_color": "#aaa",
+          "min_height": "300px",
+          "enable_full_width": true,
           "horizontal_align": "right",
           "vertical_align": "bottom",
           "header": "Header text",

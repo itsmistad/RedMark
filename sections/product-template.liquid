@@ -249,16 +249,6 @@
 <script>
   $(function() {
     /*
-     * Add custom class to reviews stamp
-     */
-    var stampedIOBadge = $('.stamped-product-reviews-badge.stamped-main-badge');
-    stampedIOBadge.on('DOMSubtreeModified', function() {
-      var stampedBadgeSpan = stampedIOBadge.find('.stamped-badge');
-      if (stampedBadgeSpan.length > 0 && !stampedBadgeSpan.hasClass('product-section__form-reviews-stamp'))
-        stampedBadgeSpan.addClass('product-section__form-reviews-stamp');
-     });
-
-    /*
      * Populate descriptions and instagram gallery
      */
     var simpleButton = $('#simple');
@@ -297,7 +287,6 @@
       // No description, so hide ALL THE THINGS!
       $('.product-section__description-container').css('display', 'none');
     }
-      
 
     /*
      * Description button functionality
@@ -313,28 +302,6 @@
         currentDesc.hide();
         newDesc.show();
       }
-    })
-
-    /*
-     * Quantity inputs
-     */
-    $('.product-section__qty-input').focusout(function() {
-      if ($(this).val() < 1)
-      $(this).val(1);
-      else if ($(this).val() > 99)
-      $(this).val(99);
-    });
-    $('.product-section__qty-increase').on('click', function() {
-      var oldVal = $(this).siblings('.product-section__qty-input').val();
-      var newVal = parseInt(oldVal) + 1;
-      if (newVal < 100)
-        $(this).siblings('.product-section__qty-input').val(newVal);
-    });
-    $('.product-section__qty-decrease').on('click', function() {
-      var oldVal = $(this).siblings('.product-section__qty-input').val();
-      var newVal = parseInt(oldVal) - 1;
-      if (newVal > 0)
-        $(this).siblings('.product-section__qty-input').val(newVal);
     });
 
     /*
@@ -349,6 +316,7 @@
     /*
      * Enables image zoom functionality
      */
+    $('#FeaturedImageZoom-product-template').css('height', `${$('#FeaturedImage-product-template').height()}px`);
     var zoomImg = $('img.zoom_hover');
     zoomImg.zoomIn({});
   });
@@ -556,6 +524,7 @@
   }
   .swatch input:checked + label {
     background-color: {{ section.settings.swatches_color }};
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
   }
   .swatch.clearfix {
     width: 100%;

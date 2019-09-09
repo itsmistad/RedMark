@@ -232,7 +232,7 @@
         }
       },
       "1494466252873": {
-        "type": "collection-list",
+        "type": "collection-slider",
         "blocks": {
           "1494466252873-0": {
             "type": "featured_collection",
@@ -259,15 +259,7 @@
           "1494466252873-2"
         ],
         "settings": {
-          "title": "Awesome Collections",
-          "font_size_01": "38px",
-          "font_color_01": "#000000",
-          "font_size_02": "10px",
-          "font_size_03": "",
-          "font_color_02": "#ff3b3b",
-          "check_box_02": true,
-          "For_bold": false,
-          "grid": "3"
+          "title": "Awesome Collections"
         }
       },
       "1494487788342": {

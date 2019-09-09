@@ -107,16 +107,19 @@
 
 <script>
   $(document).ready(function() {
-    if (!readCookie('hidecookiepolicy')) {
-      $('.cookie-bar').show();
-    } else {
-      $('.cookie-bar').hide();
-      adjustContainerPadding(1);
-    }
+    var cookieBar = $('.cookie-bar');
+    var announcementBar = $('.announcement-bar');
+    var mainBar = $('.site-header__main-container');
+    var totalHeight = cookieBar.height() + announcementBar.height() + mainBar.height();
+    if (readCookie('hidecookiepolicy')) {
+      cookieBar.hide();
+      totalHeight -= cookieBar.height();
+    } else
+      cookieBar.show();
     if (readCookie('hideannouncement')) {
-      $('.announcement-bar').hide();
-      adjustContainerPadding(2);
-    } else {
+      announcementBar.hide();
+      totalHeight -= announcementBar.height();
+    } else
       $('#announcement-bar__carousel').slick({
         dots: false,
         infinite: true,
@@ -129,16 +132,16 @@
         autoplaySpeed: 4000,
         arrows: false
       });
-    }
+    $('.main-content').css('padding-top', `${totalHeight}px`);
 
     $('#cookie-bar__close').click(function() {
-      $('.cookie-bar').slideUp("slow");
+      cookieBar.slideUp("slow");
       createCookie('hidecookiepolicy', true, 3);
       adjustContainerPadding(1);
       return false;
     });
     $('#announcement-bar__close').click(function() {
-      $('.announcement-bar').slideUp("slow");
+      announcementBar.slideUp("slow");
       createCookie('hideannouncement', true, {{ section.settings.days_till_hide_expires }});
       adjustContainerPadding(2);
       return false;
@@ -150,6 +153,9 @@
     var cookieClass = 'cookie-hidden';
     var announcementClass = 'announcement-hidden';
     var hideBothClass = 'both-hidden';
+    var cookieBar = $('.cookie-bar');
+    var announcementBar = $('.announcement-bar');
+    var mainBar = $('.site-header__main-container');
 
     switch (action) {
       case 1: // Cookie bar is now hidden
@@ -157,16 +163,20 @@
           adjustContainerPadding(3);
           return;
         }
-        if (!mainContainer.hasClass(cookieClass))
+        if (!mainContainer.hasClass(cookieClass)) {
           mainContainer.addClass(cookieClass);
+          $('.main-content').animate( { 'padding-top':`${announcementBar.height() + mainBar.height()}px` }, "slow");
+        }
         break;
       case 2: // Announcement bar is now hidden
         if (mainContainer.hasClass(cookieClass)) {
           adjustContainerPadding(3);
           return;
         }
-        if (!mainContainer.hasClass(announcementClass))
+        if (!mainContainer.hasClass(announcementClass)) {
           mainContainer.addClass(announcementClass);
+          $('.main-content').animate( { 'padding-top':`${cookieBar.height() + mainBar.height()}px` }, "slow");
+        }
         break;
       case 3: // Both are now hidden
         if (mainContainer.hasClass(cookieClass))
@@ -175,6 +185,7 @@
           mainContainer.removeClass(announcementClass);
         if (!mainContainer.hasClass(hideBothClass))
           mainContainer.addClass(hideBothClass);
+          $('.main-content').animate( { 'padding-top':`${mainBar.height()}px` }, "slow");
         break;
       default:
         console.error('Incorrect action was passed to adjustContainerPadding (action: ${action})');

@@ -5,7 +5,7 @@
 {% endif %}
 
 {% paginate collection.products by limit %}
-<div data-section-id="{{ section.id }}" data-section-type="collection-template">
+<div class="page-padding" data-section-id="{{ section.id }}" data-section-type="collection-template">
   <div class="page-width">
     <div class="section-header text-center">
       <h1>{{ collection.title }}</h1>
@@ -165,6 +165,9 @@
   }
   .sale_cus{
     color:{{ section.settings.sale_price_collection }};
+  }
+  .grid-view-item__image {
+    box-shadow: none;
   }
 </style>
 {% schema %}

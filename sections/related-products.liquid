@@ -28,11 +28,13 @@
 
     {% if found_a_collection %}
       {% assign current_product = product %}
+      {% assign number_of_products = 0 %}
       {% capture related_items %}
         {% for product in collection.products %}
           {% unless product.handle == current_product.handle %}
             {% unless same_vendor and current_product.vendor != product.vendor %}
               {% unless same_type and current_product.type != product.type %}
+                {% assign number_of_products = number_of_products | plus: 1 %}
                 {% include 'product-card-related' %}
               {% endunless %}
             {% endunless %}
@@ -48,15 +50,19 @@
           </div>
         {% endunless %}
         <div class="related-products__slider-container">
-          <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
-            <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
-          </button>
+          {% if number_of_products > 5 %}
+            <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
+              <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+            </button>
+          {% endif %}
           <div class="slick-slider__carousel" id="related-products__carousel">
             {{ related_items }}
           </div>
-          <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
-            <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
-          </button>
+          {% if number_of_products > 5 %}
+            <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
+              <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+            </button>
+          {% endif %}
         </div>
       {% endunless %}
     {% endif %}
