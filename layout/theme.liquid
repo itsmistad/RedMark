@@ -115,24 +115,6 @@
 
     <script src="//cdn.codeblackbelt.com/js/modules/frequently-bought-together/main.min.js?shop=redmarkdeals-dev.myshopify.com"></script>
         </div>
-        <!-- Coupon Code Starts Here -->
-        {% if template == 'index'%}
-        {% if settings.enable_coupon != blank %}
-        {% include 'coupon-code' %}
-        {% endif %}
-        {% endif %}
-        {% if settings.enable_sticky_button != blank %}
-        <div id="get_coupon" class="get_discount">Get Discount</div>
-        <div id="sticky_coupon">
-            {% include 'coupon-code-new' %}
-        </div>
-        {% endif %}
-        <!-- Coupon Code Ends Here -->
-        <!-- Exit Intent starts Here -->
-        {% if settings.enable_exit_intent == true %}
-        {% include 'exit-intent' %}
-        {% endif %}
-        <!-- Exit Intent Ends Here -->
         {% include 'currencies' %}
         {% if settings.scroll_top_enable %}
         <button class="scrollup"><span></span></button>

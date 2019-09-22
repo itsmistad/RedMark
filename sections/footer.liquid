@@ -69,8 +69,13 @@
         <h3 class="sty_one_men_one_news">{{ section.settings.foot_newstitle }}</h3>
         <div class="site-footer__newsletter">
           <label for="Email" class="h4 sty_one_men_one_news_text">{{ section.settings.foot_news_content }}</label>
-          <div class="newsletter_footer sty">
-            {% include 'news-footer' %}
+          <div class="newsletter_footer">
+            <form action="{{ settings.mailchimp_action_url }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="input-group newsletter-form">
+              <span class="newsletter-footer__submit-span">
+                <input type="submit" class="btn newsletter-footer__submit" name="subscribe" id="mc-embedded-subscribe" value="">   
+              </span>
+              <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mce-EMAIL" class="email new-email " aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off" required>
+            </form>
           </div>
         </div>
       </div>
@@ -528,6 +533,12 @@
     {
       "type": "header",
       "content": "Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "mailchimp_action_url",
+      "label": "Mailchimp Action URL",
+      "default": ""
     },
     {
       "type": "text",
