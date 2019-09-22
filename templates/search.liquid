@@ -1,8 +1,8 @@
 {% paginate search.results by 10 %}
 
-<div class="page-width">
+<div class="page-width page-padding">
   {% if search.results_count == 0 or search.performed == false %}
-    <div class="empty-page-content text-center">
+    <div class="text-center">
       <h1 class="h2">{{ 'general.search.title' | t }}</h1>
   {% else %}
     <div class="section-header text-center">
@@ -37,7 +37,7 @@
       
       <hr class="hr--small">
 
-      <div class="page-width">
+      <div class="page-width top-padding">
         <header class="section-header text-center">
           <h1>Check out our other awesome stuff</h1>
         </header>
@@ -62,7 +62,7 @@
   {% if search.results_count > 0 %}
     <hr>
   {% endif %}
-  <div class="page-width list-view-items">
+  <div class="page-width list-view-items bottom-padding">
     {% for item in search.results %}
       <a href="{{ item.url }}" class="list-view-item">
         {% if item.object_type == 'product' %}

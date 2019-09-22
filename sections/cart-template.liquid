@@ -1,5 +1,5 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<div class="page-width cart-section" data-section-id="{{ section.id }}" data-section-type="cart-template">
+<div class="page-width cart-section page-padding" data-section-id="{{ section.id }}" data-section-type="cart-template">
   <p class="processing-currency-message">{{ section.settings.processing_currency_text }}</p>
   <div class="doubly-message"></div>
   {% if cart.item_count > 0 %}
@@ -145,7 +145,7 @@
       </div>
     </form>
   {% else %}
-    <div class="empty-page-content text-center">
+    <div class="text-center">
       <h1>{{ 'cart.general.title' | t }}</h1>
       <p>{{ 'cart.general.empty' | t }}</p>
       <a href="/" class="btn btn--has-icon-after">{{ 'general.404.link' | t }}</a>
