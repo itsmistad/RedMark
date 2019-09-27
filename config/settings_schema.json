@@ -693,6 +693,16 @@
       },
       {
         "type": "header",
+        "content": "Theme Color"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Primary Accent",
+        "default": "#ff3b3b"
+      },
+      {
+        "type": "header",
         "content": "Text and buttons"
       },
       {

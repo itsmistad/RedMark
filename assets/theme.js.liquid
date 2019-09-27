@@ -33,22 +33,29 @@ $(document).ready(function() {
       url: $(this).attr("action"),
       data: $(this).serialize(),
       cache: false,
-      dataType: "jsonp",
-      jsonp: "c", // trigger MailChimp to return a JSONP response
+      dataType: "json",
       contentType: "application/json; charset=utf-8",
 
       error: function(error) {
         // According to jquery docs, this is never called for cross-domain JSONP requests
-        console.error(`ajax newsletter-form ${error}`);
+        console.error(`ajax newsletter-form ${JSON.stringify(error)}`);
       },
 
       success: function(data) {
-        console.log(`ajax newsletter-form ${data}`);
-        if(data.result == "success") {
-					$('.msg_sucesss').show();
-          $('.msg').hide();
-          $(".mail_sent").css("display", "block");
-          $("input#mce-EMAIL").css("pointer-events", "none");
+        console.log(`ajax newsletter-form ${JSON.stringify(data)}`);
+        if (data.result == 'success') {
+          var msg = $('#mc-embedded-message');
+          var emailField = $('#mce-EMAIL');
+          var submitButton = $('#mc-embedded-subscribe');
+          msg.html(`🎉 ${data.msg} 🎉`);
+					msg.slideDown('slow');
+          emailField.css('pointer-events', 'none');
+          submitButton.css({ 'background-color':'#aaa', 'cursor':'default' });
+          submitButton.disabled = true;
+        } else if (data.result == 'error') {
+          var msg = $('#mc-embedded-message');
+          msg.html(`❗ ${data.msg.replace('. <a', '.<br><a')}`);
+					msg.slideDown('slow');
         }
       }
     });

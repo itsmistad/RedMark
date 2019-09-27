@@ -17,17 +17,17 @@
         </div>
         <ul
           class="site-footer__linklist support-info">
-          <li class="sty_one_men_one site-footer__linklist-item">
+          <li class="men_one site-footer__linklist-item">
             <a href="mailto:{{ section.settings.footer_support_email }}">
               {{ section.settings.footer_support_email }}
             </a>
           </li>
-          <li class="sty_one_men_one site-footer__linklist-item">
+          <li class="men_one site-footer__linklist-item">
             <a href="tel:{{ section.settings.footer_support_phone_normalized }}">
               {{ section.settings.footer_support_phone }}
             </a>
           </li>
-          <li class="sty_one_men_one site-footer__linklist-item">
+          <li class="men_one site-footer__linklist-item">
             <p style="color:#000;">{{ section.settings.footer_support_hours }}</p>
           </li>
         </ul>
@@ -37,11 +37,11 @@
         class="grid__item{% if section.settings.footer_linklist_two != blank %} medium-up--one-sixth{% elsif section.settings.footer_linklist_two == blank %} medium-up--one-half{% else %} text-center{% endif %}">
         {%- assign footer_linklist = section.settings.footer_linklist -%}
         {% if linklists[footer_linklist].links.size > 0 %}
-        <h3 class="sty_one_men_one_head">{{ section.settings.footer_linklist_title }}</h3>
+        <h3 class="men_one_head">{{ section.settings.footer_linklist_title }}</h3>
         <ul
           class="site-footer__linklist">
           {% for link in linklists[footer_linklist].links %}
-          <li class="sty_one_men_one site-footer__linklist-item">
+          <li class="men_one site-footer__linklist-item">
             <a href="{{ link.url }}">{{ link.title }}</a>
           </li>
           {% endfor %}
@@ -53,11 +53,11 @@
         class="grid__item{% if section.settings.footer_linklist != blank %} medium-up--one-sixth{% elsif section.settings.footer_linklist == blank %} medium-up--one-half{% else %} text-center{% endif %}">
         {%- assign footer_linklist_two = section.settings.footer_linklist_two -%}
         {% if linklists[footer_linklist_two].links.size > 0 %}
-        <h3 class="sty_one_men_two_head">{{ section.settings.footer_linklist_two_title }}</h3>
+        <h3 class="men_one_head">{{ section.settings.footer_linklist_two_title }}</h3>
         <ul
           class="site-footer__linklist">
           {% for link in linklists[footer_linklist_two].links %}
-          <li class="sty_one_men_two site-footer__linklist-item">
+          <li class="men_one site-footer__linklist-item">
             <a href="{{ link.url }}">{{ link.title }}</a>
           </li>
           {% endfor %}
@@ -66,16 +66,21 @@
       </div>
 
       <div class="grid__item medium-up--one-third" id="newsletter">
-        <h3 class="sty_one_men_one_news">{{ section.settings.foot_newstitle }}</h3>
+        <h3 class="men_one_news">{{ section.settings.foot_newstitle }}</h3>
         <div class="site-footer__newsletter">
-          <label for="Email" class="h4 sty_one_men_one_news_text">{{ section.settings.foot_news_content }}</label>
-          <div class="newsletter_footer">
-            <form action="{{ settings.mailchimp_action_url }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="input-group newsletter-form">
-              <span class="newsletter-footer__submit-span">
-                <input type="submit" class="btn newsletter-footer__submit" name="subscribe" id="mc-embedded-subscribe" value="">   
-              </span>
-              <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mce-EMAIL" class="email new-email " aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off" required>
+          <label for="Email" class="h4 men_one_news_text">{{ section.settings.foot_news_content }}</label>
+          <div class="newsletter_footer" id="mc_embed_signup">
+            <form action="{{ section.settings.mailchimp_action_url }}"
+              method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="newsletter-form" target="_blank">
+              <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL"
+                placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off"
+                autocapitalize="off" required>
+              <input type="submit" value="" name="subscribe" id="mc-embedded-subscribe" class="btn newsletter-footer__submit">
+              <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                <input type="text" name="{{ section.settings.mailchimp_antibot_id }}" tabindex="-1" value="">
+              </div>
             </form>
+            <div id="mc-embedded-message" class="site-footer__newsletter-message"></div>
           </div>
         </div>
       </div>
@@ -179,7 +184,7 @@
   }
 
   .item-wrapper:hover {
-    background-color: #ff3b3b;
+    background-color: {{ settings.color_accent }};
     border-color: rgba(255, 255, 255);
   }
 
@@ -195,54 +200,47 @@
     fill: rgb(255, 255, 255);
   }
   
-  h3.sty_one_men_one_head {
-    font-size: {{ section.settings.sty_one_main-heading_text }} !important;
+  h3.men_one_head {
+    font-size: {{ section.settings.main-heading_text }} !important;
 
-    color: {{ section.settings.sty_one_main-heading_color }};
+    color: {{ section.settings.main-heading_color }};
   }
 
-  li.sty_one_men_one.site-footer__linklist-item {
-    font-size: {{ section.settings.menu_one_font }} !important;
+  .site-footer__newsletter-message {
+    display: none;
+    text-align: left;
+    font-size: {{ section.settings.menu_font }};
+    width: 100%;
+    max-width: 340px;
   }
 
-  li.sty_one_men_one.site-footer__linklist-item a {
-    color: {{ section.settings.menu_one_color }};
+  li.men_one.site-footer__linklist-item {
+    font-size: {{ section.settings.menu_font }} !important;
   }
 
-  h3.sty_one_men_two_head {
-    font-size: {{ section.settings.sty_one_main-heading_text }} !important;
-
-    color: {{ section.settings.sty_one_main-heading_color }};
+  li.men_one.site-footer__linklist-item a {
+    color: {{ section.settings.menu_color }};
   }
 
-  li.sty_one_men_two.site-footer__linklist-item {
-    font-size: {{ section.settings.menu_two_font }} !important;
+  h3.men_one_about {
+    font-size: {{ section.settings.main-heading_text }} !important;
+
+    color: {{ section.settings.main-heading_color }};
   }
 
-  li.sty_one_men_two.site-footer__linklist-item a {
-    color: {{section.settings.menu_two_color}}
-;
-  }
-
-  h3.sty_one_men_one_about {
-    font-size: {{ section.settings.sty_one_main-heading_text }} !important;
-
-    color: {{ section.settings.sty_one_main-heading_color }};
-  }
-
-  .sty_one_men_one_about_text.site-footer__linklist {
+  .men_one_about_text.site-footer__linklist {
     font-size: {{ section.settings.menu_about_font }};
 
     color: {{ section.settings.menu_about_color }};
   }
 
-  h3.sty_one_men_one_news {
-    font-size: {{ section.settings.sty_one_main-heading_text }} !important;
+  h3.men_one_news {
+    font-size: {{ section.settings.main-heading_text }} !important;
 
-    color: {{ section.settings.sty_one_main-heading_color }};
+    color: {{ section.settings.main-heading_color }};
   }
 
-  label.h4.sty_one_men_one_news_text {
+  label.h4.men_one_news_text {
     color: {{ section.settings.menu_news_color }};
 
     font-size: {{ section.settings.menu_news_font }} !important;
@@ -289,23 +287,23 @@
   }
 
   .newsletter_footer input#mc-embedded-subscribe {
-    width: 41px !important;
-    float: right;
+    width: 41px;
+    flex-shrink: 0;
     border-radius: 4px;
     padding: 9px 0px;
   }
 
-  footer.site-footer input#mail {
-    width: 61% !important;
-    float: right;
-    border-radius: 0px;
-    padding: 0px 0px;
-    line-height: 40px;
-  }
-
   .newsletter_footer {
     width: 100%;
-    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .newsletter-form {
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
   }
 
   .grid__item.medium-up--one-third.payment_001 {
@@ -537,8 +535,12 @@
     {
       "type": "text",
       "id": "mailchimp_action_url",
-      "label": "Mailchimp Action URL",
-      "default": ""
+      "label": "Mailchimp Action URL"
+    },
+    { 
+      "type": "text",
+      "id": "mailchimp_antibot_id",
+      "label": "Mailchimp Antibot Id"
     },
     {
       "type": "text",
@@ -561,33 +563,23 @@
     },
     {
       "type": "text",
-      "id": "sty_one_main-heading_text",
+      "id": "main-heading_text",
       "label": "Font Size (Heading)"
     },
     {
       "type": "color",
-      "id": "sty_one_main-heading_color",
+      "id": "main-heading_color",
       "label": "Color (Heading)"
     },
     {
       "type": "text",
-      "id": "menu_one_font",
+      "id": "menu_font",
       "label": "Font Size (Menu 1)"
     },
     {
       "type": "color",
-      "id": "menu_one_color",
+      "id": "menu_color",
       "label": "Color (Menu 1)"
-    },
-    {
-      "type": "text",
-      "id": "menu_two_font",
-      "label": "Font Size (Menu 2)"
-    },
-    {
-      "type": "color",
-      "id": "menu_two_color",
-      "label": "Color (Menu 2)"
     },
     {
       "type": "text",
@@ -629,20 +621,12 @@
 {% endschema %}
 
 <style>
-  .newsletter_footer {
-    margin-top: 0px !important;
-  }
   h2.color_Schme {
     margin-top: 0px;
   }
   @media screen and (min-width : 320px) and (max-width : 767px) {
     ul.slick-dots {
       display: none !important;
-    }
-  }
-  @media screen and (min-width: 320px) and (max-width: 399px) {
-    footer.site-footer input#mce-EMAIL {
-      width: 100% !important;
     }
   }
 </style>
