@@ -5,7 +5,7 @@
 
   {%- assign current_variant = product.selected_or_first_available_variant -%}
   {%- assign product_thumb_size = '96x' -%}
-  {%- assign product_image_zoom_size = '768x768' -%}
+  {%- assign product_image_zoom_size = '768x' -%}
   {%- assign enable_zoom = section.settings.enable_zoom -%}
 
   {% case section.settings.image_size %}
@@ -35,19 +35,34 @@
         </div>
       </div>
       {% if product.images.size > 1 %}
-        <div class="thumbnails-wrapper">
-          <ul class="product-section__thumbnails product-section__thumbnails-{{ section.id }}">
+        <div class="product-section__thumbnails-desktop">
+          <ul class="product-section__thumbnails-{{ section.id }}">
             {% for image in product.images %}
               <li class="product-section__thumbnails-item">
                 <a itemprop="url"
                   href="{{ image.src | img_url: product_image_size_url }}"
-                  class="text-link product-section__thumbnail product-section__thumbnail--{{ section.id }}"
+                  class="product-section__thumbnail product-section__thumbnail--{{ section.id }}"
                   {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}>
                   <img class="product-section__thumbnail-image" src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
                 </a>
               </li>
             {% endfor %}
           </ul>
+        </div>
+        <div class="slick-slider__carousel product-section__thumbnails-mobile-carousel" id="product-section__thumbnails-mobile-carousel-{{ section.id }}">
+          {% for image in product.images %}
+            <div class="slick-slider__item product-section__thumbnails-item">
+              <a itemprop="url"
+                href="{{ image.src | img_url: product_image_size_url }}"
+                class="slick-slider__card product-section__thumbnail product-section__thumbnail--{{ section.id }}"
+                {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}
+                tabindex="-1">
+                <div class="slick-slider__item-img-wrapper">
+                  <img class="product-section__thumbnail-image" src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
+                </div>
+              </a>
+            </div>
+          {% endfor %}
         </div>
       {% endif %}
     </div>
@@ -130,6 +145,8 @@
       </div>
     </div>
   </div>
+  <div class="product-section__recart-mobile">
+  </div>
   <div class="product-section__description-container">
     <div class="product-section__description-header">
       <div id="simple" class="product-section__header-item selected-header-item">
@@ -144,9 +161,9 @@
     </div>
     <div id="description-technical" class="product-section__description hidden"></div>
   </div>
-  <div class="product-section__instagram-gallery text-center">
+  <div class="product-section__instagram-gallery">
     {% if section.settings.show_empty_gallery_text == true %}
-      <p class="product-section__empty-gallery-msg">
+      <p class="product-section__empty-gallery-msg text-center">
         <span class="upper">
           🤯<br/>
           Doh! We're sorry.
@@ -155,6 +172,7 @@
         <a href="{{ settings.instagram_link }}" target="_blank">Click here to check out our page!</a>
       </p>
     {% endif %}
+    <div class="slick-slider__carousel" id="product-section__ig-carousel"></div>
   </div>
 </div>
 <div id="stamped-main-widget" class="stamped-main-widget" data-widget-style="standard"
@@ -164,76 +182,6 @@
   data-description="" data-product-sku="{{product.handle}}">
   {{ product.metafields.stamped.reviews }}
 </div>
-
-{% comment %}
-  This is the upsell widget (which needs more work before being enabled).
-{% endcomment %}
-{% comment %}
-<div class="modal fade" id="upsell-modal" role="dialog">
-  <div class="modal-dialog" data-expires="{{ settings.session_time }}" data-delay="1">
-    <div class="modal-content">
-      <div class="modal-header">
-        <a href="/checkout">X</a>
-        <h4 class="modal-title">Related Products</h4>
-      </div>
-      <div class="modal-body">
-        {% for tags_r in product.tags %}
-          {% if tags_r contains 'upsell_' %}
-            {% assign test = tags_r | remove: 'upsell_' %}
-            {% assign product_drop  = all_products[test] %} 
-            <div class="upsell_products">
-              <div class="popup_image">{{ upsell_second }}<img class="cart-section__image" src="{{ product_drop.featured_image.src | img_url: '200x200' }}" ></div>
-              <div class="popup_title">{{ product_drop.title }}</div>
-              <div class="popup_price">{{ product_drop.price | money }}</div>
-              <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-section__form product-section__form">
-                {% unless product_drop.options.size == 1 and product_drop.variants[0].title == 'Default Title' %}
-                  {% for option in product_drop.options_with_values %}
-                    <div class="selector-wrapper js product-section__form-item">
-                      <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
-                        {{ option.name }}
-                      </label>
-                      <select class="single-option-selector single-option-selector-{{ section.id }} product-section__form-input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
-                        {% for value in option.values %}
-                          <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                  {% endfor %}
-                {% endunless %}
-                <select name="id" id="ProductSelect" class="product-section__form-variants no-js">
-                  {% for variant in product_drop.variants %}
-                    {% if variant.available %}
-                      <option {% if variant == product_drop.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
-                        {{ variant.title }}
-                      </option>
-                    {% else %}
-                      <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-                <div class="product-section__form-item product-section__form-item--quantity">
-                  <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-section__form-input" pattern="[0-9]*">
-                </div>
-                <div class="product-section__form-item product-section__form-item--submit custom_buton">
-                  <button onclick="myFunction()" type="submit" name="add" id="AddToCart1" class="test btn product-section__form-cart-submit">
-                    <span id="AddToCartText">
-                      add to cart
-                    </span>
-                  </button>
-                  {{ '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' | stylesheet_tag }}
-                </div>
-              </form>
-            </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-      <div class="modal-footer">
-        <a href="/checkout"  > No, Thanks </a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endcomment %}
 
 {% comment %}
 {{ collection.url }}
@@ -249,6 +197,18 @@
 <script>
   $(function() {
     /*
+     * Feature image gallery
+     */
+    $('#product-section__thumbnails-mobile-carousel-{{ section.id }}').slick({
+      infinite: true,
+      speed: 400,
+      slidesToShow: 4,
+      swipeToSlide: true,
+      dots: true,
+      arrows: false
+    });
+
+    /*
      * Populate descriptions and instagram gallery
      */
     var simpleButton = $('#simple');
@@ -257,6 +217,7 @@
     var technicalDesc = $('#description-technical');
     if (simpleDesc.html().trim().length > 0) {
       var results = simpleDesc.find('.ig').length;
+      var gallery = $('#product-section__ig-carousel');
       for (let i = 1; i <= results; i++)
       {
         var igElement = simpleDesc.find(`.ig:first()`);
@@ -265,8 +226,55 @@
         var imgLink = (postLink.endsWith('/') ? postLink : postLink + '/') + 'media?size=m';
         igElement.remove();
         $('.product-section__empty-gallery-msg').hide();
-        var gallery = $('.product-section__instagram-gallery');
-        gallery.append(`<a href="${postLink}" target="_blank" class="product-section__ig-img"><img src="${imgLink}"/></a>`);
+        gallery.append(
+        `<div class="slick-slider__item">
+          <a href="${postLink}" class="slick-slider__card" tabindex="-1">
+            <div class="slick-slider__item-img-wrapper product-section__ig-img">
+              <img src="${imgLink}" alt="redmark red mark instagram ig image gallery preview">
+            </div>
+          </a>
+        </div>`);
+      }
+      if (results > 0) { 
+        $('#product-section__ig-carousel').slick({
+          dots: false,
+          infinite: true,
+          speed: 400,
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          swipeToSlide: true,
+          touchThreshold: 8,
+          centerMode: true,
+          autoplay: true,
+          pauseOnFocus: true,
+          pauseOnHover: true,
+          pauseOnDotsHover: true,
+          autoplaySpeed: 6000,
+          arrows: false,
+          responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+              }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
+        });
       }
       var newTechnical = simpleDesc.find('.technical');
       if (newTechnical.length > 0) {
@@ -317,8 +325,19 @@
      * Enables image zoom functionality
      */
     var zoomImg = $('img.zoom_hover');
-    zoomImg.zoomIn({});
+    if ($(document).width >= 1024)
+      zoomImg.zoomIn({});
   });
+  // Wait for and move the Recart widget if the screen is too small.
+  if ($(document).width() < 1024) {
+    var refresh = setInterval(() => {
+      var recart = $('._rmp-state--initial');
+      if (recart.length) {
+        clearInterval(refresh);
+        recart.appendTo('.product-section__recart-mobile');
+      }
+    }, 300);
+  }
   $('#container_001').on( 'click', '#upsell_product', function(e) {
     $('#AddToCart-product-template').trigger('click');            
   });

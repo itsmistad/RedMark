@@ -1,14 +1,24 @@
 <div data-section-id="{{ section.id }}" data-section-type="header-section" >
   <div class="site-header__container">
+    {% include 'mobile-nav' %}
     {% if settings.enable_cookie_bar != blank %}
       <div class="cookie-bar">
-        <img class="cross_icon" id="cookie-bar__close" alt="close button for the cookie policy bar" src="{{ "cross.png" | asset_url }}"> 
+        <div class="cross_icon" id="cookie-bar__close">
+          <img alt="close button for the cookie policy bar" src="{{ "cross.png" | asset_url }}"> 
+        </div>
         <span class="cookie-bar__message">
           {{ settings.cookie_bar_text }}&nbsp;<a href="{{ settings.cookie_bar_link_url }}">{{ settings.cookie_bar_link_text }}</a>
         </span>
       </div>
     {% endif %}
     <div class="site-header__main-container border-bottom logo--left" role="banner">
+      {% unless linklists[section.settings.main_linklist] == blank %}
+        <div id="site-header__mobile-nav" class="btn--link mobile-nav--open">
+          {% include 'icon-hamburger' %}
+          {% include 'icon-close' %}
+          <span class="icon__fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
+        </div>
+      {% endunless %}  
       <div class="site-header__logo" itemscope itemtype="http://schema.org/Organization">
         {% if section.settings.logo %}
           <a href="{{ shop.url }}" itemprop="url">
@@ -16,29 +26,16 @@
             <img srcset="{{ section.settings.logo | img_url : 'master' }}"
                 alt="{{ section.settings.logo.alt | default: shop.name }}"
                 id="toplogo"
-                class="site-header__logo-image" itemprop="logo">
+                class="site-header__logo-image" itemprop="logo"> 
           </a>
         {% else %}
           <a class="site-header__logo-link" href="{{ shop.url }}" itemprop="url">{{ shop.name }}</a>
         {% endif %}
       </div>
-      <nav class="site-header__desktop-nav" id="AccessibleNav" role="navigation">
+      <nav id="site-header__desktop-nav" role="navigation">
         {% include 'desktop-nav' %}
       </nav>
-      {% comment %}
-      {% unless linklists[section.settings.main_linklist] == blank %}
-        <button type="button" class="btn--link site-header__mobile-nav js-mobile-nav-toggle mobile-nav--open">
-          {% include 'icon-hamburger' %}
-          {% include 'icon-close' %}
-          <span class="icon__fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
-        </button>
-      {% endunless %}  
-      {% endcomment %}
       <div class="site-header__icons">
-        <button type="button" class="btn--link site-header__search-toggle js-drawer-open-top ">
-          {% include 'icon-search' %}
-          <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
-        </button>
         <div class="site-header__search">
           {% include 'search-form' %}
         </div>
@@ -67,7 +64,9 @@
     </div>
     {% if section.settings.message %}
       <div class="announcement-bar">
-        <img class="cross_icon" id="announcement-bar__close" alt="close button the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
+        <div class="cross_icon" id="announcement-bar__close">
+          <img alt="close button the free shipping announcement bar" src="{{ "cross.png" | asset_url }}"> 
+        </div>
         {% if section.settings.message %}
           <div class="announcement-bar__slider-container">
             {% assign messages = section.settings.message_text_1 | append: "||" | append: section.settings.message_text_2 | append: "||" | append: section.settings.message_text_3 | append: "||" | append: section.settings.message_text_4 | append: "||" | append: section.settings.message_text_5 %}
@@ -93,12 +92,11 @@
                 <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
               </button>
             {% elsif messages[0] != blank %}
-             <span class="announcement-bar__message">
+              <span class="announcement-bar__message">
                 {{ messages[0] }}
               </span>   
             {% endif %}
           </div>
-          
         {% endif %}
       </div>
     {% endif %}
@@ -106,19 +104,30 @@
 </div>
 
 <script>
+  var cookieClass = 'cookie-hidden';
+  var announcementClass = 'announcement-hidden';
+  var hideBothClass = 'both-hidden';
   $(document).ready(function() {
     var cookieBar = $('.cookie-bar');
     var announcementBar = $('.announcement-bar');
+    var mainContainer = $('.main-content');
     var mainBar = $('.site-header__main-container');
     var totalHeight = cookieBar.height() + announcementBar.height() + mainBar.height();
     if (readCookie('hidecookiepolicy')) {
-      cookieBar.hide();
       totalHeight -= cookieBar.height();
+      mainContainer.addClass(cookieClass);
+      cookieBar.hide();
     } else
       cookieBar.show();
     if (readCookie('hideannouncement')) {
-      announcementBar.hide();
       totalHeight -= announcementBar.height();
+      if (mainContainer.hasClass(cookieClass)) {
+        mainContainer.addClass(hideBothClass);
+        mainContainer.removeClass(cookieClass);
+      }
+      else
+        mainContainer.addClass(announcementClass);
+      announcementBar.hide();
     } else
       $('#announcement-bar__carousel').slick({
         dots: false,
@@ -129,6 +138,9 @@
         swipeToSlide: true,
         touchThreshold: 8,
         autoplay: true,
+        pauseOnFocus: true,
+        pauseOnHover: true,
+        pauseOnDotsHover: true,
         autoplaySpeed: 4000,
         arrows: false
       });
@@ -147,12 +159,48 @@
       return false;
     });
   });
+  
+  /*
+  * Mobile Nav
+  */
+  $(function() {
+    $('#site-header__mobile-nav').click(function() {
+      var openClass = 'mobile-nav--open';
+      var closeClass = 'mobile-nav--close';
+      var navButton = $(this);
+      var overlay = $('#page-overlay');
+
+      if (navButton.hasClass(openClass)) { // Opening the nav
+        var header = $('.site-header__container');
+        var page = $('#PageContainer');
+        var scrollTop = $(document).scrollTop();
+
+        header.addClass(openClass);
+        page.addClass(openClass);
+        $('body').addClass(openClass);
+        $('html').addClass(openClass);
+        $('.scrollup').addClass('hide');
+        overlay.show();
+        
+      } else if (navButton.hasClass(closeClass)) { // Closing the nav
+        var header = $('.site-header__container');
+        var page = $('#PageContainer');
+
+        header.removeClass(openClass);
+        page.removeClass(openClass);
+        $('body').removeClass(openClass);
+        $('html').removeClass(openClass);
+        $('.scrollup').removeClass('hide');
+        overlay.fadeOut('slow');
+      }
+
+      navButton.toggleClass(openClass);
+      navButton.toggleClass(closeClass);
+    });
+  });
 
   function adjustContainerPadding(action) {
     var mainContainer = $('.main-content');
-    var cookieClass = 'cookie-hidden';
-    var announcementClass = 'announcement-hidden';
-    var hideBothClass = 'both-hidden';
     var cookieBar = $('.cookie-bar');
     var announcementBar = $('.announcement-bar');
     var mainBar = $('.site-header__main-container');
@@ -241,6 +289,7 @@
   {% if section.settings.logo != blank %}
     .site-header__logo-image {
       max-width: {{ section.settings.logo_max_width }}px !important;
+      margin-top: {{ section.settings.logo_vertical_adjustment }};
     }
   {% endif %}
   {% unless shop.customer_accounts_enabled %}
@@ -248,19 +297,15 @@
       right: 70px;
     } 
   {% endunless %}
-  {% if section.settings.cross  %}
-    img.cross_icon {
-      display:block;
+  {% unless section.settings.cross %}
+    .cross_icon {
+      display: none;
     }
-  {% else %}
-    img.cross_icon {
-      display:none;
-    }
-  {% endif %} 
+  {% endunless %} 
   span.announcement-bar__message {
     font-size:  {{ section.settings.message_text_font_size }} !important;
   }
-  nav#AccessibleNav ul li a {
+  nav#site-header__desktop-nav ul li a {
     color: {{ section.settings.menu_font_color }};
   }
   header.site-header.border-bottom.logo--left {
@@ -309,6 +354,12 @@
         "id": "logo_max_width",
         "label": "Custom logo width (in pixels)",
         "default": "100"
+      },
+      {
+        "type": "text",
+        "id": "logo_vertical_adjustment",
+        "label": "Vertical adjustment",
+        "default": "-4px"
       },
       {
         "type": "header",

@@ -60,6 +60,9 @@
             document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
         </script>
         
+        {{ '//code.jquery.com/jquery-3.4.1.min.js' | script_tag }}
+        {{ 'jquery.waituntilexists.js' | asset_url | script_tag }}
+        {{ 'slick.js' | asset_url | script_tag }}
         <!--[if (lte IE 9) ]>{{ 'match-media.min.js' | asset_url | script_tag }}<![endif]-->
         {% if template contains 'customers' %}
         <!--[if (gt IE 9)|!(IE)]><!-->
@@ -79,11 +82,11 @@
         <!--   <script src="{{ 'slider1.js' | asset_url }}" defer="defer"></script>
             <script src="{{ 'slider2.js' | asset_url }}" defer="defer"></script>
             -->
-        {{ '//ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js' | script_tag }}
         {{ 'cookie.js' | asset_url | script_tag }}
         {{ content_for_header }}
-        {{ "//cdn.shopify.com/s/javascripts/currencies.js" | script_tag }}
-        {{ "jquery.currencies.min.js" | asset_url | script_tag }}
+        {{ '//cdn.shopify.com/s/javascripts/currencies.js' | script_tag }}
+        {{ 'jquery.currencies.min.js' | asset_url | script_tag }}
+        {{ '//www.klaviyo.com/media/js/public/klaviyo_subscribe.js' | script_tag }}
         <meta name="google-site-verification" content="IV7BPLESttSpBdxSWN1s4zlr4HIcuHkGQYmE3wLG59w" />
     </head>
     <body class="template-{{ template | split: '.' | first }} " style="opacity: 0;">
@@ -108,6 +111,7 @@
         </div>
         {% section 'header' %}
         <div class="page-container" id="PageContainer">
+            <div id="page-overlay"></div>
             <main class="main-content" id="MainContent" role="main">
                 {{ content_for_layout }}
             </main>
@@ -135,7 +139,7 @@
                         .trigger('change');
                 });
             });
-            $(window).load(function() {
+            $(window).on('load',function() {
                 $("body").css("opacity", "1");
                 $('.coupon_main').css('opacity', '1');
             });
@@ -265,7 +269,7 @@
                         $('.scrollup').fadeOut();
                     }
                     var scrollBottom = $(window).scrollTop() + window.innerHeight;
-                    var offset = $('.page-width.page-width-copyright').offset().top;
+                    var offset = $('.page-width.site-footer__copyright-wrapper').offset().top;
                     if (scrollBottom > offset) {
                         $('#chat-widget-container').css('transform', `translateY(-${scrollBottom-offset}px)`);
                         $('#smile-ui-container').fadeOut(100);

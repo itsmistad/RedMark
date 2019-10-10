@@ -5,10 +5,9 @@
 {% endif %}
 <div class="slick-slider__item">
   <a href="{% if collection.empty? %}#{% else %}{{ collection.url }}{% endif %}" class="slick-slider__card" tabindex="-1">
-    <div class="slick-slider__item-img-wrapper slick-slider__collection-img-wrapper">
-      <img data-lazy="{{ collection_image_url }}">
+    <div class="slick-slider__item-img-wrapper">
+      <img src="{{ collection_image_url }}">
     </div>
     <div class="slick-slider__item-collection-title">{{ collection.title }}</div>
   </a>
 </div>
-

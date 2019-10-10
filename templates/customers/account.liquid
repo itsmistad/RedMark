@@ -1,7 +1,11 @@
 <div class="account-section page-width page-padding">
   <div class="section-header text-center">
     <h1>{{ 'customer.account.title' | t }}</h1>
-    {{ 'layout.customer.log_out' | t | customer_logout_link }}
+    <a href="/account/logout" id="customer_logout_link">
+      <div class="logout-text">
+        {{ 'layout.customer.log_out' | t }}
+      </div>
+    </a>
   </div>
 
   <div class="grid">
