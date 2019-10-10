@@ -131,7 +131,7 @@
             </div>
           {% endif %}
           <div class="product-section__form-item product-section__form-item--submit">
-            <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="btn product-section__form-cart-submit">
+            <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="btn product-section__form-cart-submit featured-product__AddToCart">
               <span id="AddToCartText-{{ section.id }}">
                 {% unless current_variant.available %}
                   {{ settings.add_to_cart_button_soldouttext }}
@@ -166,7 +166,7 @@
       dots: true,
       arrows: false
     });
-    
+
     /*
      * AddToCart input
      */
