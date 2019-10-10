@@ -1,11 +1,11 @@
-<div class="product-slider__container {% unless enable_full_width %}page-width{% endunless %}">
+<div class="product-slider__container page-width">
   {% if section.settings.title != blank %}
     <div class="section-header text-center">
       <h2 class="section-header__title">{{ section.settings.title | escape }}</h2>
     </div>
   {% endif %}
   <div class="product-slider__slider-container">
-    {% if section.settings.enable_arrows and section.blocks.size > 4 %}
+    {% if section.settings.enable_arrows %}
       <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
         <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
       </button>
@@ -16,7 +16,7 @@
         {% include 'product-card' %}
       {% endfor %}
     </div>
-    {% if section.settings.enable_arrows and section.blocks.size > 4 %}
+    {% if section.settings.enable_arrows %}
       <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
         <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
       </button>
@@ -27,40 +27,57 @@
 <script>
 $(function() {
   $('#product-slider__carousel-{{ section.id }}').slick({
-    dots: false,
+    {% if section.blocks.size > 4 %}
+    dots: {{ section.settings.enable_dots }},
+    {% endif %}
     infinite: true,
     speed: 300,
+    {% if section.settings.slide_height != blank %}
+    variableHeight: true,
+    {% endif %}
     {% if section.blocks.size < 4 %}
     slidesToShow: {{ section.blocks.size }},
     {% else %}
     slidesToShow: 4,
     {% endif %}
-    slidesToScroll: 1,
-    swipeToSlide: true,
-    touchThreshold: 8,
-    lazyLoad: 'progressive',
+    swipeToSlide: true, 
+    touchThreshold: 30,
     autoplay: false,
     arrows: false,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
+          {% if section.blocks.size > 3 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          {% if section.blocks.size > 3 %}
+          slidesToShow: 3
+          {% else %}
+          slidesToShow: {{ section.blocks.size }}
+          {% endif %}
         }
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2
+          {% if section.blocks.size > 2 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          {% if section.blocks.size > 2 %}
+          slidesToShow: 2
+          {% else %}
+          slidesToShow: {{ section.blocks.size }}
+          {% endif %}
         }
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
+          {% if section.blocks.size > 1 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          slidesToShow: 1
         }
       }
     ]
@@ -85,15 +102,20 @@ $(function() {
       },
       {
         "type": "checkbox",
-        "id": "enable_full_width",
-        "label": "Enable full width",
-        "default": false
-      },
-      {
-        "type": "checkbox",
         "id": "enable_arrows",
         "label": "Enable slider arrows",
         "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_dots",
+        "label": "Enable slider dots",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "slide_height",
+        "label": "Forced slide height"
       }
     ],
     "blocks": [
@@ -117,3 +139,9 @@ $(function() {
     ]
   }
 {% endschema %}
+
+<style>
+  #product-slider__carousel-{{ section.id }} img {
+    height: {{ section.settings.slide_height }};
+  }
+</style>

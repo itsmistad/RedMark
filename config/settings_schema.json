@@ -1284,39 +1284,27 @@
         "type": "select",
         "id": "type_base_size",
         "label": "Base Size",
-        "default": "16px",
+        "default": "16",
         "options": [
           {
-            "value": "13px",
+            "value": "12",
+            "label": "12px"
+          },
+          {
+            "value": "13",
             "label": "13px"
           },
           {
-            "value": "14px",
+            "value": "14",
             "label": "14px"
           },
           {
-            "value": "15px",
+            "value": "15",
             "label": "15px"
           },
           {
-            "value": "16px",
+            "value": "16",
             "label": "16px"
-          },
-          {
-            "value": "17px",
-            "label": "17px"
-          },
-          {
-            "value": "18px",
-            "label": "18px"
-          },
-          {
-            "value": "19px",
-            "label": "19px"
-          },
-          {
-            "value": "20px",
-            "label": "20px"
           }
         ]
       },

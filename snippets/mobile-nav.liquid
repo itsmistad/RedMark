@@ -1,0 +1,72 @@
+<ul class="mobile-nav">
+  <li class="mid-header">
+    Menu
+    <hr/>
+  </li>
+  <li>
+    <a href="/search">
+      <div>
+        {{ 'layout.navigation.search' | t }}
+      </div>
+    </a>
+  </li>
+  <li>
+  {% if shop.customer_accounts_enabled %}
+    {% if customer %}
+      <a href="/account">
+        <div>
+          {{ 'layout.customer.account' | t }}
+        </div>
+      </a>
+    {% else %}
+      <a href="/account/login">
+        <div>
+          {{ 'layout.customer.log_in' | t }}
+        </div>
+      </a>
+    {% endif %}
+  {% endif %}
+  <li>
+    <a href="/cart">
+      <div>
+        My Cart
+      </div>
+    </a>
+  </li>
+  </li>
+  {% for link in linklists[section.settings.main_linklist].links %}
+    {% if forloop.index > 6 %}
+      {% continue %}
+    {% endif %}
+    <li class="mid-header">
+      {{ link.title }}
+      <hr/>
+    </li>
+    {% if link.links != blank and link.levels > 0 %}
+      {% for childlink in link.links %}
+        {% if forloop.index > 4 %}
+          {% break %}
+        {% endif %}
+        <li class="header">
+          {% if childlink.url == "/" %} 
+            {{ childlink.title }}
+          {% endif %}
+        </li>
+        {% if childlink.links != blank and childlink.levels > 0 %}
+          {% for grandchildlink in childlink.links %}
+            {% if forloop.index > 10 %}
+              {% break %}
+            {% endif %}
+            <li>
+              <a href="{{ grandchildlink.url }}" {% if grandchildlink.active %} aria-current="page" {% endif %}>
+                <div class="sub">
+                  {{ grandchildlink.title }}
+                </div>
+              </a>
+            </li>
+          {% endfor %} 
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+</ul>

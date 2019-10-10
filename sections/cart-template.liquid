@@ -10,9 +10,9 @@
       <table>
         <thead>
           <tr>
-            <th colspan="2" class="cart-section__cell">{{ 'cart.label.product' | t }}</th>
-            <th class="cart-section__cell group-right text-center">{{ 'cart.label.quantity' | t }}</th>
-            <th class="cart-section__cell group-right text-center">{{ 'cart.label.subtotal' | t }}</th>
+            <th colspan="2" class="cart-section__cell cart-section__cell-header">{{ 'cart.label.product' | t }}</th>
+            <th class="cart-section__cell cart-section__cell-header group-right text-center">{{ 'cart.label.quantity' | t }}</th>
+            <th class="cart-section__cell cart-section__cell-header group-right text-center cart-section__subtotal">{{ 'cart.label.subtotal' | t }}</th>
           </tr>
         </thead>
         <tbody>
@@ -20,7 +20,7 @@
             <tr class="cart-section__row border-bottom {% if forloop.first %} border-top{% endif %}">
               <td class="cart-section__cell cart-section__image-wrapper">
                 <a href="{{ item.url | within: collections.all }}">
-                  <img class="cart-section__image" src="{{ item | img_url: '100x' }}" alt="{{ item.title | escape }}">
+                  <img class="cart-section__image" src="{{ item | img_url: '200x' }}" alt="{{ item.title | escape }}">
                 </a>
               </td>
               <td class="cart-section__cell small--text-left">
@@ -72,7 +72,7 @@
                 </div>
                 <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart-section__remove">{{ 'cart.general.remove' | t }}</a>
               </td>
-              <td class="cart-section__cell text-center">
+              <td class="cart-section__cell text-center cart-section__subtotal">
                 <div>
                   <span class="saso-cart-item-line-price" data-key="{{item.key}}">{{ item.line_price | money }}</span>
                 </div>
@@ -80,11 +80,12 @@
             </tr>
           {% endfor %}
           <tr class="cart-section__last-row">
-              <td colspan="2" class="cart-section__cell">
+              <td colspan="2" class="cart-section__cell" id="cart-section__desktop-cart-buttons">
                 <input type="submit" name="update" class="btn cart-section__cell-button" value="{{ 'cart.general.update' | t }}">
-                <a class="btn cart-section__cell-button" href="{{ shop.url }}">{{ 'cart.general.continue_shopping' | t }}</button>
+                <a class="btn cart-section__cell-button" href="{{ shop.url }}">{{ 'cart.general.continue_shopping' | t }}</a>
               </td>
-              <td class="cart-section__cell group-right text-center">{{ 'cart.general.total' | t }}</td>
+              <td colspan="2" id="cart-section__mobile-subtotal" class="cart-section__cell group-right text-center">{{ 'cart.general.total' | t }}</td>
+              <td class="cart-section__cell group-right text-center cart-section__subtotal">{{ 'cart.general.total' | t }}</td>
               <td class="cart-section__cell group-right text-center">{{ cart.total_price | money_with_currency }}</td>
           </tr>
         </tbody>
@@ -137,10 +138,19 @@
           <div class="cart-section__shipping-text">{{ section.settings.shipping_text }}</div>
         {% endif %}
         <div class="cart-section__checkout-line">
-          {% include 'payment-badges' %}
+          <div id="cart-section__desktop-payment-badges">
+            {% include 'payment-badges' %}
+          </div>
           <div class="cart-section__checkout-buttons">
             <input type="submit" name="checkout" class="btn btn--small-wide cart-section__checkout-button" value="{{ section.settings.checkout_button_text }}">
           </div>
+        </div>
+        <div id="cart-section__mobile-cart-buttons">
+          <input type="submit" name="update" class="btn cart-section__cell-button" value="{{ 'cart.general.update' | t }}">
+          <a class="btn cart-section__cell-button" href="{{ shop.url }}">{{ 'cart.general.continue_shopping' | t }}</a>
+        </div>
+        <div id="cart-section__mobile-payment-badges">
+          {% include 'payment-badges' %}
         </div>
       </div>
     </form>

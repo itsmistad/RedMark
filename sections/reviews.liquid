@@ -3,35 +3,87 @@
     <h2 class="header">{{ section.settings.heading_final }}</h2>
   </div>
   <div class="reviews-section">
-    <div class="reviews-section__review">
-      <div class="reviews-section__icon">
-        <img src="{{ section.settings.img_1 | img_url }}" alt="{{ section.settings.img_1.alt | escape }}" />
+    {% if section.settings.enable_arrows %}
+      <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
+        <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+      </button>
+    {% endif %}
+    <div class="slick-slider__carousel" id="reviews-section__carousel">
+      <div class="slick-slider__item">
+        <div class="reviews-section__review slick-slider__card">
+          <div class="reviews-section__icon">
+            <img src="{{ section.settings.img_1 | img_url }}" alt="{{ section.settings.img_1.alt | escape }}" />
+          </div>
+          <div class="reviews-section__text-content">          
+            <p class="review-text">{{ section.settings.subtext_1_style_2 }}</p>
+            <p class="review-name">{{ section.settings.text_1_style_2 }}</p>
+          </div>
+        </div>
       </div>
-      <div class="reviews-section__text-content">          
-        <p class="review-text">{{ section.settings.subtext_1_style_2 }}</p>
-        <p class="review-name">{{ section.settings.text_1_style_2 }}</p>
+      <div class="slick-slider__item">
+        <div class="reviews-section__review slick-slider__card">
+          <div class="reviews-section__icon">
+            <img src="{{ section.settings.img_2 | img_url }}" alt="{{ section.settings.img_2.alt | escape }}" />
+          </div>
+          <div class="reviews-section__text-content">          
+            <p class="review-text">{{ section.settings.subtext_1_style_3 }}</p>
+            <p class="review-name">{{ section.settings.text_1_style_3 }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="slick-slider__item">
+        <div class="reviews-section__review slick-slider__card">
+          <div class="reviews-section__icon">
+            <img src="{{ section.settings.img_3 | img_url }}" alt="{{ section.settings.img_3.alt | escape }}" />
+          </div>
+          <div class="reviews-section__text-content">          
+            <p class="review-text">{{ section.settings.subtext_1_style_4 }}</p>
+            <p class="review-name">{{ section.settings.text_1_style_4 }}</p>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="reviews-section__review">
-      <div class="reviews-section__icon">
-        <img src="{{ section.settings.img_2 | img_url }}" alt="{{ section.settings.img_2.alt | escape }}" />
-      </div>
-      <div class="reviews-section__text-content">          
-        <p class="review-text">{{ section.settings.subtext_1_style_3 }}</p>
-        <p class="review-name">{{ section.settings.text_1_style_3 }}</p>
-      </div>
-    </div>
-    <div class="reviews-section__review">
-      <div class="reviews-section__icon">
-        <img src="{{ section.settings.img_3 | img_url }}" alt="{{ section.settings.img_3.alt | escape }}" />
-      </div>
-      <div class="reviews-section__text-content">          
-        <p class="review-text">{{ section.settings.subtext_1_style_4 }}</p>
-        <p class="review-name">{{ section.settings.text_1_style_4 }}</p>
-      </div>
-    </div>
+    {% if section.settings.enable_arrows %}
+      <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
+        <img srcset="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+      </button>
+    {% endif %}
   </div>
 </div>
+<script>
+  $(function() {
+    $('#reviews-section__carousel').slick({
+      {% if section.blocks.size > 3 %}
+      dots: {{ section.settings.enable_dots }},
+      {% endif %}
+      infinite: true,
+      speed: 400,
+      slidesToShow: 3,
+      swipeToSlide: true,
+      touchThreshold: 30,
+      autoplay: true,
+      pauseOnFocus: true,
+      pauseOnHover: true,
+      pauseOnDotsHover: true,
+      autoplaySpeed: 5000,
+      arrows: false,
+      responsive: [
+        {
+          breakpoint: 1000,
+          settings: {
+            slidesToShow: 2
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 1
+          }
+        }
+      ]
+    });
+  });
+</script>
 <style>
   .review-name {
     color: {{ section.settings.edit__name_color }};
@@ -55,33 +107,8 @@
   {% endif %}
   .reviews .section-header {
     text-align: center;
+    font-size: 1.25em;
     color:  {{ section.settings.heading_color }};
-    font-size: {{ section.settings.heading_size }};   
-  }
-  .reviews {
-    margin: 40px auto;
-  }
-  .reviews .reviews-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-  .reviews-section__review {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .reviews-section__icon {
-    display: block;
-    width: 128px;
-    height: 128px;
-  }
-  .reviews-section__icon img {
-    width: 100%;
-  }
-  .reviews-section__text-content {
-    padding-left: 30px;
   }
 </style>
 
@@ -90,6 +117,22 @@
     "name":"Reviews",
     "class":"index-section",
     "settings":[
+      {
+        "type": "header",
+        "content": "Slider"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_arrows",
+        "label": "Enable slider arrows",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_dots",
+        "label": "Enable slider dots",
+        "default": false
+      },
       {
         "type":"header",
         "content":"Heading"
@@ -103,11 +146,6 @@
         "type":"color",
         "id":"heading_color",
         "label":"Enter Font Color"
-      },
-      {
-        "type":"text",
-        "id":"heading_size",
-        "label":"Enter Font Size"
       },
       {
         "type":"header",

@@ -9,7 +9,7 @@ ___
 
 1. Sleek header with a responsive logo, cart preview, and mobile-friendly behavior.
 2. Consistent typography throughout the theme.
-3. Multiple newsletter implementations with MailChimp integration.
+3. Multiple newsletter implementations with Klaviyo integration.
 4. Trust badges, social media buttons, and payment provider badges embedded into the footer.
 5. Multiple useful home page sections.
 6. Pre-code-configured for essential apps that are already picked out for you. 
