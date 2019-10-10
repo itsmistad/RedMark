@@ -32,6 +32,7 @@
     "cart_drawer_notification_color": "#fff",
     "enable_search_autocomplete": true,
     "color_chrome": "#000000",
+    "color_accent": "#ff3b3b",
     "color_text": "#3d4246",
     "color_body_text": "#595959",
     "color_sale_text": "#ff3b3b",
@@ -74,7 +75,6 @@
     "checkout_accent_color": "#ff9797",
     "checkout_button_color": "#ff3b3b",
     "checkout_error_color": "#e32c2b",
-    "color_accent": "#ff3b3b",
     "checkout_button_fontsize": "16",
     "max_num": "30",
     "max_num_1": "2",
@@ -96,6 +96,7 @@
         "settings": {
           "logo": "shopify:\/\/shop_images\/RedMark_Logo_v3.2-black-transparent_400x150_34175e33-c9a4-424e-a757-8a5994297823.png",
           "logo_max_width": "160",
+          "logo_vertical_adjustment": "-4px",
           "main_linklist": "main-menu",
           "menu_font_size": "1.25em",
           "menu_font_weight": "100",
@@ -234,12 +235,16 @@
         "type": "related-products",
         "settings": {
           "show_related_products": true,
-          "related_title": "More you might like"
+          "related_title": "More you might like",
+          "enable_arrows": true,
+          "enable_dots": false
         }
       },
       "1494487788342": {
         "type": "reviews",
         "settings": {
+          "enable_arrows": false,
+          "enable_dots": true,
           "heading_final": "Reviews",
           "heading_color": "#000000",
           "edit_cust_name_color": "#000000",
@@ -343,6 +348,102 @@
           "button_hover_color": "#000000",
           "button_text_hover_color": "#ffffff"
         }
+      },
+      "1570462980950": {
+        "type": "collection-slider",
+        "blocks": {
+          "1570462989813": {
+            "type": "featured_collection",
+            "settings": {
+              "collection": "example"
+            }
+          },
+          "1570462994616": {
+            "type": "featured_collection",
+            "settings": {
+              "collection": "example-1"
+            }
+          },
+          "1570463000958": {
+            "type": "featured_collection",
+            "settings": {
+              "collection": "example"
+            }
+          },
+          "1570486998267": {
+            "type": "featured_collection",
+            "settings": {
+              "collection": "example-1"
+            }
+          },
+          "1570487007159": {
+            "type": "featured_collection",
+            "settings": {
+              "collection": "example"
+            }
+          },
+          "1570494585018": {
+            "type": "featured_collection",
+            "settings": {
+              "collection": "example-1"
+            }
+          }
+        },
+        "block_order": [
+          "1570462989813",
+          "1570462994616",
+          "1570463000958",
+          "1570486998267",
+          "1570487007159",
+          "1570494585018"
+        ],
+        "settings": {
+          "title": "Shop by Collection",
+          "enable_arrows": false,
+          "enable_dots": true,
+          "slide_height": "200"
+        }
+      },
+      "1570473957125": {
+        "type": "product-slider",
+        "blocks": {
+          "1570473963915": {
+            "type": "featured_product",
+            "settings": {
+              "product": "product-1"
+            }
+          },
+          "1570473972645": {
+            "type": "featured_product",
+            "settings": {
+              "product": "upsell-product"
+            }
+          },
+          "1570473969417": {
+            "type": "featured_product",
+            "settings": {
+              "product": "product-1"
+            }
+          },
+          "1570473977927": {
+            "type": "featured_product",
+            "settings": {
+              "product": "test-product"
+            }
+          }
+        },
+        "block_order": [
+          "1570473963915",
+          "1570473972645",
+          "1570473969417",
+          "1570473977927"
+        ],
+        "settings": {
+          "title": "Popular Products",
+          "enable_arrows": true,
+          "enable_dots": false,
+          "slide_height": ""
+        }
       }
     },
     "content_for_index": [
@@ -350,7 +451,9 @@
       "1567465870165",
       "1544593914681",
       "1565474292060",
-      "1494487788342"
+      "1494487788342",
+      "1570462980950",
+      "1570473957125"
     ]
   },
   "presets": {
