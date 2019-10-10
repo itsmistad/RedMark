@@ -35,19 +35,19 @@
         </div>
       </div>
       {% if product.images.size > 1 %}
-        <div class="product-section__thumbnails-desktop">
-          <ul class="product-section__thumbnails-{{ section.id }}">
-            {% for image in product.images %}
-              <li class="product-section__thumbnails-item">
-                <a itemprop="url"
-                  href="{{ image.src | img_url: product_image_size_url }}"
-                  class="product-section__thumbnail product-section__thumbnail--{{ section.id }}"
+        <div class="slick-slider__carousel product-section__thumbnails-desktop-carousel" id="product-section__thumbnails-desktop-carousel-{{ section.id }}">
+          {% for image in product.images %}
+            <div class="slick-slider__item product-section__thumbnails-item">
+              <a itemprop="url"
+                href="{{ image.src | img_url: product_image_size_url }}"
+                  class="slick-slider__card product-section__thumbnail product-section__thumbnail--{{ section.id }}"
                   {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}>
-                  <img class="product-section__thumbnail-image" src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
+                  <div class="slick-slider__item-img-wrapper">
+                    <img class="product-section__thumbnail-image" src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
+                  </div>
+              </a>
+            </div>
+          {% endfor %}
         </div>
         <div class="slick-slider__carousel product-section__thumbnails-mobile-carousel" id="product-section__thumbnails-mobile-carousel-{{ section.id }}">
           {% for image in product.images %}
@@ -199,6 +199,17 @@
     /*
      * Feature image gallery
      */
+    $('#product-section__thumbnails-desktop-carousel-{{ section.id }}').slick({
+      infinite: false,
+      speed: 400,
+      slidesToShow: 5,
+      touchThreshold: 30,
+      swipeToSlide: true,
+      dots: true,
+      arrows: false,
+      vertical: true,
+      verticalSwiping: true,
+    });
     $('#product-section__thumbnails-mobile-carousel-{{ section.id }}').slick({
       infinite: true,
       speed: 400,
@@ -325,7 +336,7 @@
      * Enables image zoom functionality
      */
     var zoomImg = $('img.zoom_hover');
-    if ($(document).width >= 1024)
+    if ($(document).width() >= 1024)
       zoomImg.zoomIn({});
   });
   // Wait for and move the Recart widget if the screen is too small.

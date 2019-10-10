@@ -1492,6 +1492,7 @@ theme.Product = (function() {
       enableHistoryState: $container.data('enable-history-state') || false,
       imageSize: null,
       imageZoomSize: null,
+      namespace: '',
       sectionId: sectionId,
       sliderActive: false,
       zoomEnabled: false
@@ -1508,7 +1509,6 @@ theme.Product = (function() {
       productImageWrap: '#FeaturedImageZoom-' + sectionId,
       productPrices: '.product-section__price-' + sectionId,
       productThumbImages: '.product-section__thumbnail--' + sectionId,
-      productThumbs: '.product-section__thumbnails-' + sectionId,
       saleClasses: 'product-price__sale product-price__sale--single',
       saleLabel: '.product-price__sale-label-' + sectionId,
       singleOptionSelector: '.single-option-selector-' + sectionId
