@@ -5307,12 +5307,24 @@ h1.product-section__title {
       .product-section__photo-wrapper {
         display: flex;
         justify-content: center;
+        align-items: center;
         width: 100%;
+        .zoomIn {
+          max-height: 512px;
+          max-width: 512px;
+        }
       }
-      .product-section__thumbnails-desktop {
+      .product-section__thumbnails-desktop-carousel {
         margin-right: 10px;
+        flex-basis: 0;
         @include for-large-tablet-down {
           display: none;
+        }
+        .slick-list {
+          width: 100px;
+        }
+        .slick-slide {
+          height: 100px;
         }
       }
       .product-section__thumbnails-mobile-carousel {
@@ -5398,6 +5410,7 @@ h1.product-section__title {
   }
   .featured-product {
     padding: 60px 0;
+    min-height: 650px;
   }
   .product-section__description-container {
     display: flex;
