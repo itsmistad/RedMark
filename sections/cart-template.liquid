@@ -6,6 +6,8 @@
     <div class="section-header text-center">
       <h1>{{ 'cart.general.title' | t }}</h1>
     </div>
+    {% include 'banana-stand-cart-top-container' %}
+
     <form action="/cart" method="post" novalidate class="cart">
       <table>
         <thead>
@@ -319,4 +321,4 @@
     }
   ]
 }
-{% endschema %}
+{% endschema %}
