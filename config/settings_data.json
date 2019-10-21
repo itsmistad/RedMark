@@ -467,8 +467,7 @@
         }
       },
       "content_for_index": [
-        "hero",
-        "featured-collections"
+        "hero"
       ]
     }
   }
