@@ -26,7 +26,10 @@
 
 <script>
 $(function() {
-  $('#product-slider__carousel-{{ section.id }}').slick({
+  var productSlider = $('#product-slider__carousel-{{ section.id }}');
+  if ($('.banana-container').length)
+    $('.banana-container').remove();
+  productSlider.slick({
     {% if section.blocks.size > 4 %}
     dots: {{ section.settings.enable_dots }},
     {% endif %}

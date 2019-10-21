@@ -3562,6 +3562,9 @@ img.articl_img_section {
   img {
     filter: invert(1);
   }
+  @include for-phone-only {
+    right: 10px;
+  }
 }
 .cookie-bar, .announcement-bar {
   text-align: center;
@@ -3582,13 +3585,14 @@ img.articl_img_section {
   display: block;
   font-size: em(11);
   font-weight: $font-weight-normal;
-  padding: 10px $gutter-site;
+  padding: 10px ($gutter-site + 20px);
   @include for-tablet-down {
     max-width: 600px;
     font-size: em(13);
   }
   @include for-phone-only {
     max-width: 380px;
+    padding: 10px $gutter-site;
   }
   a {
     text-decoration: underline;
@@ -3786,13 +3790,13 @@ img.articl_img_section {
     .trust-badges__badges {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: space-around;
       .trust-badges__badge {
         outline: none;
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        margin: 0 6px;
+        max-width: 280px;
         img {
           @include for-large-tablet-down {
             transform: scale(0.8);

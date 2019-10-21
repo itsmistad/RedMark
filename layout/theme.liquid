@@ -62,7 +62,6 @@
         </script>
         
         {{ '//code.jquery.com/jquery-3.4.1.min.js' | script_tag }}
-        {{ 'jquery.waituntilexists.js' | asset_url | script_tag }}
         {{ 'slick.js' | asset_url | script_tag }}
         <!--[if (lte IE 9) ]>{{ 'match-media.min.js' | asset_url | script_tag }}<![endif]-->
         {% if template contains 'customers' %}
@@ -284,5 +283,6 @@
         </script>
        {% include 'smile-initializer' %}
        {% include 'livechat-initializer' %}
-    </body>
+    {% include 'banana-stand-footer' %}
+</body>
 </html>

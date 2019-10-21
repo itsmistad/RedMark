@@ -30,7 +30,7 @@
       <div class="product-section__photo-wrapper">
         <div id="FeaturedImageZoom-{{ section.id }}" class="product-section__photo" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
           <div class="zoomIn">
-          <img itemprop="image" src="{{ product.featured_image.src | img_url: product_image_size_url }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="{% if enable_zoom %}zoom_hover{% endif %} product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+            <img itemprop="image" src="{{ product.featured_image.src | img_url: product_image_size_url }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="{% if enable_zoom %}zoom_hover{% endif %} product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
           </div>
         </div>
       </div>
