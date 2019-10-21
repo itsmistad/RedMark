@@ -1,0 +1,18 @@
+{
+  "name": "redmark-theme",
+  "version": "1.0.0",
+  "description": "The RedMark theme used by https://redmarkdeals.com",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsmistad/RedMark.git"
+  },
+  "author": "itsmistad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itsmistad/RedMark/issues"
+  },
+  "homepage": "https://github.com/itsmistad/RedMark#readme"
+}
