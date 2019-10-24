@@ -1,0 +1,28 @@
+{% if settings.enable_social_share %}
+<div class="social-share__buttons">
+    <div class="social-share__button">
+        <a target="_blank" title="Share this on Twitter"
+            href="https://twitter.com/intent/tweet?text=Check%20this%20out!&amp;url={{ shop.url }}{% if page.url != blank %}{{ page.url }}{% elsif collection.url != blank %}{{ collection.url }}{% elsif product.url != blank %}{{ product.url }}{% endif %}">
+            <i class="fi fi-twitter"></i>
+        </a>
+    </div>
+    <div class="social-share__button">
+        <a target="_blank" title="Share this on Facebook"
+            href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{% if page.url != blank %}{{ page.url }}{% elsif collection.url != blank %}{{ collection.url }}{% elsif product.url != blank %}{{ product.url }}{% endif %}">
+            <i class="fi fi-facebook"></i>
+        </a>
+    </div>
+    <div class="social-share__button">
+        <a target="_blank" title="Share this through email"
+            href="mailto:?subject=Check%20this%20out!&amp;body={{ shop.url }}{% if page.url != blank %}{{ page.url }}{% elsif collection.url != blank %}{{ collection.url }}{% elsif product.url != blank %}{{ product.url }}{% endif %}">
+            <i class="fi fi-email"></i>
+        </a>
+    </div>
+    <div class="social-share__button">
+        <a title="Copy link to clipboard"
+            onclick="navigator.clipboard.writeText(window.location.href).then(alert('Copied!'))">
+            <i class="fi fi-link"></i>
+        </a>
+    </div>
+</div>
+{% endif %}

@@ -5477,6 +5477,29 @@ h1.product-section__title {
       }
     }
   }
+  .product-section__returns-text {
+    width: 100%;
+    position: relative;
+    padding: 20px 10px;
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    h2 {
+      margin: 0;
+      color: {{ settings.color_accent }};
+      text-shadow: 1px 1px 1px #000;
+    }
+    hr {
+      margin: 20px 0;
+      width: 100px;
+    }
+    p {
+      margin: 0;
+    }
+  }
   .text-center {
     text-align: center;
   }
@@ -5485,6 +5508,36 @@ h1.product-section__title {
   }
   .upper {
     text-transform: uppercase;
+  }
+}
+
+/*=============================================
+=                Social Share                 =
+=============================================*/
+.social-share__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: em(14);
+  text-align: center;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.2s;
+      width: 60px;
+      height: 60px;
+      border: solid 1px #eee;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
   }
 }
 
