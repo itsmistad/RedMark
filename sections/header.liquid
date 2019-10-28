@@ -164,15 +164,29 @@
   * Mobile Nav
   */
   $(function() {
-    $('#site-header__mobile-nav').click(function() {
-      var openClass = 'mobile-nav--open';
-      var closeClass = 'mobile-nav--close';
-      var navButton = $(this);
-      var overlay = $('#page-overlay');
-
+    var overlay = $('#page-overlay');
+    var openClass = 'mobile-nav--open';
+    var closeClass = 'mobile-nav--close';
+    var navButton = $('#site-header__mobile-nav');
+    var header = $('.site-header__container');
+    var page = $('#PageContainer');
+    var closeNav = () => {
+      header.removeClass(openClass);
+      page.removeClass(openClass);
+      $('body').removeClass(openClass);
+      $('html').removeClass(openClass);
+      $('.scrollup').removeClass('hide');
+      overlay.fadeOut('slow');
+    };
+    overlay.click(function() {
+      if (navButton.hasClass(closeClass)) {
+        closeNav();
+        navButton.toggleClass(openClass);
+        navButton.toggleClass(closeClass);
+      }
+    });
+    navButton.click(function() {
       if (navButton.hasClass(openClass)) { // Opening the nav
-        var header = $('.site-header__container');
-        var page = $('#PageContainer');
         var scrollTop = $(document).scrollTop();
 
         header.addClass(openClass);
@@ -183,15 +197,7 @@
         overlay.show();
         
       } else if (navButton.hasClass(closeClass)) { // Closing the nav
-        var header = $('.site-header__container');
-        var page = $('#PageContainer');
-
-        header.removeClass(openClass);
-        page.removeClass(openClass);
-        $('body').removeClass(openClass);
-        $('html').removeClass(openClass);
-        $('.scrollup').removeClass('hide');
-        overlay.fadeOut('slow');
+        closeNav();
       }
 
       navButton.toggleClass(openClass);
