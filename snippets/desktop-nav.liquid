@@ -3,8 +3,8 @@
     {% if forloop.index > 6 %}
       {% continue %}
     {% endif %}
-    <li class="desktop-nav__item {% if link.active %}desktop-nav__active{% endif %}">
-      <a href="{{ link.url }}" class="desktop-nav__link" {% if link.active %} aria-current="page"{% endif %}>
+    <li class="desktop-nav__item {% if link.active and link.url != '/' %}desktop-nav__active{% endif %}">
+      <a {% if link.url != '/' %}href="{{ link.url }}"{% endif %} class="desktop-nav__link" {% if link.active and link.url != '/' %} aria-current="page"{% endif %}>
         {{ link.title }}
       </a>
       {% if link.links != blank and link.levels > 0 %}
@@ -16,7 +16,7 @@
               {% endif %}
               <div class="desktop-nav__sub">
                 {% if childlink.url == "/" %} 
-                    <h4>{{ childlink.title }}</h4>
+                  <h4 class="text-center">{{ childlink.title }}</h4>
                 {% endif %}
                 {% if childlink.links != blank and childlink.levels > 0 %}
                   {% for grandchildlink in childlink.links %}
