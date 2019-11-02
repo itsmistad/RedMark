@@ -23,7 +23,7 @@
       {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
       {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
       {% include 'sale_tag' %}
-      <div class="product-section__photo-wrapper">
+      <div class="product-section__featured-desktop-wrapper">
         <div id="FeaturedImageZoom-{{ section.id }}" class="product-section__photo" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
           <div class="zoomIn">
             <img itemprop="image" src="{{ featured_img_src | img_url: product_image_size_url }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="product-featured-img {% if enable_zoom %}zoom_hover js-zoom-enabled{% endif %}">
