@@ -669,6 +669,21 @@
     ]
   },
   {
+    "name": "Social Share Buttons",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Product Page"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_social_share",
+        "label": "Enable Social Share Buttons",
+        "default": true
+      }
+    ]
+  },
+  {
     "name": "Search Autocomplete",
     "settings": [
       {

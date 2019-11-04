@@ -27,12 +27,21 @@
       {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
       {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
       {% include 'sale_tag' %}
-      <div class="product-section__photo-wrapper">
+      <div class="product-section__featured-desktop-wrapper">
         <div id="FeaturedImageZoom-{{ section.id }}" class="product-section__photo" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
           <div class="zoomIn">
             <img itemprop="image" src="{{ product.featured_image.src | img_url: product_image_size_url }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="{% if enable_zoom %}zoom_hover{% endif %} product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
           </div>
         </div>
+      </div>
+      <div class="slick-slider__carousel product-section__featured-mobile-carousel" id="product-section__featured-mobile-carousel-{{ section.id }}">
+        {% for image in product.images %}
+          <div class="slick-slider__item product-section__featured-item">
+            <div class="slick-slider__item-img-wrapper">
+              <img class="product-section__featured-img" src="{{ image.src | img_url: product_image_size_url }}" itemprop="image" alt="{{ image.alt | escape }}">
+            </div>
+          </div>
+        {% endfor %}
       </div>
       {% if product.images.size > 1 %}
         <div class="slick-slider__carousel product-section__thumbnails-desktop-carousel" id="product-section__thumbnails-desktop-carousel-{{ section.id }}">
@@ -53,10 +62,9 @@
           {% for image in product.images %}
             <div class="slick-slider__item product-section__thumbnails-item">
               <a itemprop="url"
-                href="{{ image.src | img_url: product_image_size_url }}"
-                class="slick-slider__card product-section__thumbnail product-section__thumbnail--{{ section.id }}"
-                {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}
-                tabindex="-1">
+                class="slick-slider__card product-section__thumbnail product-section__thumbnail-mobile product-section__thumbnail--{{ section.id }}-{{ forloop.index0 }} {% if forloop.first == true %}active-thumb{% endif %}"
+                tabindex="-1"
+                slideindex="{{ forloop.index0 }}">
                 <div class="slick-slider__item-img-wrapper">
                   <img class="product-section__thumbnail-image" src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
                 </div>
@@ -162,7 +170,7 @@
     <div id="description-technical" class="product-section__description hidden"></div>
   </div>
   <div class="product-section__instagram-gallery">
-    {% if section.settings.show_empty_gallery_text == true %}
+    {% if section.settings.show_empty_gallery_text %}
       <p class="product-section__empty-gallery-msg text-center">
         <span class="upper">
           🤯<br/>
@@ -174,6 +182,19 @@
     {% endif %}
     <div class="slick-slider__carousel" id="product-section__ig-carousel"></div>
   </div>
+  {% if section.settings.show_returns_text %}
+    <div class="product-section__returns-text text-center">
+        <h2>
+          Not-so-awesome?
+        </h2>
+        <hr />
+        <p>
+          We got your back!<br />
+          Contact us for assistance with any replacements, refunds, or returns.
+        </p>
+    </div>
+  {% endif %}
+  {% include 'social-share' %}
 </div>
 <div id="stamped-main-widget" class="stamped-main-widget" data-widget-style="standard"
   data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}"
@@ -195,10 +216,13 @@
 {% endunless %}
 
 <script>
+  var featuredMobileCarousel = $('#product-section__featured-mobile-carousel-{{ section.id }}');
+  var thumbnailMobileCarousel = $('#product-section__thumbnails-mobile-carousel-{{ section.id }}');
   $(function() {
     /*
      * Feature image gallery
      */
+    
     $('#product-section__thumbnails-desktop-carousel-{{ section.id }}').slick({
       infinite: false,
       speed: 400,
@@ -210,13 +234,45 @@
       vertical: true,
       verticalSwiping: true,
     });
-    $('#product-section__thumbnails-mobile-carousel-{{ section.id }}').slick({
-      infinite: true,
+    thumbnailMobileCarousel.slick({
+      infinite: false,
       speed: 400,
       slidesToShow: 4,
-      swipeToSlide: true,
+      touchThreshold: 30,
+      slidesToScroll: 4,
       dots: true,
       arrows: false
+    });
+    featuredMobileCarousel.slick({
+      infinite: false,
+      speed: 400,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      dots: false,
+      arrows: false
+    });
+
+    var sliding = false;
+    var resetSlidingTimeout;
+    featuredMobileCarousel.on('beforeChange', function(event, slick, currentSlide, targetSlide) {
+      if (currentSlide === targetSlide) return;
+      let currentThumbnail = $(`.product-section__thumbnail--{{ section.id }}-${ currentSlide }`);
+      let targetThumbnail = $(`.product-section__thumbnail--{{ section.id }}-${ targetSlide }`);
+      if (currentThumbnail.hasClass('active-thumb'))
+        currentThumbnail.removeClass('active-thumb');
+      if (!targetThumbnail.hasClass('active-thumb'))
+        targetThumbnail.addClass('active-thumb');
+      
+      let targetSet = Math.floor(targetSlide / 4);
+      let currentSet = Math.floor(currentSlide / 4);
+      if (targetSet > currentSet)
+        thumbnailMobileCarousel.slick('slickNext');
+      else if (targetSet < currentSet)
+        thumbnailMobileCarousel.slick('slickPrev'); 
+    });
+    $('.product-section__thumbnail-mobile').click(function () {
+      if ($(this).hasClass('active-thumb')) return;
+      featuredMobileCarousel.slick('slickGoTo', parseInt($(this).attr('slideindex')));
     });
 
     /*
@@ -233,7 +289,7 @@
       {
         var igElement = simpleDesc.find(`.ig:first()`);
         if (igElement.length > 0)
-          var postLink = igElement.text();
+          var postLink = igElement.attr('href');
         var imgLink = (postLink.endsWith('/') ? postLink : postLink + '/') + 'media?size=m';
         igElement.remove();
         $('.product-section__empty-gallery-msg').hide();
@@ -331,24 +387,33 @@
     button.on('click',function(e) {
       submitButt.prop('disabled',false); // NOT a toggle
     });
-
-    /*
-     * Enables image zoom functionality
-     */
-    var zoomImg = $('img.zoom_hover');
-    if ($(document).width() >= 1024)
-      zoomImg.zoomIn({});
   });
-  // Wait for and move the Recart widget if the screen is too small.
-  if ($(document).width() < 1024) {
-    var refresh = setInterval(() => {
-      var recart = $('._rmp-state--initial');
-      if (recart.length) {
-        clearInterval(refresh);
-        recart.appendTo('.product-section__recart-mobile');
+
+  var resizeTimer;
+  $(window).on('resize', function(e) {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      /*
+      * Enables image zoom functionality
+      */
+      var zoomImg = $('img.zoom_hover');
+      if ($(document).width() >= 1024)
+        zoomImg.zoomIn({});
+      else {
+        zoomImg.trigger('zoom.destroy'); 
+        /*
+        * Wait for and move the Recart widget if the screen is too small.
+        */
+        var refresh = setInterval(() => {
+          var recart = $('._rmp-state--initial');
+          if (recart.length) {
+            clearInterval(refresh);
+            recart.appendTo('.product-section__recart-mobile');
+          }
+        }, 300);
       }
-    }, 300);
-  }
+    }, 100);
+  });
   $('#container_001').on( 'click', '#upsell_product', function(e) {
     $('#AddToCart-product-template').trigger('click');            
   });
@@ -730,6 +795,12 @@
         "type": "checkbox",
         "id": "show_empty_gallery_text",
         "label": "Enable empty instagram gallery message",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_returns_text",
+        "label": "Enable returns/refunds text",
         "default": true
       },
       {
