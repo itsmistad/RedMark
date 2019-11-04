@@ -30,6 +30,15 @@
           </div>
         </div>
       </div>
+      <div class="slick-slider__carousel product-section__featured-mobile-carousel" id="product-section__featured-mobile-carousel-{{ section.id }}">
+        {% for image in product.images %}
+          <div class="slick-slider__item product-section__featured-item">
+            <div class="slick-slider__item-img-wrapper">
+              <img class="product-section__featured-img" src="{{ image.src | img_url: product_image_size_url }}" itemprop="image" alt="{{ image.alt | escape }}">
+            </div>
+          </div>
+        {% endfor %}
+      </div>
       {% if product.images.size > 1 %}
         <div class="slick-slider__carousel product-section__thumbnails-desktop-carousel" id="product-section__thumbnails-desktop-carousel-{{ section.id }}">
           {% for image in product.images %}
@@ -49,10 +58,9 @@
           {% for image in product.images %}
             <div class="slick-slider__item product-section__thumbnails-item">
               <a itemprop="url"
-                href="{{ image.src | img_url: product_image_size_url }}"
-                class="slick-slider__card product-section__thumbnail product-section__thumbnail--{{ section.id }}"
-                {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}
-                tabindex="-1">
+                class="slick-slider__card product-section__thumbnail product-section__thumbnail-mobile product-section__thumbnail--{{ section.id }}-{{ forloop.index0 }} {% if forloop.first == true %}active-thumb{% endif %}"
+                tabindex="-1"
+                slideindex="{{ forloop.index0 }}">
                 <div class="slick-slider__item-img-wrapper">
                   <img class="product-section__thumbnail-image" src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
                 </div>
@@ -154,6 +162,8 @@
 {% endunless %}
 
 <script>
+  var featuredMobileCarousel = $('#product-section__featured-mobile-carousel-{{ section.id }}');
+  var thumbnailMobileCarousel = $('#product-section__thumbnails-mobile-carousel-{{ section.id }}');
   $(function() {
     /*
      * Feature image gallery
@@ -169,14 +179,45 @@
       vertical: true,
       verticalSwiping: true,
     });
-    $('#product-section__thumbnails-mobile-carousel-{{ section.id }}').slick({
-      infinite: true,
+    thumbnailMobileCarousel.slick({
+      infinite: false,
       speed: 400,
       slidesToShow: 4,
       touchThreshold: 30,
-      swipeToSlide: true,
+      slidesToScroll: 4,
       dots: true,
       arrows: false
+    });
+    featuredMobileCarousel.slick({
+      infinite: false,
+      speed: 400,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      dots: false,
+      arrows: false
+    });
+
+    var sliding = false;
+    var resetSlidingTimeout;
+    featuredMobileCarousel.on('beforeChange', function(event, slick, currentSlide, targetSlide) {
+      if (currentSlide === targetSlide) return;
+      let currentThumbnail = $(`.product-section__thumbnail--{{ section.id }}-${ currentSlide }`);
+      let targetThumbnail = $(`.product-section__thumbnail--{{ section.id }}-${ targetSlide }`);
+      if (currentThumbnail.hasClass('active-thumb'))
+        currentThumbnail.removeClass('active-thumb');
+      if (!targetThumbnail.hasClass('active-thumb'))
+        targetThumbnail.addClass('active-thumb');
+      
+      let targetSet = Math.floor(targetSlide / 4);
+      let currentSet = Math.floor(currentSlide / 4);
+      if (targetSet > currentSet)
+        thumbnailMobileCarousel.slick('slickNext');
+      else if (targetSet < currentSet)
+        thumbnailMobileCarousel.slick('slickPrev'); 
+    });
+    $('.product-section__thumbnail-mobile').click(function () {
+      if ($(this).hasClass('active-thumb')) return;
+      featuredMobileCarousel.slick('slickGoTo', parseInt($(this).attr('slideindex')));
     });
 
     /*
@@ -187,13 +228,31 @@
     button.on('click',function(e) {
       submitButt.prop('disabled',false); // NOT a toggle
     });
-
-    /*
-     * Enables image zoom functionality
-     */
-    var zoomImg = $('img.zoom_hover');
-    if ($(document).width() >= 1024)
-      zoomImg.zoomIn({});
+  });
+  var resizeTimer;
+  $(window).on('resize', function(e) {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      /*
+      * Enables image zoom functionality
+      */
+      var zoomImg = $('img.zoom_hover');
+      if ($(document).width() >= 1024)
+        zoomImg.zoomIn({});
+      else {
+        zoomImg.trigger('zoom.destroy'); 
+        /*
+        * Wait for and move the Recart widget if the screen is too small.
+        */
+        var refresh = setInterval(() => {
+          var recart = $('._rmp-state--initial');
+          if (recart.length) {
+            clearInterval(refresh);
+            recart.appendTo('.product-section__recart-mobile');
+          }
+        }, 300);
+      }
+    }, 100);
   });
 </script>
 <style>

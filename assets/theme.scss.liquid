@@ -2815,9 +2815,10 @@ $toolbar-height-small: 46px;
   width: 100% !important; // override inline styles
 }
 .filters-toolbar__item {
-  @include for-tablet-down {
-    display: flex;
+  display: flex;
+  @include for-large-tablet-down {
     justify-content: center;
+    align-items: center;
   }
   .filters-toolbar__input {
     transition: 0.3s;

@@ -265,12 +265,10 @@
       
       let targetSet = Math.floor(targetSlide / 4);
       let currentSet = Math.floor(currentSlide / 4);
-      if (Math.abs(targetSlide - currentSlide) >= 4) {
-        if (targetSet > currentSet)
-          thumbnailMobileCarousel.slick('slickNext');
-        else if (targetSet < currentSet)
-          thumbnailMobileCarousel.slick('slickPrev'); 
-      }
+      if (targetSet > currentSet)
+        thumbnailMobileCarousel.slick('slickNext');
+      else if (targetSet < currentSet)
+        thumbnailMobileCarousel.slick('slickPrev'); 
     });
     $('.product-section__thumbnail-mobile').click(function () {
       if ($(this).hasClass('active-thumb')) return;
@@ -291,7 +289,7 @@
       {
         var igElement = simpleDesc.find(`.ig:first()`);
         if (igElement.length > 0)
-          var postLink = igElement.text();
+          var postLink = igElement.attr('href');
         var imgLink = (postLink.endsWith('/') ? postLink : postLink + '/') + 'media?size=m';
         igElement.remove();
         $('.product-section__empty-gallery-msg').hide();

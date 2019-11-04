@@ -195,7 +195,7 @@
                                     // Re-enable add to cart button.
                                     $addToCartBtn.addClass('inverted');
                                     _setText($addToCartBtn, _config.addedToCartBtnLabel);
-                                    _showFeedback('success', '<span><i class="fa fa-check"></i> Added to cart!</span><input type="button" class="btn btn--small-wide" style="color:white;" onclick="location.href=\'/checkout\';" value="{{ "products.product.go_to_checkout" | t }}" />', $addToCartForm);
+                                    _showFeedback('success', '<span><i class="fa fa-check"></i> Added to cart!</span><input type="button" class="btn product-section__form-cart-submit" style="color:white;" onclick="location.href=\'/checkout\';" value="{{ "products.product.go_to_checkout" | t }}" />', $addToCartForm);
                                     window.setTimeout(function() {
                                         $addToCartBtn.prop('disabled', false).removeClass('disabled').removeClass('inverted');
                                         _setText($addToCartBtn, _config.addToCartBtnLabel);
