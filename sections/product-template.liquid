@@ -79,6 +79,7 @@
       {% if section.settings.show_vendor %}
         <p itemprop="brand" class="product-section__vendor">{{ product.vendor }}</p>
       {% endif %}
+      {% include 'flair-product-badges', with flair_badge_max: 3, flair_css_class: 'flair-inline' %}
       <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
         <meta itemprop="priceCurrency" content="{{ shop.currency }}">
         <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">

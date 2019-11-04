@@ -10,6 +10,7 @@
   <a class="grid-view-item__link" href="{{ product.url | within: collection }}">
     <img class="grid-view-item__image" src="{{ product.featured_image.src | img_url: grid_image_width }}" alt="{{ product.featured_image.alt }}">
     <div class="h4 collection_product_name grid-view-item__title">{{ product.title }}</div>
+    {% include 'flair-product-badges', with flair_badge_max: 3, flair_css_class: 'flair-inline' %}
     {% if settings.show_vendor %}
       <div class="grid-view-item__vendor">{{ product.vendor }}</div>
     {% endif %}
