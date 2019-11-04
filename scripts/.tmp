@@ -1,2 +1,2 @@
 # DO NOT TOUCH
-CURRENT_ENV="dev"
+CURRENT_ENV="prod"

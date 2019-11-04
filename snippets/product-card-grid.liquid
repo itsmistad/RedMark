@@ -10,6 +10,9 @@
   {% endif %}
 
 <div class="grid-view-item">
+  {% comment %} BoostCommerce product item JSON data {% endcomment %}
+  {% include 'bc-sf-filter-json', product: product %}
+
   <a class="grid-view-item__link" href="{{ product.url | within: collection }}">
     <img class="grid-view-item__image" src="{{ product.featured_image.src | img_url: grid_image_width }}" alt="{{ product.featured_image.alt }}">
     <div class="h4 grid-view-item__title">{{ product.title }}</div>

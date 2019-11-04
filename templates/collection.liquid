@@ -1,5 +1,14 @@
-{% comment %}
-  The contents of the collection.liquid template can be found in /sections/collection-template.liquid
-{% endcomment %}
+<div class="page-width page-padding">
+  <div class="grid">
+    <div class="grid__item medium-up--five-sixths medium-up--push-one-twelfth">
+      <div class="section-header text-center">
+        <h1>{{ collection.title }}</h1>
+      </div>
 
-{% section 'collection-template' %}
+      <div class="rte bottom-padding">
+        {% section 'collection-template-bc-sf-filter' %}
+      </div>
+    </div>
+  </div>
+</div>
+
