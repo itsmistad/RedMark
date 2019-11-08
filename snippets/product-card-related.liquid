@@ -8,7 +8,7 @@
       <img src="{{ product.featured_image.src | img_url: '250x' }}" alt="{{ product.featured_image.alt }}">
     </div>
     <div class="slick-slider__item-product-title">{{ product.title }}</div>
-    {% include 'flair-product-badges', with flair_badge_max: 3, flair_css_class: 'flair-inline' %}
+    {% include 'flair-product-badges', flair_css_class: 'flair-inline' %}
     <div class="slick-slider__item-product-price">
       <div class="slick-slider__item-product-sale-price">
         {% include 'product-price' %}

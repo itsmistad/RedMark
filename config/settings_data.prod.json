@@ -12,7 +12,7 @@
     "show_vendor": false,
     "sort_enable": true,
     "enable_cookie_bar": true,
-    "cookie_bar_text": "RedMark's website uses cookies to provide you with the best browsing experience. By using our website, you agree to our use of cookies.",
+    "cookie_bar_text": "RedMark uses cookies to enable the best in your browsing experience. By continuing to use our website, you agree to our use of cookies.",
     "cookie_bar_link_text": "Read More",
     "cookie_bar_link_url": "https:\/\/redmarkdeals.com\/pages\/cookie-policy",
     "add_to_cart_button_color": "#ff3b3b",
@@ -30,9 +30,7 @@
     "cart_drawer_notification_text": "Change this text.",
     "cart_drawer_notification_bg_color": "#000",
     "cart_drawer_notification_color": "#fff",
-    "enable_search_autocomplete": true,
     "color_chrome": "#000000",
-    "color_accent": "#ff3b3b",
     "color_text": "#3d4246",
     "color_body_text": "#595959",
     "color_sale_text": "#ff3b3b",
@@ -112,9 +110,9 @@
           "message_text_font_size": "0.875em",
           "color_text": "#ffffff",
           "message_text_1": "Unlock a secret with any order over $30 USD 👀",
-          "message_text_2": "Free shipping on orders over $20 USD 📦",
-          "message_text_3": "Check out our new collection <a href=\"#\">here!<\/a> 💯",
-          "message_text_4": "",
+          "message_text_2": "Free shipping on all orders worldwide 📦",
+          "message_text_3": "Check out the Therapeutic Massage Gun <a href=\"https:\/\/redmarkdeals.com\/collections\/exercise\/products\/therapeutic-massage-gun\">here!<\/a>",
+          "message_text_4": "Need a bigger discount? Sign up for email or Messenger marketing. ✍️",
           "message_text_5": "",
           "header_divider": true,
           "header_divider_color": "#e4e8e8",
@@ -189,7 +187,7 @@
       "product-template": {
         "type": "product-template",
         "settings": {
-          "image_size": "medium",
+          "image_size": "large",
           "show_quantity_selector": true,
           "show_variant_labels": true,
           "show_vendor": false,
@@ -207,7 +205,8 @@
           "font_size": "",
           "stock_value_1": "Hurry only",
           "stock_value_2": "left in stock!",
-          "show_empty_gallery_text": true,
+          "show_empty_gallery_text": false,
+          "show_returns_text": true,
           "Fixed": false,
           "top_enable": false
         }
@@ -252,32 +251,35 @@
           "edit__name_color": "#000000",
           "edit__name_size": "0.8125em",
           "round_square": "square",
-          "img_1": "",
-          "text_1_style_2": "- Name",
-          "subtext_1_style_2": "Review #1",
-          "img_2": "",
-          "text_1_style_3": "- Name",
-          "subtext_1_style_3": "Review #2",
-          "img_3": "",
-          "text_1_style_4": "- Name",
-          "subtext_1_style_4": "Review #3"
+          "img_1": "shopify:\/\/shop_images\/stars.png",
+          "text_1_style_2": "- Stefan R.",
+          "subtext_1_style_2": "\"Purchased the memory foam pillow and absolutely love it! The comfort of it is like nothing else I've ever slept on. The best part? I was able to roll it up and pack it in my suit case when I took my family on vacation!\"",
+          "img_2": "shopify:\/\/shop_images\/stars.png",
+          "text_1_style_3": "- Kyle F.",
+          "subtext_1_style_3": "\"I'm a gym rat at heart and not that big of a spender when it comes to massages and chiropractic therapy. I ended up getting the massage gun only because it said it would help with recovery and my constant joint pains, and wow they weren't kidding. This thing is going to be saving me a lot of money!! #redmarkdeals\"",
+          "img_3": "shopify:\/\/shop_images\/stars.png",
+          "text_1_style_4": "- Jasmine L.",
+          "subtext_1_style_4": "\"Used to have a lot of sore pain when I woke up every morning. My husband and I went through way too many pillows and just couldn't find one in stores to help me sleep. This thing is COMFY comfy, I ended up getting 2 more for my kids and they love it too.\""
         }
       },
       "1541070475907": {
         "type": "homepage-rich-text",
         "settings": {
-          "full_width": false,
-          "section_title": "Talk about your brand",
-          "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
-          "header_color": "#ffffff",
-          "body_color": "#e8e8e8",
-          "background_color": "#000000"
+          "enable_phone": true,
+          "enable_tablet": true,
+          "enable_laptop": true,
+          "enable_desktop": true,
+          "section_title": "Something something RedMark?",
+          "text": "<p><strong>RedMark <\/strong>is a place for you to get discounts on all the awesome and unique products you've probably seen online before. If you've ever frowned at a price, we have too. Our business model allows us to ensure quality and lower prices for you, our fellow budget buyers.<\/p>\n<p>👏<\/p>",
+          "header_color": "#000000",
+          "body_color": "#2d2d2d",
+          "background_color": "#e8e5e5"
         }
       },
       "1544593914681": {
         "type": "featured-product",
         "settings": {
-          "featured_product": "test-product",
+          "featured_product": "therapeutic-massage-gun",
           "image_size": "medium",
           "show_quantity_selector": true,
           "show_variant_labels": true,
@@ -321,86 +323,77 @@
       "1567465870165": {
         "type": "banner",
         "settings": {
-          "enable_phone": false,
-          "enable_tablet": false,
-          "enable_laptop": false,
+          "enable_phone": true,
+          "enable_tablet": true,
+          "enable_laptop": true,
           "enable_desktop": true,
-          "enable_ultrawide": false,
           "enable_content_phone": false,
           "enable_content_tablet": false,
-          "enable_content_laptop": false,
+          "enable_content_laptop": true,
           "enable_content_desktop": true,
-          "enable_content_ultrawide": false,
           "enable_full_width": true,
           "bg_color": "#aaa",
           "min_height": "300px",
-          "banner_image": "",
-          "horizontal_align": "right",
-          "vertical_align": "bottom",
-          "header": "Header text",
-          "body": "Body text",
-          "button": "Button",
-          "button_url": "https:\/\/redmarkdeals.com",
-          "header_color": "#ffffff",
-          "body_color": "#ffffff",
-          "button_color": "#ffffff",
-          "button_text_color": "#000000",
-          "button_hover_color": "#000000",
+          "banner_image": "shopify:\/\/shop_images\/IMG_0058-banner_9489ea1e-6094-4375-915f-2a446e46dea8.png",
+          "horizontal_align": "left",
+          "vertical_align": "top",
+          "header": "Eliminate your pain",
+          "body": "Get over <strong>38% off<\/strong> on the Therapeutic Massage Gun",
+          "button": "SHOP NOW",
+          "button_url": "https:\/\/redmarkdeals.com\/collections\/exercise\/products\/therapeutic-massage-gun",
+          "header_color": "#292929",
+          "body_color": "#353535",
+          "button_color": "#000000",
+          "button_text_color": "#ffffff",
+          "button_hover_color": "#ff3b3b",
           "button_text_hover_color": "#ffffff"
         }
       },
       "1570462980950": {
         "type": "collection-slider",
         "blocks": {
-          "1570462989813": {
-            "type": "featured_collection",
-            "settings": {
-              "collection": "example"
-            }
-          },
           "1570462994616": {
             "type": "featured_collection",
             "settings": {
-              "collection": "example-1"
-            }
-          },
-          "1570463000958": {
-            "type": "featured_collection",
-            "settings": {
-              "collection": "example"
-            }
-          },
-          "1570486998267": {
-            "type": "featured_collection",
-            "settings": {
-              "collection": "example-1"
-            }
-          },
-          "1570487007159": {
-            "type": "featured_collection",
-            "settings": {
-              "collection": "example"
+              "collection": "tools-and-gadgets"
             }
           },
           "1570494585018": {
             "type": "featured_collection",
             "settings": {
-              "collection": "example-1"
+              "collection": "sleep"
+            }
+          },
+          "1570463000958": {
+            "type": "featured_collection",
+            "settings": {
+              "collection": "makeup"
+            }
+          },
+          "1570486998267": {
+            "type": "featured_collection",
+            "settings": {
+              "collection": "skin-care"
+            }
+          },
+          "1570462989813": {
+            "type": "featured_collection",
+            "settings": {
+              "collection": "exercise"
             }
           }
         },
         "block_order": [
-          "1570462989813",
           "1570462994616",
+          "1570494585018",
           "1570463000958",
           "1570486998267",
-          "1570487007159",
-          "1570494585018"
+          "1570462989813"
         ],
         "settings": {
           "title": "Shop by Collection",
           "enable_arrows": false,
-          "enable_dots": true,
+          "enable_dots": false,
           "slide_height": "200"
         }
       },
@@ -410,45 +403,80 @@
           "1570473963915": {
             "type": "featured_product",
             "settings": {
-              "product": "product-1"
+              "product": "therapeutic-massage-gun"
             }
           },
           "1570473972645": {
             "type": "featured_product",
             "settings": {
-              "product": "upsell-product"
-            }
-          },
-          "1570473969417": {
-            "type": "featured_product",
-            "settings": {
-              "product": "product-1"
-            }
-          },
-          "1570473977927": {
-            "type": "featured_product",
-            "settings": {
-              "product": "test-product"
+              "product": "contour-pillow"
             }
           }
         },
         "block_order": [
           "1570473963915",
-          "1570473972645",
-          "1570473969417",
-          "1570473977927"
+          "1570473972645"
         ],
         "settings": {
           "title": "Popular Products",
-          "enable_arrows": true,
+          "enable_arrows": false,
           "enable_dots": false,
           "slide_height": ""
+        }
+      },
+      "collection-template-bc-sf-filter": {
+        "type": "collection-template-bc-sf-filter",
+        "settings": {
+          "products_per_page": 24,
+          "products_per_row": 3,
+          "products_per_row_mobile": 2,
+          "show_vendor": false,
+          "show_price": true,
+          "show_sale_label": true,
+          "show_sold_out_label": true,
+          "active_image_swap": true,
+          "show_sorting": true,
+          "soldout_label": "Sold out",
+          "sale_label": "Sale",
+          "from": "from"
+        }
+      },
+      "search-template-bc-sf-filter": {
+        "type": "search-template-bc-sf-filter",
+        "settings": {
+          "products_per_page": 24,
+          "products_per_row": 3,
+          "products_per_row_mobile": 2,
+          "show_vendor": false,
+          "show_price": true,
+          "show_sale_label": true,
+          "show_sold_out_label": true,
+          "active_image_swap": true,
+          "soldout_label": "Sold out",
+          "show_sorting": true,
+          "sale_label": "Sale",
+          "from": "from"
+        }
+      },
+      "1573021562707": {
+        "type": "homepage-rich-text",
+        "settings": {
+          "enable_phone": true,
+          "enable_tablet": false,
+          "enable_laptop": false,
+          "enable_desktop": false,
+          "section_title": "Eliminate your pain",
+          "text": "<p>Get over 38% off on the Therapeutic Massage Gun.<\/p><button class=\"btn\" style=\"margin-top:20px\" onclick=\"window.location.href='https:\/\/redmarkdeals.com\/collections\/exercise\/products\/therapeutic-massage-gun';\">SHOP NOW<\/button>",
+          "header_color": "#ffffff",
+          "body_color": "#ffffff",
+          "background_color": "#000000"
         }
       }
     },
     "content_for_index": [
-      "1541070475907",
       "1567465870165",
+      "1573021562707",
+      "1541070475907",
       "1544593914681",
       "1565474292060",
       "1494487788342",

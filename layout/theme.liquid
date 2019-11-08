@@ -27,6 +27,8 @@
         {% endunless %}
         {% endcapture %}
         <title>{{ seo_title }}</title>
+  {% include "trackify_x" %}
+
         {% if page_description %}
         <meta name="description" content="{{ page_description | escape }}">
         {% endif %}

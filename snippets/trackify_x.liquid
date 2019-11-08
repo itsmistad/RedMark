@@ -1,0 +1,24 @@
+<!-- RedRetarget App Hook start -->
+<link rel="dns-prefetch" href="//trackifyx.redretarget.com">
+<script type="text/javascript">
+    /* ----- TFX Theme hook start ----- */
+    (function (t, r, k, f, y, x) {
+        if (t.tkfy != undefined) return true;
+        t.tkfy = true;
+        y = r.createElement(k); y.src = f; y.async = true;
+        x = r.getElementsByTagName(k)[0]; x.parentNode.insertBefore(y, x);
+    })(window, document, 'script', 'https://trackifyx.redretarget.com/pull/{{shop.permanent_domain}}/hook.js');
+    /* ----- TFX theme hook end ----- */
+</script>
+{% if template contains "product" %}
+<meta name="tkfy:tags" content="{% for tag in product.tags %}{{ tag }}, {% endfor %}">
+<meta name="tkfy:collections" content="{% for collection in product.collections %}{{ collection.title }}, {% endfor %}">
+{% endif %}
+{% if template contains "cart" %}
+<meta name="tkfy:tags" content="{``:``{% for line_item in cart.items %}, `{{line_item.product.id}}`: [``{% for tag in line_item.product.tags %},`{{ tag | replace: '"', '\"' | escape }}`{% endfor %}]{% endfor %} }">
+<meta name="tkfy:collections" content="{``:``{% for line_item in cart.items %}, `{{line_item.product.id}}`: [``{% for collection in line_item.product.collections %},`{{ collection.title | replace: '"', '\"' | escape }}`{% endfor %}]{% endfor %} }">
+{% endif %}
+{% if template contains "collection" %}
+<meta name="tkfy:collections" content="{{ collection.title }}">
+{% endif %}
+<!-- RedRetarget App Hook end -->

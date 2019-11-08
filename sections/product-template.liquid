@@ -190,20 +190,13 @@
         </h2>
         <hr />
         <p>
-          We got your back!<br />
+          We've got your back!<br />
           Contact us for assistance with any replacements, refunds, or returns.
         </p>
     </div>
   {% endif %}
   {% include 'social-share' %}
-</div>
-<div id="stamped-main-widget" class="stamped-main-widget" data-widget-style="standard"
-  data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}"
-  data-url="{{ shop.url }}{{ product.url }}"
-  data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" 
-  data-description="" data-product-sku="{{product.handle}}">
-  {{ product.metafields.stamped.reviews }}
-</div>
+</div> 
 
 {% comment %}
 {{ collection.url }}
@@ -228,8 +221,8 @@
       infinite: false,
       speed: 400,
       slidesToShow: 5,
-      touchThreshold: 30,
-      swipeToSlide: true,
+      slidesToScroll: 5,
+      touchThreshold: 100,
       dots: true,
       arrows: false,
       vertical: true,
@@ -291,7 +284,7 @@
         var igElement = simpleDesc.find(`.ig:first()`);
         if (igElement.length > 0)
           var postLink = igElement.attr('href');
-        var imgLink = (postLink.endsWith('/') ? postLink : postLink + '/') + 'media?size=m';
+        var imgLink = (postLink.endsWith('/') ? postLink : postLink + '/') + 'media?size=l';
         igElement.remove();
         $('.product-section__empty-gallery-msg').hide();
         gallery.append(
@@ -304,12 +297,13 @@
         </div>`);
       }
       if (results > 0) { 
+        var slidesToShow = 4;
+        if (results < slidesToShow) slidesToShow = results;
         $('#product-section__ig-carousel').slick({
           dots: false,
           infinite: true,
           speed: 400,
-          slidesToShow: 4,
-          slidesToScroll: 1,
+          slidesToShow,
           swipeToSlide: true,
           touchThreshold: 8,
           centerMode: true,
@@ -323,22 +317,19 @@
             {
               breakpoint: 1024,
               settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
+                slidesToShow: slidesToShow < 3 ? slidesToShow : 3
               }
             },
             {
               breakpoint: 600,
               settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2
+                slidesToShow: slidesToShow < 2 ? slidesToShow : 2
               }
             },
             {
               breakpoint: 480,
               settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
+                slidesToShow: 1
               }
             }
           ]
@@ -376,7 +367,7 @@
         var currentDesc = $(`#description-${currentlySelected.attr('id')}`);
         var newDesc = $(`#description-${$(this).attr('id')}`);
         currentDesc.hide();
-        newDesc.show();
+        newDesc.css('display', 'flex');
       }
     });
 
