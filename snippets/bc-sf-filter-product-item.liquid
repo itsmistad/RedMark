@@ -108,6 +108,8 @@
         <div class="bc-sf-filter-product-bottom">
           <a href="{{ product.url | within: collection }}" class="bc-sf-filter-product-item-title">{{ product.title }}</a>
 
+          {% include 'flair-product-badges', flair_css_class: 'flair-inline' %}
+
           {% if section.settings.show_vendor %}
             <p class="bc-sf-filter-product-item-vendor">{{ product.vendor }}</p>
           {% endif %}
