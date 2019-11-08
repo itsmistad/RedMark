@@ -1,7 +1,7 @@
 <div class="page-width rich-text">
   {% if section.settings.section_title != blank %}
     <div class="rich-text__heading text-center">
-      <h2 class="h3">{{ section.settings.section_title | escape }}</h2>
+      <h2 class="h3">{{ section.settings.section_title }}</h2>
     </div>
   {% endif %}
   {% if section.settings.text != blank %}
@@ -11,18 +11,47 @@
 
 <style>
   #shopify-section-{{ section.id }} {
+    display: none;
     background-color: {{ section.settings.background_color }};
   }
-  .page-width.rich-text {
+  #shopify-section-{{ section.id }} .page-width.rich-text {
     margin: 0 auto;
     padding-top: 20px;
     padding-bottom: 20px;
   }
-  .rich-text__heading h2 {
+  #shopify-section-{{ section.id }} .rich-text__heading h2 {
     color: {{ section.settings.header_color }};
   }
-  .rich-text__text p {
+  #shopify-section-{{ section.id }} .rich-text__text p {
     color: {{ section.settings.body_color }};
+  }
+  @media only screen and (max-width: 499.9px) {
+    {% if section.settings.enable_phone %}
+      #shopify-section-{{ section.id }} {
+        display: flex;
+      }
+    {% endif %}
+  }
+  @media only screen and (max-width: 1023.9px) and (min-width: 500px) {
+    {% if section.settings.enable_tablet %}
+      #shopify-section-{{ section.id }} {
+        display: flex;
+      }
+    {% endif %}
+  }
+  @media only screen and (max-width: 1439.9px) and (min-width: 1024px) {
+    {% if section.settings.enable_laptop %}
+      #shopify-section-{{ section.id }} {
+        display: flex;
+      }
+    {% endif %}
+  }
+  @media only screen and (min-width: 1440px) and (min-width: 1440px) {
+    {% if section.settings.enable_desktop %}
+      #shopify-section-{{ section.id }} {
+        display: flex;
+      }
+    {% endif %}
   }
 </style>
 
@@ -36,13 +65,28 @@
     "class": "index-section",
     "settings": [
       {
-        "type": "checkbox",
-        "id": "full_width",
-        "label": {
-          "en": "Enable wide display",
-          "de": "Breitbild-Display",
-          "fr": "Affichage large"
-        }
+        "type":"header",
+        "content":"Device Breakpoints"
+      },
+      {
+        "type":"checkbox",
+        "id":"enable_phone",
+        "label":"Enable for phones"
+      },
+      {
+        "type":"checkbox",
+        "id":"enable_tablet",
+        "label":"Enable for tablets"
+      },
+      {
+        "type":"checkbox",
+        "id":"enable_laptop",
+        "label":"Enable for laptops"
+      },
+      {
+        "type":"checkbox",
+        "id":"enable_desktop",
+        "label":"Enable for desktops"
       },
       {
         "type": "text",
@@ -59,7 +103,7 @@
         }
       },
       {
-        "type": "richtext",
+        "type": "textarea",
         "id": "text",
         "label": {
           "en": "Text",

@@ -139,125 +139,10 @@
 
   {% if flair_local_show_badge %}
   <div class="flair-badge-wrapper flair-badge-wrapper-full {{ flair_css_class }}" {% if flair_css %}style="{{ flair_css }}"{% endif %}>
-    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #ffa232;font-size: 14px;line-height: 22px;position: relative;height: 22px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 11px;padding-right: 10px;margin-right: 11px"><span style="position: absolute;top: 0;left: -11px;border-top: 11px solid #ffa232;border-bottom: 11px solid #ffa232;border-left: 11px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Best Seller</div><span style="position: absolute;top: 0;right: -11px;border-top: 11px solid transparent;border-bottom: 11px solid transparent;border-left: 11px solid #ffa232"></span></div>
+    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #ff3b3b;font-size: 14px;line-height: 22px;position: relative;height: 22px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 11px;padding-right: 10px;margin-right: 11px"><span style="position: absolute;top: 0;left: -11px;border-top: 11px solid #ff3b3b;border-bottom: 11px solid #ff3b3b;border-left: 11px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Best Seller</div><span style="position: absolute;top: 0;right: -11px;border-top: 11px solid transparent;border-bottom: 11px solid transparent;border-left: 11px solid #ff3b3b"></span></div>
   </div>
   <div class="flair-badge-wrapper flair-badge-wrapper-mobile {{ flair_css_class }}" {% if flair_css %}style="{{ flair_css }}"{% endif %}>
-    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #ffa232;font-size: 12px;line-height: 20px;position: relative;height: 20px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 10px;padding-right: 10px;margin-right: 10px"><span style="position: absolute;top: 0;left: -10px;border-top: 10px solid #ffa232;border-bottom: 10px solid #ffa232;border-left: 10px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Best Seller</div><span style="position: absolute;top: 0;right: -10px;border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #ffa232"></span></div>
-  </div>
-
-    {% assign flair_badge_count = flair_badge_count | plus: 1 %}
-  {% endif %}
-{% endif %}
-{% if flair_badge_count < flair_badge_max %}
-  {% assign flair_local_rule_apply_to_all = true %}
-  {% assign flair_local_rule_all_results = "" %}
-
-    {% assign flair_local_tags = "limitedtime" | downcase | split: "," %}
-    {% for tag in flair_local_tags %}
-      {% assign flair_local_tag = tag | prepend: "|" | append: "|" %}
-      {% if flair_tag_string contains flair_local_tag %}
-        {% assign flair_local_rule_result = true %}
-        {% break %}
-      {% endif %}
-    {% endfor %}
-
-    {% if flair_local_rule_result %}
-      {% assign flair_local_rule_all_results = flair_local_rule_all_results | append: "1" %}
-    {% else %}
-      {% assign flair_local_rule_all_results = flair_local_rule_all_results | append: "0" %}
-    {% endif %}
-    {% assign flair_local_rule_result = false %}
-
-  {% assign flair_local_show_badge = false %}
-  {% if flair_local_rule_apply_to_all %}
-    {% unless flair_local_rule_all_results contains "0" %}
-      {% assign flair_local_show_badge = true %}
-    {% endunless %}
-  {% elsif flair_local_rule_all_results contains "1" %}
-      {% assign flair_local_show_badge = true %}
-  {% endif %}
-
-  {% if flair_local_show_badge %}
-  <div class="flair-badge-wrapper flair-badge-wrapper-full {{ flair_css_class }}" {% if flair_css %}style="{{ flair_css }}"{% endif %}>
-    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #ffd300;font-size: 14px;line-height: 22px;position: relative;height: 22px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 11px;padding-right: 10px;margin-right: 11px"><span style="position: absolute;top: 0;left: -11px;border-top: 11px solid #ffd300;border-bottom: 11px solid #ffd300;border-left: 11px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Limited-Time</div><span style="position: absolute;top: 0;right: -11px;border-top: 11px solid transparent;border-bottom: 11px solid transparent;border-left: 11px solid #ffd300"></span></div>
-  </div>
-  <div class="flair-badge-wrapper flair-badge-wrapper-mobile {{ flair_css_class }}" {% if flair_css %}style="{{ flair_css }}"{% endif %}>
-    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #ffd300;font-size: 12px;line-height: 20px;position: relative;height: 20px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 10px;padding-right: 10px;margin-right: 10px"><span style="position: absolute;top: 0;left: -10px;border-top: 10px solid #ffd300;border-bottom: 10px solid #ffd300;border-left: 10px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Limited-Time</div><span style="position: absolute;top: 0;right: -10px;border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #ffd300"></span></div>
-  </div>
-
-    {% assign flair_badge_count = flair_badge_count | plus: 1 %}
-  {% endif %}
-{% endif %}
-{% if flair_badge_count < flair_badge_max %}
-  {% assign flair_local_rule_apply_to_all = true %}
-  {% assign flair_local_rule_all_results = "" %}
-
-    {% assign flair_local_tags = "mostrecommended" | downcase | split: "," %}
-    {% for tag in flair_local_tags %}
-      {% assign flair_local_tag = tag | prepend: "|" | append: "|" %}
-      {% if flair_tag_string contains flair_local_tag %}
-        {% assign flair_local_rule_result = true %}
-        {% break %}
-      {% endif %}
-    {% endfor %}
-
-    {% if flair_local_rule_result %}
-      {% assign flair_local_rule_all_results = flair_local_rule_all_results | append: "1" %}
-    {% else %}
-      {% assign flair_local_rule_all_results = flair_local_rule_all_results | append: "0" %}
-    {% endif %}
-    {% assign flair_local_rule_result = false %}
-
-  {% assign flair_local_show_badge = false %}
-  {% if flair_local_rule_apply_to_all %}
-    {% unless flair_local_rule_all_results contains "0" %}
-      {% assign flair_local_show_badge = true %}
-    {% endunless %}
-  {% elsif flair_local_rule_all_results contains "1" %}
-      {% assign flair_local_show_badge = true %}
-  {% endif %}
-
-  {% if flair_local_show_badge %}
-  <div class="flair-badge-wrapper flair-badge-wrapper-full {{ flair_css_class }}" {% if flair_css %}style="{{ flair_css }}"{% endif %}>
-    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #ff3b3b;font-size: 14px;line-height: 22px;position: relative;height: 22px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 11px;padding-right: 10px;margin-right: 11px"><span style="position: absolute;top: 0;left: -11px;border-top: 11px solid #ff3b3b;border-bottom: 11px solid #ff3b3b;border-left: 11px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Most Recommended</div><span style="position: absolute;top: 0;right: -11px;border-top: 11px solid transparent;border-bottom: 11px solid transparent;border-left: 11px solid #ff3b3b"></span></div>
-  </div>
-  <div class="flair-badge-wrapper flair-badge-wrapper-mobile {{ flair_css_class }}" {% if flair_css %}style="{{ flair_css }}"{% endif %}>
-    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #ff3b3b;font-size: 12px;line-height: 20px;position: relative;height: 20px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 10px;padding-right: 10px;margin-right: 10px"><span style="position: absolute;top: 0;left: -10px;border-top: 10px solid #ff3b3b;border-bottom: 10px solid #ff3b3b;border-left: 10px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Most Recommended</div><span style="position: absolute;top: 0;right: -10px;border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #ff3b3b"></span></div>
-  </div>
-
-    {% assign flair_badge_count = flair_badge_count | plus: 1 %}
-  {% endif %}
-{% endif %}
-{% if flair_badge_count < flair_badge_max %}
-  {% assign flair_local_rule_apply_to_all = true %}
-  {% assign flair_local_rule_all_results = "" %}
-
-    {% if flair_age_seconds > 0 and flair_age_seconds <= 604800 %}
-      {% assign flair_local_rule_result = true %}
-    {% endif %}
-
-    {% if flair_local_rule_result %}
-      {% assign flair_local_rule_all_results = flair_local_rule_all_results | append: "1" %}
-    {% else %}
-      {% assign flair_local_rule_all_results = flair_local_rule_all_results | append: "0" %}
-    {% endif %}
-    {% assign flair_local_rule_result = false %}
-
-  {% assign flair_local_show_badge = false %}
-  {% if flair_local_rule_apply_to_all %}
-    {% unless flair_local_rule_all_results contains "0" %}
-      {% assign flair_local_show_badge = true %}
-    {% endunless %}
-  {% elsif flair_local_rule_all_results contains "1" %}
-      {% assign flair_local_show_badge = true %}
-  {% endif %}
-
-  {% if flair_local_show_badge %}
-  <div class="flair-badge-wrapper flair-badge-wrapper-full {{ flair_css_class }}" {% if flair_css %}style="{{ flair_css }}"{% endif %}>
-    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #5a84d7;font-size: 14px;line-height: 22px;position: relative;height: 22px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 11px;padding-right: 10px;margin-right: 11px"><span style="position: absolute;top: 0;left: -11px;border-top: 11px solid #5a84d7;border-bottom: 11px solid #5a84d7;border-left: 11px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">New Arrival</div><span style="position: absolute;top: 0;right: -11px;border-top: 11px solid transparent;border-bottom: 11px solid transparent;border-left: 11px solid #5a84d7"></span></div>
-  </div>
-  <div class="flair-badge-wrapper flair-badge-wrapper-mobile {{ flair_css_class }}" {% if flair_css %}style="{{ flair_css }}"{% endif %}>
-    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #5a84d7;font-size: 12px;line-height: 20px;position: relative;height: 20px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 10px;padding-right: 10px;margin-right: 10px"><span style="position: absolute;top: 0;left: -10px;border-top: 10px solid #5a84d7;border-bottom: 10px solid #5a84d7;border-left: 10px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">New Arrival</div><span style="position: absolute;top: 0;right: -10px;border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #5a84d7"></span></div>
+    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #ff3b3b;font-size: 12px;line-height: 20px;position: relative;height: 20px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 10px;padding-right: 10px;margin-right: 10px"><span style="position: absolute;top: 0;left: -10px;border-top: 10px solid #ff3b3b;border-bottom: 10px solid #ff3b3b;border-left: 10px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Best Seller</div><span style="position: absolute;top: 0;right: -10px;border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #ff3b3b"></span></div>
   </div>
 
     {% assign flair_badge_count = flair_badge_count | plus: 1 %}
@@ -289,10 +174,10 @@
 
   {% if flair_local_show_badge %}
   <div class="flair-badge-wrapper flair-badge-wrapper-full {{ flair_css_class }}" {% if flair_css %}style="{{ flair_css }}"{% endif %}>
-    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #68d391;font-size: 14px;line-height: 22px;position: relative;height: 22px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 11px;padding-right: 10px;margin-right: 11px"><span style="position: absolute;top: 0;left: -11px;border-top: 11px solid #68d391;border-bottom: 11px solid #68d391;border-left: 11px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Save {{ flair_sale_percent_min | round }}%</div><span style="position: absolute;top: 0;right: -11px;border-top: 11px solid transparent;border-bottom: 11px solid transparent;border-left: 11px solid #68d391"></span></div>
+    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #45b669;font-size: 14px;line-height: 22px;position: relative;height: 22px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 11px;padding-right: 10px;margin-right: 11px"><span style="position: absolute;top: 0;left: -11px;border-top: 11px solid #45b669;border-bottom: 11px solid #45b669;border-left: 11px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Save {{ flair_sale_percent_min | round }}%</div><span style="position: absolute;top: 0;right: -11px;border-top: 11px solid transparent;border-bottom: 11px solid transparent;border-left: 11px solid #45b669"></span></div>
   </div>
   <div class="flair-badge-wrapper flair-badge-wrapper-mobile {{ flair_css_class }}" {% if flair_css %}style="{{ flair_css }}"{% endif %}>
-    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #68d391;font-size: 12px;line-height: 20px;position: relative;height: 20px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 10px;padding-right: 10px;margin-right: 10px"><span style="position: absolute;top: 0;left: -10px;border-top: 10px solid #68d391;border-bottom: 10px solid #68d391;border-left: 10px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Save {{ flair_sale_percent_min | round }}%</div><span style="position: absolute;top: 0;right: -10px;border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #68d391"></span></div>
+    <div class="flair-badge" style="display: inline-block;box-sizing: border-box;color: #ffffff;background-color: #45b669;font-size: 12px;line-height: 20px;position: relative;height: 20px;max-width: 100%;vertical-align: bottom;padding-left: 10px;margin-left: 10px;padding-right: 10px;margin-right: 10px"><span style="position: absolute;top: 0;left: -10px;border-top: 10px solid #45b669;border-bottom: 10px solid #45b669;border-left: 10px solid transparent"></span><div style="white-space: nowrap;overflow: hidden;font-weight: bold">Save {{ flair_sale_percent_min | round }}%</div><span style="position: absolute;top: 0;right: -10px;border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #45b669"></span></div>
   </div>
 
     {% assign flair_badge_count = flair_badge_count | plus: 1 %}
