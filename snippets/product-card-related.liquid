@@ -1,0 +1,17 @@
+{% if compare_at_price > price and settings.show_sale_tag %}
+  <span class="product-price__sale-label">sale</span>
+{% endif %}
+
+<div class="slick-slider__item">
+  <a href="{{ product.url | within: collection }}" class="slick-slider__card" tabindex="-1">
+    <div class="slick-slider__item-img-wrapper">
+      <img class="lazyload" data-src="{{ product.featured_image.src | img_url: '250x' }}" alt="{{ product.featured_image.alt }}">
+    </div>
+    <div class="slick-slider__item-product-title">{{ product.title }}</div>
+    <div class="slick-slider__item-product-price">
+      <div class="slick-slider__item-product-sale-price">
+        {% include 'product-price' %}
+      </div>
+    </div>
+  </a>
+</div>

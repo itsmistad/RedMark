@@ -1,0 +1,13 @@
+{% if collection.image %}
+  {% capture collection_image_url %}{{ collection | img_url: '500x' }}{% endcapture %}
+{% elsif collection.products.first %}
+  {% capture collection_image_url %}{{ collection.products.first | img_url: '500x' }}{% endcapture %}
+{% endif %}
+<div class="slick-slider__item">
+  <a href="{% if collection.empty? %}#{% else %}{{ collection.url }}{% endif %}" class="slick-slider__card" tabindex="-1">
+    <div class="slick-slider__item-img-wrapper">
+      <img class="lazyload" data-src="{{ collection_image_url }}">
+    </div>
+    <div class="slick-slider__item-collection-title">{{ collection.title }}</div>
+  </a>
+</div>

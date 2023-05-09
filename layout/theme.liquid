@@ -1,0 +1,364 @@
+<!doctype html>
+<!--[if IE 9]> 
+<html class="ie9 no-js" lang="{{ shop.locale }}">
+<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="no-js" lang="{{ shop.locale }}">
+<!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="theme-color" content="{{ settings.color_chrome }}">
+        <link rel="canonical" href="{{ canonical_url }}">
+        {% if settings.favicon != blank %}
+        <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+        {% endif %}
+        {% capture seo_title %}
+        {{ page_title }}
+        {% if current_tags %}
+        {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+        {% endif %}
+        {% if current_page != 1 %}
+        &ndash; {{ 'general.meta.page' | t: page: current_page }}
+        {% endif %}
+        {% unless page_title contains shop.name %}
+        &ndash; {{ shop.name }}
+        {% endunless %}
+        {% endcapture %}
+        <title>{{ seo_title }}</title>
+  {% include "trackify_x" %}
+        <style>
+        @font-face {
+            font-family:'Helvetica';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Helvetica Regular'), local('Helvetica-Regular');
+            font-display: swap;
+        }
+        </style>
+        {% if page_description %}
+        <meta name="description" content="{{ page_description | escape }}">
+        {% endif %}
+        {% include 'social-meta-tags' %}
+        <script>
+            (function($){
+                /* Adjustments for Safari on Mac */
+                if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Mac') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+                    $('html').addClass('safari-mac'); // provide a class for the safari-mac specific css to filter with
+                }
+            });
+            var theme = {
+                strings: {
+                    addToCart: {{ 'products.product.add_to_cart' | t | json }},
+                    soldOut: {{ 'products.product.sold_out' | t | json }},
+                    unavailable: {{ 'products.product.unavailable' | t | json }},
+                    showMore: {{ 'general.filters.show_more' | t | json }},
+                    showLess: {{ 'general.filters.show_less' | t | json }}
+                },
+                moneyFormat: {{ shop.money_format | json }}
+            }; 
+            document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+        </script>
+        <script src="{{ 'jquery-3.4.1.min.js' | asset_url }}"></script>
+        <script src="{{ 'lazysizes.min.js' | asset_url }}"></script>
+        <script src="{{ 'slick.min.js' | asset_url }}"></script>
+        <meta name="google-site-verification" content="IV7BPLESttSpBdxSWN1s4zlr4HIcuHkGQYmE3wLG59w" />
+        {%- include 'bold-common' -%}
+        {%- include 'bold-product' with product, hide_action: 'break', output: 'none' -%}
+    
+	{{ shop.metafields.loox["global_html_head"] }}
+</head>
+    <body class="template-{{ template | split: '.' | first }} ">
+        <div id="loading" style="z-index: 9999999; width: 100%; height: 100vh; left: 0; top: 0; display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center; background-color: white; position: fixed;">
+            <img id="spinner" src="{{ 'Spinner-1s-200px.gif' | asset_url }}">
+            <p id="wait-longer" style="opacity:0;">
+                Excuse the awkward silence.<br/>
+                The page will load shortly...
+            </p> 
+            <script>
+                setTimeout(function () {
+                    $('#wait-longer').animate({
+                        opacity: '1'
+                    }, 500);
+                }, 4000);
+            </script>
+        </div>
+        <span id="page">
+            <div id="SearchDrawer" class="search-bar drawer drawer--top">
+                <div class="search-bar__table">
+                    <div class="search-bar__table-cell search-bar__form-wrapper">
+                        <form class="search search-bar__form" action="/search" method="get" role="search">
+                            <button class="search-bar__submit search__submit btn--link" type="submit">
+                            {% include 'icon-search' %}
+                            <span class="icon__fallback-text">{{ 'general.search.submit' | t }}</span>
+                            </button>
+                            <input class="search__input search-bar__input" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}">
+                        </form>
+                    </div>
+                    <div class="search-bar__table-cell text-right">
+                        <button type="button" class="btn--link search-bar__close js-drawer-close">
+                        {% include 'icon-close' %}
+                        <span class="icon__fallback-text">{{ 'general.search.close' | t }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% section 'header' %}
+            <div class="page-container" id="PageContainer">
+                <div id="page-overlay" style="display:none;"></div>
+                <main class="main-content" id="MainContent" role="main">
+                    {{ content_for_layout }}
+                </main>
+                {% section 'footer' %}
+            </div>
+        </span>
+        <link rel="stylesheet" href="{{ 'theme.scss.css' | asset_url }}">
+        <link rel="stylesheet" href="{{ 'slick.css' | asset_url }}">
+        <link rel="stylesheet" href="{{ 'slick-theme.css' | asset_url }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fontisto@v3.0.4/css/fontisto/fontisto.min.css">
+        {% include 'google-fonts' %}
+        {% if template contains 'customers' %}
+        <script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script>
+        {% endif %}
+        <script src="{{ '//cdn.shopify.com/s/javascripts/currencies.js' }}"></script>
+        <script src="{{ 'theme.js' | asset_url }}"></script>
+        <script src="{{ 'jquery.currencies.min.js' | asset_url }}"></script>
+        <script src="{{ 'klaviyo_subscribe.js' | asset_url }}"></script>
+        {{ content_for_header }}
+        {% include 'currencies' %}
+        {% if settings.scroll_top_enable %}
+            <button class="scrollup"><span></span></button>
+        {% endif %}
+        {% if settings.enable_search_autocomplete != blank %}
+            {% include 'search-autocomplete' %}
+        {% endif %}
+        <script>
+            jQuery(function() {
+                jQuery('.swatch :radio').change(function() {
+                    var optionIndex = jQuery(this).closest('.swatch').attr('data-option-index');
+                    var optionValue = jQuery(this).val();
+                    jQuery(this)
+                        .closest('form')
+                        .find('.single-option-selector')
+                        .eq(optionIndex)
+                        .val(optionValue)
+                        .trigger('change');
+                });
+            });
+            var adjustHeaderResizeTimer, feraBarTimer, adjustedForTimer;
+            function handleResizing(e) {
+                clearTimeout(adjustHeaderResizeTimer);
+                adjustHeaderResizeTimer = setTimeout(adjustHeader, 100);
+            }
+            if (!adjustedForTimer) {
+                feraBarTimer = setInterval(function () {
+                    if ($('.fera-promoBar').length && $('.fera-promoBar').is(':visible')) {
+                        adjustedForTimer = true;
+                        clearInterval(feraBarTimer);
+                        adjustHeader();
+                    }
+                }, 100);
+            }
+            window.onresize = handleResizing;
+            handleResizing();
+            function handleOnLoad() { 
+                setTimeout(function () {
+                    $('#loading').fadeOut(400);
+                }, 100);
+                adjustHeader();
+            }
+            window.onload = handleOnLoad;
+            $(window).on('load', handleOnLoad);
+            var waitForBoldUpsell, noThanksClicked;
+            waitForBoldUpsell = setInterval(function () {
+                var boldUpsellNoThanks = $('.bold-upsell__button.bold-upsell__button--secondary');
+                if (boldUpsellNoThanks.length) {
+                    clearInterval(waitForBoldUpsell);
+                    boldUpsellNoThanks.click(function() {
+                        noThanksClicked = true;
+                    });
+                }
+            }, 300);
+            Shopify.AjaxifyCart = (function($) {
+                var _config = {
+                    // What you might want to change
+                    addToCartBtnLabel: 'Add to cart',
+                    addedToCartBtnLabel: 'Thank you!',
+                    addingToCartBtnLabel: 'Adding...',
+                    soldOutBtnLabel: 'Sold Out',
+                    howLongTillBtnReturnsToNormal: 1000, // in milliseconds.
+                    cartCountSelector: '.site-header__cart-count',
+                    cartTotalSelector: '#cart-price',
+                    // What you will never need to change
+                    addToCartBtnSelector: '[type="submit"]',
+                    addToCartFormBtnSelector: '.product-section__form-cart-submit',
+                    addToCartFloatingBtnSelector: '.product-section__form-cart-floating-submit',
+                    addToCartFormSelector: 'form[action="/cart/add"]',
+                    shopifyAjaxAddURL: '/cart/add.js',
+                    shopifyAjaxCartURL: '/cart.js'
+                };
+                var _showFeedback = function(success, html, $addToCartForm) {
+                    {% if settings.enable_straight_to_cart %}
+                        if (!noThanksClicked)
+                            window.location.href = "/cart";
+                        else 
+                            noThanksClicked = false;
+                    {% else %}
+                        $('.ajaxified-cart-feedback').remove();
+                        var feedback = '<p class="ajaxified-cart-feedback ' + success + '">' + html + '</p>';
+                        $addToCartForm.find(_config.addToCartFormBtnSelector).after(feedback);
+                        $('.ajaxified-cart-feedback').animate({ height: "100%", opacity: 1 }, 400);
+                    {% endif %} 
+                };
+                var _setText = function($button, label) {
+                    if ($button.children().length) {
+                        $button.children().each(function() {
+                            if ($.trim($(this).text()) !== '') {
+                                $(this).text(label);
+                            }
+                        });
+                    } else {
+                        $button.val(label).text(label);
+                    }
+                };
+                var _init = function() {
+                    $(document).ready(function() {
+                        $(_config.addToCartFormSelector).submit(function(e) {
+                            e.preventDefault();
+                            var $addToCartForm = $(this);
+                            var $addToCartBtn = $addToCartForm.find(_config.addToCartBtnSelector);
+                            var $addToCartFloatingBtn = $(_config.addToCartFloatingBtnSelector);
+                            _setText($addToCartBtn, _config.addingToCartBtnLabel);
+                            _setText($addToCartFloatingBtn, _config.addingToCartBtnLabel);
+                            $addToCartBtn.addClass('disabled').prop('disabled', true);
+                            // Add to cart.
+                            $.ajax({
+                                url: _config.shopifyAjaxAddURL,
+                                dataType: 'json',
+                                type: 'post',
+                                data: $addToCartForm.serialize(),
+                                success: function(itemData) {
+                                    // Re-enable add to cart button.
+                                    $addToCartBtn.addClass('inverted');
+                                    _setText($addToCartBtn, _config.addedToCartBtnLabel);
+                                    _setText($addToCartFloatingBtn, _config.addedToCartBtnLabel);
+                                    _showFeedback('success', '<span>✔️ Added to cart!</span><input type="button" class="btn product-section__form-cart-submit" style="color:white;" onclick="location.href=\'/checkout\';" value="{{ "products.product.go_to_checkout" | t }}" />', $addToCartForm);
+                                    window.setTimeout(function() {
+                                        $addToCartBtn.prop('disabled', false).removeClass('disabled').removeClass('inverted');
+                                        _setText($addToCartBtn, _config.addToCartBtnLabel);
+                                        _setText($addToCartFloatingBtn, _config.addToCartBtnLabel);
+                                    }, _config.howLongTillBtnReturnsToNormal);
+                                    // Update cart count and show cart link.
+                                    $.getJSON(_config.shopifyAjaxCartURL, function(cart) {
+                                        if (_config.cartCountSelector && $(_config.cartCountSelector).length) {
+                                            var value = $(_config.cartCountSelector).html() || '0';
+                                            $(_config.cartCountSelector).html(value.replace(/[0-9]+/, cart.item_count));
+                                            $(_config.cartCountSelector).removeClass('hidden-count');
+                                        }
+                                        if (_config.cartTotalSelector && $(_config.cartTotalSelector).length) {
+                                            if (typeof Currency !== 'undefined' && typeof Currency.moneyFormats !== 'undefined') {
+                                                var newCurrency = '';
+                                                if ($('[name="currencies"]').length) {
+                                                    newCurrency = $('[name="currencies"]').val();
+                                                } else if ($('#currencies span.selected').length) {
+                                                    newCurrency = $('#currencies span.selected').attr('data-currency');
+                                                }
+                                                if (newCurrency) {
+                                                    $(_config.cartTotalSelector).html('<span class=money>' + Shopify.formatMoney(Currency.convert(cart.total_price, "{{ shop.currency }}", newCurrency), Currency.money_format[newCurrency]) + '</span>');
+                                                } else {
+                                                    $(_config.cartTotalSelector).html(Shopify.formatMoney(cart.total_price, '{{ shop.money_format | remove: "'" | remove: '"' }}'));
+                                                }
+                                            } else {
+                                                $(_config.cartTotalSelector).html(Shopify.formatMoney(cart.total_price, '{{ shop.money_format | remove: "'" | remove: '"' }}'));
+                                            }
+                                        };
+                                    });
+                                },
+                                error: function(XMLHttpRequest) {
+                                    var response = eval('(' + XMLHttpRequest.responseText + ')');
+                                    response = response.description;
+                                    if (response.slice(0, 4) === 'All ') {
+                                        _showFeedback('error', response.replace('All 1 ', 'All '), $addToCartForm);
+                                        $addToCartBtn.prop('disabled', false);
+                                        _setText($addToCartBtn, _config.soldOutBtnLabel);
+                                        _setText($addToCartFloatingBtn, _config.soldOutBtnLabel);
+                                        $addToCartBtn.prop('disabled', true);
+                                    } else {
+                                        _showFeedback('error', '<i class="fa fa-warning"></i> ' + response, $addToCartForm);
+                                        $addToCartBtn.prop('disabled', false).removeClass('disabled');
+                                        _setText($addToCartBtn, _config.addToCartBtnLabel);
+                                        _setText($addToCartFloatingBtn, _config.addToCartBtnLabel);
+                                    }
+                                }
+                            });
+                            return false;
+                        });
+                    });
+                };
+                return {
+                    init: function(params) {
+                        // Configuration
+                        params = params || {};
+                        // Merging with defaults.
+                        $.extend(_config, params);
+                        // Action
+                        $(function() {
+                            _init();
+                        });
+                    },
+                    getConfig: function() {
+                        return _config;
+                    }
+                }
+            })(jQuery);
+            Shopify.AjaxifyCart.init();
+            var floatingATCWrapper = $('.product-section__floating-wrapper');
+            floatingATCWrapper.hide();
+            $(document).ready(function() {
+                function handleScroll() {
+                    if ($(this).scrollTop() > 100) {
+                        $('.scrollup').fadeIn();
+                    } else { 
+                        $('.scrollup').fadeOut();
+                    }
+                    var scrollBottom = $(window).scrollTop() + window.innerHeight;
+                    if ($('.product-section__form-cart-submit').length) { 
+                        var footerOffset = $('.site-footer').offset().top;
+                        var headerOffset = $(window).scrollTop();//$('.site-header__container').offset().top + $('.site-header__container').innerHeight();
+                        var submitOffset = $('.product-section__form-item--submit').offset().top +
+                            $('.product-section__form-item--submit').innerHeight();
+                        if (scrollBottom <= footerOffset && headerOffset > submitOffset) {
+                            if (!floatingATCWrapper.is(':visible')) { 
+                                floatingATCWrapper.slideDown(400, 'swing');
+                            }
+                        }
+                        else if (floatingATCWrapper.is(':visible'))
+                                floatingATCWrapper.slideUp(400, 'swing');
+                    }
+                    var copyrightOffset = $('.page-width.site-footer__copyright-wrapper').offset().top;
+                    if (scrollBottom > copyrightOffset) {
+                        $('#chat-widget-container').css('transform', 'translateY(-' + scrollBottom-copyrightOffset + ' px)');
+                        if ($('#smile-ui-container').is(':visible'))
+                            $('#smile-ui-container').fadeOut(100);
+                    } else {
+                        $('#chat-widget-container').css('transform', 'translateY(0)');
+                        if (!$('#smile-ui-container').is(':visible'))
+                            $('#smile-ui-container').fadeIn(50);
+                    }
+                }
+                window.onscroll = handleScroll;
+                $('.scrollup').click(function() { $("html, body").animate({ scrollTop: 0 }, 800); return !1 });
+            });
+        </script>
+       {% comment %}{% include 'livechat-initializer' %}{% endcomment %}
+    {% include 'banana-stand-footer' %}
+
+<!-- spurit_stp-added -->
+{% include 'spurit_stp-theme-snippet' %}
+<!-- /spurit_stp-added -->
+
+
+	{{ shop.metafields.loox["global_html_body"] }}
+</body>
+</html>

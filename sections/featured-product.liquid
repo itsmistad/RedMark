@@ -1,0 +1,507 @@
+{%- assign product = all_products[section.settings.featured_product] -%}
+{%- include 'bold-product' with product, hide_action: 'break', output: 'none' -%}
+<div class="product-section__container page-width" itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product">
+  <meta itemprop="name" content="{{ product.title }}">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: '800x' }}">
+
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  {%- assign product_thumb_size = '96x' -%}
+  {%- assign product_image_zoom_size = '1100x' -%} 
+  {%- assign product_image_size_url = '1000x' -%}
+  {%- assign enable_zoom = section.settings.enable_zoom -%}
+
+  <div class="product-section featured-product">
+    <div class="product-section__gallery-container featured-product__gallery-container">
+      {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
+      {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
+      {% include 'sale_tag' %}
+      <div class="product-section__featured-desktop-wrapper">
+        <div id="FeaturedImageZoom-{{ section.id }}" class="product-section__photo" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
+            <img itemprop="image" src="{{ featured_img_src | img_url: product_image_size_url }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="product-featured-img {% if enable_zoom %}zoom_hover js-zoom-enabled{% endif %}">
+        </div>
+      </div>
+      <div class="slick-slider__carousel product-section__featured-mobile-carousel" id="product-section__featured-mobile-carousel-{{ section.id }}">
+        {% for image in product.images %}
+          <div class="slick-slider__item product-section__featured-item">
+            <div class="slick-slider__item-img-wrapper">
+              <img class="product-section__featured-img lazyload" data-src="{{ image.src | img_url: product_image_size_url }}" itemprop="image" alt="{{ image.alt | escape }}">
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      {% if product.images.size > 1 %}
+        <div class="slick-slider__carousel product-section__thumbnails-desktop-carousel" id="product-section__thumbnails-desktop-carousel-{{ section.id }}">
+          {% for image in product.images %}
+            <div class="slick-slider__item product-section__thumbnails-item">
+              <a itemprop="url"
+                href="{{ image.src | img_url: product_image_size_url }}"
+                  class="slick-slider__card product-section__thumbnail product-section__thumbnail--{{ section.id }}"
+                  {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}>
+                  <div class="slick-slider__item-img-wrapper">
+                    <img class="product-section__thumbnail-image lazyload" data-src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
+                  </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="slick-slider__carousel product-section__thumbnails-mobile-carousel" id="product-section__thumbnails-mobile-carousel-{{ section.id }}">
+          {% for image in product.images %}
+            <div class="slick-slider__item product-section__thumbnails-item">
+              <a itemprop="url"
+                class="slick-slider__card product-section__thumbnail product-section__thumbnail-mobile product-section__thumbnail--{{ section.id }}-{{ forloop.index0 }} {% if forloop.first == true %}active-thumb{% endif %}"
+                tabindex="-1"
+                slideindex="{{ forloop.index0 }}">
+                <div class="slick-slider__item-img-wrapper">
+                  <img class="product-section__thumbnail-image lazyload" data-src="{{ image.src | img_url: product_thumb_size }}" itemprop="image" alt="{{ image.alt | escape }}">
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="product-section__options-form">
+      {%- assign compare_at_price = current_variant.compare_at_price -%}
+      {%- assign price = current_variant.price -%}
+      {%- assign price_varies = current_variant.price_varies -%}
+      {%- assign available = current_variant.available -%}
+      <a href="{{ product.url }}"><h1 itemprop="headline" class="featured-product__title">{{ product.title }}</h1></a>
+      {% if section.settings.show_vendor %}
+        <p itemprop="brand" class="product-section__vendor">{{ product.vendor }}</p>
+      {% endif %}
+      <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+        <p class="product-section__price product-section__price-{{ section.id }}">
+          {% if compare_at_price > price %}
+              <s id="ComparePrice-{{ section.id }}">{{ compare_at_price | money }}</s>
+              <span class="product-price__price product-price__price-{{ section.id }} product-price__sale product-price__sale--single">
+                <span id="ProductPrice-{{ section.id }}" itemprop="price" content="{{ price | money_without_currency }}">{{ price | money }}</span>
+              </span>
+          {% else %}
+            <s id="ComparePrice-{{ section.id }}" class="hide">{{ compare_at_price | money }}</s>
+            <span class="product-price__price product-price__price-{{ section.id }}">
+              <span id="ProductPrice-{{ section.id }}" itemprop="price" content="{{ price | money_without_currency }}">{{ price | money }}</span>
+            </span>
+          {% endif %}
+        </p>
+        <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}"></span>
+        <a href="#looxReviews">
+          <div class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.loox.avg_rating }}" data-raters="{{ product.metafields.loox.num_reviews }}">
+          </div>
+        </a>
+        <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-section__form" data-section="{{ section.id }}">
+          {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
+            {% for option in product.options_with_values %}
+              <div class="selector-wrapper js product-section__form-item" style="display:none;">
+                <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                  {{ option.name }}
+                </label>
+                <select class="single-option-selector single-option-selector-{{ section.id }} product-section__form-input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                  {% for value in option.values %}
+                    <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endfor %}
+          {% endunless %}
+          <select name="id" id="ProductSelect-{{ section.id }}" data-section="{{ section.id }}" class="product-section__form-variants no-js">
+            {% for variant in product.variants %}
+              {% if variant.available %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                  {{ variant.title }}
+                </option>
+              {% else %}
+                <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+          {% if section.settings.enable_swatches %}
+            {% if product.available and product.variants.size > 1 %}
+              {% for option in product.options %}
+                {% include 'swatch' with option %}
+              {% endfor %}
+            {% endif %}
+          {% endif %}
+          {% if section.settings.show_quantity_selector %}
+            <div class="product-section__form-item product-section__form-quantity-wrapper">
+              <label for="Quantity" class="product-section__qty-label">{{ 'products.product.quantity' | t }}</label>
+              <input type="button" value="-" class="product-section__qty-decrease">
+              <input class="product-section__qty-input"
+                type="number" name="quantity" id="Quantity" value="1" min="1" max="99" pattern="[0-9]*">
+              <input type="button" value="+" class="product-section__qty-increase">
+            </div>
+          {% endif %}
+          <div class="product-section__form-item product-section__form-item--submit">
+            <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="btn product-section__form-cart-submit featured-product__AddToCart">
+              <span id="AddToCartText-{{ section.id }}">
+                {% unless current_variant.available %}
+                  {{ settings.add_to_cart_button_soldouttext }}
+                {% else %}
+                  {{ settings.add_to_cart_button_text }}
+                {% endunless %}
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% unless product.empty? %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+{% endunless %}
+
+<script>
+  var featuredMobileCarousel = $('#product-section__featured-mobile-carousel-{{ section.id }}');
+  var thumbnailMobileCarousel = $('#product-section__thumbnails-mobile-carousel-{{ section.id }}');
+  $(function() {
+    /*
+     * Feature image gallery
+     */
+    $('#product-section__thumbnails-desktop-carousel-{{ section.id }}').slick({
+      infinite: false,
+      speed: 400,
+      slidesToShow: 5,
+      slidesToScroll: 5,
+      touchThreshold: 5,
+      dots: true,
+      arrows: false,
+      vertical: true,
+      verticalSwiping: true,
+    });
+    thumbnailMobileCarousel.slick({
+      infinite: false,
+      speed: 400,
+      slidesToShow: 4,
+      touchThreshold: 30,
+      slidesToScroll: 4,
+      dots: true,
+      arrows: false
+    });
+    featuredMobileCarousel.slick({
+      infinite: false,
+      speed: 400,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      dots: false,
+      arrows: false
+    });
+
+    var sliding = false;
+    var resetSlidingTimeout;
+    featuredMobileCarousel.on('beforeChange', function(event, slick, currentSlide, targetSlide) {
+      if (currentSlide === targetSlide) return;
+      let currentThumbnail = $('.product-section__thumbnail--{{ section.id }}-' + currentSlide);
+      let targetThumbnail = $('.product-section__thumbnail--{{ section.id }}-' + targetSlide);
+      if (currentThumbnail.hasClass('active-thumb'))
+        currentThumbnail.removeClass('active-thumb');
+      if (!targetThumbnail.hasClass('active-thumb'))
+        targetThumbnail.addClass('active-thumb');
+      
+      let targetSet = Math.floor(targetSlide / 4);
+      let currentSet = Math.floor(currentSlide / 4);
+      if (targetSet > currentSet)
+        thumbnailMobileCarousel.slick('slickNext');
+      else if (targetSet < currentSet)
+        thumbnailMobileCarousel.slick('slickPrev'); 
+    });
+    $('.product-section__thumbnail-mobile').click(function () {
+      if ($(this).hasClass('active-thumb')) return;
+      featuredMobileCarousel.slick('slickGoTo', parseInt($(this).attr('slideindex')));
+    });
+    if ($(document).width() >= 1024)
+      $('img.zoom_hover').zoomIn({});
+  });
+  var resizeTimer;
+  window.onresize = function () {
+    clearTimeout(resizeTimer); 
+    resizeTimer = setTimeout(function() {
+      /*
+      * Enables image zoom functionality
+      */
+      var zoomImg = $('img.zoom_hover');
+      if ($(document).width() >= 1024)
+      {
+        if (!$('#FeaturedImageZoom-product-template').find('.zoomIn').length)
+          zoomImg.zoomIn({});
+      }
+      else {
+        zoomImg.trigger('zoom.destroy'); 
+      }
+    }, 100);
+  };
+</script>
+<style>
+  div#FeaturedImageZoom-{{ section.id }} {
+    overflow: hidden;
+  }
+  button#AddToCart:hover span {
+    color: #fff;
+  }
+  button#AddToCart-{{ section.id }}:hover span {
+    color: #fff;
+  }
+  /*----------  Swatch Styles  ----------*/
+  {% assign width = '50px' %}
+  {% assign height = '35px' %}
+  /* Label */
+  .swatch .header {
+    margin: 0.5em 0;
+  }
+  /* Hide radio buttons.*/
+  .swatch input { 
+    display:none;
+  }
+  .swatch label {
+    border-radius:2px;
+    float:left;
+    min-width: {{ width }} !important; 
+    height: {{ height }} !important;
+    margin: 0;
+    background-color: #000;
+    font-size: 0.8125em;
+    text-align: center;
+    line-height: {{ height }};
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #fff;
+    transition: 0.3s;
+  }
+  .swatch-element label { padding:0 10px; }
+  .color.swatch-element label { padding:0; }
+  /* Styling selected swatch */
+  /* Slightly raised */
+  .swatch label:hover {
+    box-shadow:0px 0px 5px rgba(0,0,0,0.7);
+    border-color:transparent;
+  } 
+  .swatch .swatch-element {
+    float:left;
+    -webkit-transform:translateZ(0); /* webkit flicker fix */
+    -webkit-font-smoothing:antialiased; /* webkit text rendering fix */
+    /* Spacing between buttons */
+    margin:0px 10px 10px 0;
+    /* To position the sold out graphic and tooltip */
+    position:relative;
+  }
+  /* Image with the cross in it */
+  .crossed-out { position:absolute; width:100%; height:100%; left:0; top:0; }
+  .swatch .swatch-element .crossed-out { display:none; }
+  .swatch .swatch-element.soldout .crossed-out { display:block; }
+  .swatch .swatch-element.soldout label {
+    filter: alpha(opacity=60); /* internet explorer */
+    -khtml-opacity: 0.6;      /* khtml, old safari */
+    -moz-opacity: 0.6;       /* mozilla, netscape */
+    opacity: 0.6;           /* fx, safari, opera */
+  }
+  /* Tooltips */
+  .swatch .tooltip {
+    text-align:center;
+    background:gray;
+    color:#fff;
+    bottom:100%;
+    padding: 10px;
+    display:block;
+    position:absolute;
+    width:100px;
+    left:{{ width | remove: 'px' | to_number | divided_by: 2 | minus: 50 | plus: 2 }}px;
+    margin-bottom:15px;
+    /* Make it invisible by default */
+    filter:alpha(opacity=0);
+    -khtml-opacity: 0;
+    -moz-opacity: 0;
+    opacity:0;
+    visibility:hidden;
+    /* Animations */
+    -webkit-transform: translateY(10px);
+      -moz-transform: translateY(10px);
+        -ms-transform: translateY(10px);
+        -o-transform: translateY(10px);
+            transform: translateY(10px);
+    -webkit-transition: all .25s ease-out;
+      -moz-transition: all .25s ease-out;
+        -ms-transition: all .25s ease-out;
+        -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+    -webkit-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+      -moz-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+        -ms-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+        -o-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    z-index: 10000;
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box; 
+    box-sizing:border-box;
+  }
+  .swatch .tooltip:before {
+    bottom:-20px;
+    content:" ";
+    display:block;
+    height:20px;
+    left:0;
+    position:absolute;
+    width:100%;
+  }
+  /* CSS triangle */
+  .swatch .tooltip:after {
+    border-left:solid transparent 10px;
+    border-right:solid transparent 10px;
+    border-top:solid gray 10px;
+    bottom:-10px;
+    content:" ";
+    height:0;
+    left:50%;
+    margin-left:-13px;
+    position:absolute;
+    width:0;
+  }
+  .swatch .swatch-element:hover .tooltip {
+    filter:alpha(opacity=100);
+    -khtml-opacity:1;
+    -moz-opacity:1;
+    opacity:1;
+    visibility:visible;
+    -webkit-transform:translateY(0px);
+      -moz-transform:translateY(0px);
+        -ms-transform:translateY(0px);
+        -o-transform:translateY(0px);
+            transform:translateY(0px);
+  }
+  .swatch.error {
+    background-color:#E8D2D2!important;
+    color:#333!important;
+    padding:1em;
+    border-radius:5px;
+  }
+  .swatch.error p {
+    margin:0.7em 0;
+  }
+  .swatch.error p:first-child {
+    margin-top:0;
+  }
+  .swatch.error p:last-child {
+    margin-bottom:0;
+  }
+  .swatch.error code {
+    font-family:monospace;
+  }
+  .font_style {
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #788188;
+    top: 6px;
+  }
+  .swatch input:checked + label {
+    background-color: {{ section.settings.swatches_color }};
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
+  }
+  .swatch.clearfix {
+    width: 100%;
+    padding: 4px 0 10px;
+    border-top: 1px solid #eee;
+  }
+  .template-product p.product-section__price.product-section__price {
+    font-size:  {{ section.settings.product_price_text }};
+  }
+  .template-product a {
+    text-decoration: none !important;
+  }
+  .product-section__form-item.product-section__form-item--quantity label {
+    font-size: 0.9375em;
+  }
+  .featured-product__title {
+    transition: 0.3s;
+  }
+  .featured-product__title:hover {
+    color: {{ settings.color_accent }};
+  }
+</style>
+{% schema %}
+  {
+    "name": "Featured Product",
+    "settings": [
+      {
+        "type": "product",
+        "id": "featured_product",
+        "label": "Product"
+      },
+      {
+        "type": "select",
+        "id": "image_size",
+        "label": "Image size",
+        "options": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
+        ],
+        "default": "medium"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quantity_selector",
+        "label": "Show quantity selector",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_variant_labels",
+        "label": "Show variant labels",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_zoom",
+        "label": "Enable image zoom",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_share_buttons",
+        "label": "Show social sharing buttons",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Swatches"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_swatches",
+        "label": "Enable Swatches "
+      },
+      {
+        "type": "color",
+        "id": "swatches_color",
+        "label": "Color Swatches",
+        "default": "#000"
+      }
+   ],
+    "presets": [
+      {
+        "name": "Featured Product",
+        "category": "Product"
+      }
+    ]
+  }
+{% endschema %}

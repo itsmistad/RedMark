@@ -1,0 +1,49 @@
+{%- assign compare_at_price = product.compare_at_price -%}
+{%- assign price = product.price -%}
+
+{% unless grid_image_width %}
+  {%- assign grid_image_width = '600x600' -%}
+{% endunless %}
+
+  {% if compare_at_price > price and settings.show_sale_tag %}
+  	<span class="product-price__sale-label">sale</span>
+  {% endif %}
+
+<div class="grid-view-item">
+  <a class="grid-view-item__link" href="{{ product.url | within: collection }}">
+    <img class="grid-view-item__image lazyload" data-src="{{ product.featured_image.src | img_url: grid_image_width }}" alt="{{ product.featured_image.alt }}">
+    <div class="h4 grid-view-item__title">{{ product.title }}</div>
+    {% if settings.show_vendor %}
+      <div class="grid-view-item__vendor">{{ product.vendor }}</div>
+    {% endif %}
+    <div class="grid-view-item__meta">
+      {% include 'product-price' %}
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+    </div>
+  </a>
+  {% render 'banana-stand-product-list-container', product: product %}
+</div>
+<style>
+  .ns{
+  text-align:left !important;
+  }
+  .hands{
+  text-align:left !important;
+  }
+  .ceenter {
+    text-align: center !important;
+}
+  span.spr-starrating.spr-badge-starrating i {
+    color: #FFCC00;
+}
+  span.spr-badge-caption {
+    display: none;
+}
+  span.spr-starrating.spr-summary-starrating i {
+    color: #FFCC00;
+}
+  
+  span.spr-starratings.spr-review-header-starratings i {
+    color: #FFCC00;
+}
+</style>

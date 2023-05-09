@@ -1,0 +1,17 @@
+{
+  "name": "rm-shopify-theme",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsmistad/rm-shopify-theme.git"
+  },
+  "author": "itsmistad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itsmistad/rm-shopify-theme/issues"
+  },
+  "homepage": "https://github.com/itsmistad/rm-shopify-theme#readme"
+}

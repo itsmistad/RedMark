@@ -1,0 +1,95 @@
+<ul class="desktop-nav">
+  {% for link in linklists[section.settings.main_linklist].links %}
+    {% if forloop.index > 6 %}
+      {% continue %}
+    {% endif %}
+    <li class="desktop-nav__item {% if link.active and link.url != '/' %}desktop-nav__active{% endif %}">
+      <a {% if link.url != '/' %}href="{{ link.url }}"{% endif %} class="desktop-nav__link" {% if link.active and link.url != '/' %} aria-current="page"{% endif %}>
+        {{ link.title }}
+      </a>
+      {% if link.links != blank and link.levels > 0 %}
+        <div class="desktop-nav__dropdown border-bottom">
+          <div class="desktop-nav__link-container">
+            {% for childlink in link.links %}
+              {% if forloop.index > 4 %}
+                {% break %}
+              {% endif %}
+              <div class="desktop-nav__sub">
+                {% if childlink.url == "/" %} 
+                  <h4 class="text-center">{{ childlink.title }}</h4>
+                {% endif %}
+                {% if childlink.links != blank and childlink.levels > 0 %}
+                  {% for grandchildlink in childlink.links %}
+                    {% if forloop.index > 10 %}
+                      {% break %}
+                    {% endif %}
+                    <a href="{{ grandchildlink.url }}" {% if grandchildlink.active %} class="desktop-nav__active" aria-current="page" {% endif %}>
+                      {{ grandchildlink.title }}
+                    </a>
+                  {% endfor %} 
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          {% if section.settings.enable_left_image and section.settings.left_image != blank %}
+            <div class="desktop-nav__img-container left">
+              {% if section.settings.left_image_url != blank %}
+                <a href="{{ section.settings.left_image_url }}">
+                  <img class="lazyload" data-src="{{ section.settings.left_image | img_url : 'master' }}"/>
+                </a>
+              {% else %}
+                <img class="lazyload" data-src="{{ section.settings.left_image | img_url : 'master' }}"/>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% if section.settings.enable_right_image and section.settings.right_image != blank %}
+            <div class="desktop-nav__img-container right">
+              {% if section.settings.right_image_url != blank %}
+                <a href="{{ section.settings.right_image_url }}">
+                  <img class="lazyload" data-src="{{ section.settings.right_image | img_url : 'master' }}"/>
+                </a>
+              {% else %}
+                <img class="lazyload" data-src="{{ section.settings.right_image | img_url : 'master' }}"/>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+
+<script>
+$(function() {
+  /*
+   * This is a really neat hack that prevents the dropdown box
+   * from immediately disappearing when :hover is removed.
+   * It provides a 180ms grace period between the nav link and
+   * the dropdown. If neither a dropdown box NOR a nav link are
+   * being hovered by the end of that grace period, we officially
+   * "de-hover". It also allows fast inter-nav-link hovering.
+   */
+  var currentNavItem = null;
+  $('.desktop-nav__item').hover(function() {
+    currentNavItem = $(this);
+    var addHover = function(j) {
+      if (j.html() == currentNavItem.html() && j.is(':hover') && !currentNavItem.hasClass('hover'))
+        currentNavItem.addClass('hover');
+    };
+    setTimeout(addHover, 50, $(this));
+  }, function () {
+    setTimeout(function(j) {
+      if (j.html() != currentNavItem.html() && j.hasClass('hover'))
+        j.removeClass('hover');
+      else 
+        setTimeout(function(k) {
+          if (!k.is(':hover') && k.hasClass('hover'))
+          {
+            k.removeClass('hover');
+            currentNavItem = null;
+          }
+        }, 170, j);
+    }, 30, $(this));
+  })
+});
+</script>

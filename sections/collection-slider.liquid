@@ -1,0 +1,143 @@
+<div class="collection-slider__container page-width">
+  {% if section.settings.title != blank %}
+    <div class="section-header text-center">
+      <h2 class="section-header__title">{{ section.settings.title | escape }}</h2>
+    </div>
+  {% endif %}
+  <div class="collection-slider__slider-container">
+    {% if section.settings.enable_arrows %}
+      <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
+        <img class="lazyload" data-src="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+      </button>
+    {% endif %}
+    <div class="slick-slider__carousel" id="collection-slider__carousel-{{ section.id }}">
+      {% for block in section.blocks limit: section.blocks.size %}
+        {%- assign collection = collections[block.settings.collection] -%}
+        {% include 'collection-card' %}
+      {% endfor %}
+    </div>
+    {% if section.settings.enable_arrows %}
+      <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
+        <img class="lazyload" data-src="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+      </button>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+$(function() {
+  var slider = $('#collection-slider__carousel-{{ section.id }}');
+  slider.slick({
+    {% if section.blocks.size > 3 %}
+    dots: {{ section.settings.enable_dots }}, 
+    {% endif %}
+    infinite: true,
+    {% if section.settings.slide_height != blank %}
+    variableHeight: true,
+    {% endif %}
+    speed: 500,
+    {% if section.blocks.size > 3 %}
+    slidesToShow: 3,
+    {% else %}
+    slidesToShow: {{ section.blocks.size }},
+    {% endif %}
+    swipeToSlide: true,
+    touchThreshold: 30,
+    centerMode: false,
+    autoplay: true,
+    autoplaySpeed: 6000,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 800,
+        settings: {
+          {% if section.blocks.size > 2 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          {% if section.blocks.size > 2 %}
+          slidesToShow: 2
+          {% else %}
+          slidesToShow: {{ section.blocks.size }}
+          {% endif %}
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          {% if section.blocks.size > 1 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          slidesToShow: 1
+        }
+      }
+    ]
+  });
+});
+</script>
+
+{% schema %}
+  {
+    "name": "Collection Slider",
+    "max_blocks": 12,
+    "settings": [
+      { 
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Shop by Collection"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_arrows",
+        "label": "Enable slider arrows",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_dots",
+        "label": "Enable slider dots",
+        "default": false
+      },
+      { 
+        "type": "header",
+        "content": "Dimensions"
+      },
+      {
+        "type": "text",
+        "id": "slide_height",
+        "label": "Forced slide height (in pixels)"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "featured_collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "label": "Collection",
+            "id": "collection",
+            "type": "collection"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"Collection Slider",
+        "category":"Section"
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+  {% if section.settings.slide_height != blank %}
+  #collection-slider__carousel-{{ section.id }} img {
+    height: {{ section.settings.slide_height }}px;
+  }
+  {% endif %}
+</style>

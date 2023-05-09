@@ -1,0 +1,154 @@
+{% if section.settings.show_related_products == true %}
+  <div class="related-products__container page-width" itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true">
+    {% assign same_vendor = false %}
+    {% assign same_type = false %}
+    {% assign exclusions = 'frontpage,all' | split: ',' %}
+    {% if product.metafields.c_f['Related Products'] %}
+      {% assign collection = collections[product.metafields.c_f['Related Products']] %}
+    {% endif %}
+    {% assign found_a_collection = false %}
+    {% if collection and collection.all_products_count > 1 %}
+      {% unless exclusions contains collection.handle %}
+        {% assign found_a_collection = true %}
+      {% endunless %}
+    {% endif %}
+    {% unless found_a_collection %}
+      {% for c in product.collections %}
+        {% unless exclusions contains c.handle or c.all_products_count < 2 %}
+          {% assign found_a_collection = true %}
+          {% assign collection = c %}
+          {% break %}
+        {% endunless %}
+      {% endfor %}
+    {% endunless %}
+
+    {% comment %}
+      If we have a relevant collection.
+    {% endcomment %}
+
+    {% if found_a_collection %}
+      {% assign current_product = product %}
+      {% assign number_of_products = 0 %}
+      {% capture related_items %}
+        {% for product in collection.products %}
+          {% unless product.handle == current_product.handle %}
+            {% unless same_vendor and current_product.vendor != product.vendor %}
+              {% unless same_type and current_product.type != product.type %} 
+                {% assign number_of_products = number_of_products | plus: 1 %}
+                {% include 'bold-product' with product, hide_action: 'skip' %}
+                {% include 'product-card-related' %}
+              {% endunless %}
+            {% endunless %}
+          {% endunless %}
+        {% endfor %}
+      {% endcapture %}
+
+      {% assign related_items = related_items | trim %}
+      {% unless related_items == blank %}
+        {% unless section.settings.related_title == blank %}
+          <div class="section-header">
+            <h2 itemprop="name" class="section-header__title">{{ section.settings.related_title }}</h2>
+          </div>
+        {% endunless %}
+        <div class="related-products__slider-container">
+          {% if section.settings.enable_arrows %}
+            <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
+              <img class="lazyload" src="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+            </button>
+          {% endif %}
+          <div class="slick-slider__carousel" id="related-products__carousel">
+            {{ related_items }}
+          </div>
+          {% if section.settings.enable_arrows %}
+            <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
+              <img class="lazyload" src="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+            </button>
+          {% endif %}
+        </div>
+      {% endunless %}
+    {% endif %}
+  </div>
+{% endif %}
+
+<script>
+$(function() {
+  $('#related-products__carousel').slick({
+    {% if number_of_products > 5 %}
+    dots: {{ section.settings.enable_dots }},
+    {% endif %}
+    infinite: true,
+    speed: 400,
+    slidesToShow: 5,
+    swipeToSlide: true,
+    touchThreshold: 30,
+    autoplay: true,
+    pauseOnFocus: true,
+    pauseOnHover: true,
+    pauseOnDotsHover: true,
+    autoplaySpeed: 6000,
+    centerMode: false,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          {% if number_of_products > 4 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          slidesToShow: 4
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          {% if number_of_products > 2 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          slidesToShow: 2
+        }
+      },
+      {
+        breakpoint: 440,
+        settings: {
+          {% if number_of_products > 1 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          slidesToShow: 1
+        }
+      }
+    ]
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Related products",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_related_products",
+      "label": "Show related products",
+      "default": false
+    },
+    {
+      "id": "related_title",
+      "type": "text",
+      "label": "Section title",
+      "default": "Stuff you might like"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_arrows",
+      "label": "Enable slider arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_dots",
+      "label": "Enable slider dots",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

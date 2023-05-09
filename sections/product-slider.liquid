@@ -1,0 +1,151 @@
+<div class="product-slider__container page-width">
+  {% if section.settings.title != blank %}
+    <div class="section-header text-center">
+      <h2 class="section-header__title">{{ section.settings.title | escape }}</h2>
+    </div>
+  {% endif %}
+  <div class="product-slider__slider-container">
+    {% if section.settings.enable_arrows %}
+      <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
+        <img class="lazyload" data-src="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+      </button>
+    {% endif %}
+    <div class="slick-slider__carousel" id="product-slider__carousel-{{ section.id }}">
+      {% for block in section.blocks limit: section.blocks.size %}
+        {%- assign product = all_products[block.settings.product] -%}
+        {% include 'product-card' %}
+      {% endfor %}
+    </div>
+    {% if section.settings.enable_arrows %}
+      <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
+        <img class="lazyload" data-src="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+      </button>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+$(function() {
+  var productSlider = $('#product-slider__carousel-{{ section.id }}');
+  if ($('.banana-container').length)
+    $('.banana-container').remove();
+  productSlider.slick({
+    {% if section.blocks.size > 4 %}
+    dots: {{ section.settings.enable_dots }},
+    {% endif %}
+    infinite: true,
+    speed: 500,
+    {% if section.settings.slide_height != blank %}
+    variableHeight: true,
+    {% endif %}
+    {% if section.blocks.size < 4 %}
+    slidesToShow: {{ section.blocks.size }},
+    {% else %}
+    slidesToShow: 4,
+    {% endif %}
+    swipeToSlide: true, 
+    touchThreshold: 30,
+    autoplay: true,
+    autoplaySpeed: 6000,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          {% if section.blocks.size > 3 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          {% if section.blocks.size > 3 %}
+          slidesToShow: 3
+          {% else %}
+          slidesToShow: {{ section.blocks.size }}
+          {% endif %}
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          {% if section.blocks.size > 2 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          {% if section.blocks.size > 2 %}
+          slidesToShow: 2
+          {% else %}
+          slidesToShow: {{ section.blocks.size }}
+          {% endif %}
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          {% if section.blocks.size > 1 %}
+          dots: {{ section.settings.enable_dots }},
+          {% endif %}
+          slidesToShow: 1
+        }
+      }
+    ]
+  });
+});
+</script>
+
+{% schema %}
+  {
+    "name": "Product Slider",
+    "max_blocks": 12,
+    "settings": [
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "title", 
+        "label": "Heading",
+        "default": "Popular Products"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_arrows",
+        "label": "Enable slider arrows",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_dots",
+        "label": "Enable slider dots",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "slide_height",
+        "label": "Forced slide height"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "featured_product",
+        "name": "Product",
+        "settings": [
+          {
+            "label": "Product",
+            "id": "product",
+            "type": "product"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"Product Slider",
+        "category":"Section"
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+  #product-slider__carousel-{{ section.id }} img {
+    height: {{ section.settings.slide_height }};
+  }
+</style>

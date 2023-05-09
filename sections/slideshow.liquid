@@ -1,0 +1,767 @@
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section">
+
+  {% if section.blocks.size > 0 %}
+  <div class="slideshow-wrapper"  >
+    <button type="button" class="visually-hidden slideshow__pause" data-id="{{ section.id }}" aria-live="polite">
+      <span class="slideshow__pause-stop">
+        {% include 'icon-pause' %}
+        <span class="icon__fallback-text">{{ 'sections.slideshow.pause_slideshow' | t }}</span>
+      </span>
+      <span class="slideshow__pause-play">
+        {% include 'icon-play' %}
+        <span class="icon__fallback-text">{{ 'sections.slideshow.play_slideshow' | t }}</span>
+      </span>
+    </button>
+
+    <div class="slideshow slideshow--{{ section.settings.slideshow_height }}" id="Slideshow-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.autoplay_speed }}">
+      {% for block in section.blocks %}
+      {% comment %}
+      {%- assign is_background_video = false -%}
+      {% if block.type == 'video' %}
+      {% if block.settings.video_type == 'background' or block.settings.video_type =='background-chrome' %}
+      {%- assign is_background_video = true -%}
+      {% endif %}
+      {% endif %}
+      {% endcomment %}
+
+      {% if block.type == 'video' %}
+
+      {% if block.settings.video_type == 'background' %}
+      <div class="slideshow__slide banner_video" data-video-type="{{block.settings.video_type}}">
+        <iframe class="background_banner_vdeo"  height="700" width="100" src="https://www.youtube.com/embed/{{block.settings.video_id}}?autoplay=1" data-src="https://www.youtube.com/embed/{{block.settings.video_id}}"></iframe>
+      </div>
+
+      {% elsif block.settings.video_type == 'background-chrome' %}
+      <div class="slideshow__slide banner_video" data-video-type="{{block.settings.video_type}}">
+        <button type="button" class="text-link play_bg_video" >
+          {% include 'icon-play-video' %}
+        </button>
+        <div class="bg_video_iframe">
+          <iframe class="vdo-with-img" height="700" width="100" src="https://www.youtube.com/embed/{{block.settings.video_id}}" data-src="https://www.youtube.com/embed/{{block.settings.video_id}}?autoplay=1&cc_load_policy=1" data-play-src="https://www.youtube.com/embed/{{block.settings.video_id}}"></iframe>          
+          <button type="button" class="text-link close_bg_video" data-controls="SlideshowVideo-{{ block.id }}" style="display: none;">
+            {% include 'icon-close' %}
+          </button>
+        </div>
+        <script>
+          $(document).ready(function(){
+            $('.banner_video .play_bg_video').click(function(){
+            $(this).css('display','none');
+              var t =$(this).parents('.slideshow__slide').find('iframe').data('src');
+              $(this).parents('.slideshow__slide').find('iframe').attr('src',t); 
+              $(this).parents('.slideshow__slide').find('.close_bg_video').show();
+            });
+
+              $('.banner_video .close_bg_video').click(function(){
+               $(this).css('display','none');
+               $(this).parents('.slideshow__slide').find('.play_bg_video').css('display','block');
+              var t =$(this).parents('.slideshow__slide').find('iframe').data('play-src');
+              $(this).parents('.slideshow__slide').find('iframe').attr('src',t);
+            });
+          });
+        </script>
+      </div>
+
+      {% elsif block.settings.video_type == 'chrome' %}
+      <div class="chrome slideshow__slide" data-video-type-ch="{{block.settings.video_type}}">
+        <div class="image_before_video bh-{{block.id}}">
+          <div class="video_img_text {% if block.settings.title != blank or block.settings.subheading != blank %} {% endif %}">
+          <div class="slideshow__text-content">
+            <div class="page-width arrows1">
+              {% unless block.settings.title == blank %}
+              <h2 class="h1 mega-title slideshow__title{% if settings.link != blank %} slideshow__title--has-link{% endif %}{% if section.settings.text_size == 'large' %} mega-title--large{% endif %}">
+                {{ block.settings.title | escape }}
+              </h2>
+              {% endunless %}
+
+              {% unless block.settings.subheading == blank %}
+              <span class="mega-subtitle slideshow__subtitle{% if section.settings.text_size == 'large' %} mega-subtitle--large{% endif %}">
+                {{ block.settings.subheading | escape }}
+              </span>
+              {% endunless %}
+              
+            </div>
+          </div>
+        </div>
+          {% if block.settings.image == blank %}
+
+          <img src="{{ 'place-holder2.png' |  asset_img_url: '2048x2048' }}" alt="place_holder_image">
+          <button type="button" class="text-link btn-play-video back" >
+            {% include 'icon-play-video' %}
+          </button>
+          {% else %}
+          <img src="{{ block.settings.image | img_url: '2x' }}" alt="{{ block.settings.image.alt | escape }}" >
+          <button type="button" class="text-link btn-play-video back" >
+            {% include 'icon-play-video' %}
+          </button>
+          {% endif %}
+        </div>
+        <div class="iframe_video" style="display:none;">
+          <button type="button" class="text-link close_video" data-controls="SlideshowVideo-{{ block.id }}">
+            {% include 'icon-close' %}
+          </button>
+          <iframe class="video-with-bnr" height="700" width="100" src="" data-src="https://www.youtube.com/embed/{{block.settings.video_id}}?autoplay=1&cc_load_policy=1"></iframe>
+        </div>
+        
+        <script>
+          $(document).ready(function(){
+            var bh = $('.image_before_video.bh-{{block.id}}').height();
+            $('.image_before_video.bh-{{block.id}}').siblings('.iframe_video').find('iframe').height(bh);
+            $('.chrome .image_before_video .btn-play-video').click(function(){
+            $(this).parents('.image_before_video').css('display','none');
+            $(this).parents('.slideshow__slide').find('.iframe_video').css('display','block');
+            var t =$(this).parents('.slideshow__slide').find('iframe').data('src');
+            $(this).parents('.slideshow__slide').find('iframe').attr('src',t);
+            });
+
+            $('.chrome .iframe_video .close_video').click(function(){
+              $(this).parents('.slideshow__slide').find('.image_before_video').css('display','block');
+              $(this).parents('.slideshow__slide').find('.iframe_video').css('display','none');
+              $(this).parents('.slideshow__slide').find('iframe').attr('src','');
+            });
+          });
+        </script>
+      </div>
+      {% endif %}
+
+      {% elsif block.type == 'image' %}
+      <div class="slideshow__image tests slideshow__image--{{ block.id }}">
+
+        {% if block.settings.image == blank %}
+
+        <img src="{{ 'place-holder2.png' |  asset_img_url: '2048x2048' }}" alt="place_holder_image">
+
+        {% else %}
+		<div class="slideshow__image box ratio-container lazyload{% unless forloop.first == true %} lazypreload{% endunless %} js"
+              style="background-position: {{ block.settings.alignment }};background-image: url('{{ block.settings.image | img_url: '2048x2048' }}');">
+              </div>
+       {% comment %}
+                 <img src="{{ block.settings.image | img_url: '2x' }}">
+                 {% endcomment %}
+        {% endif %}
+        <div class="slideshow__text-wrap{% if block.settings.title != blank or block.settings.subheading != blank %} slideshow__overlay{% endif %}">
+          <div class="slideshow__text-content">
+            <div class="page-width arrows {{block.settings.button_positiong}}">
+              {% unless block.settings.title == blank %}
+              <h2 class="h1 mega-title slideshow__title{% if settings.link != blank %} slideshow__title--has-link{% endif %}{% if section.settings.text_size == 'large' %} mega-title--large{% endif %}">
+                {{ block.settings.title | escape }}
+              </h2>
+              {% endunless %}
+
+              {% unless block.settings.subheading == blank %}
+              <span class="mega-subtitle slideshow__subtitle{% if section.settings.text_size == 'large' %} mega-subtitle--large{% endif %}">
+                {{ block.settings.subheading | escape }}
+              </span>
+              {% endunless %}
+              {% unless block.settings.button_cus == blank %}
+
+              <div class="button_container{{ block.id }}">
+                <a href="{{ block.settings.link_butt }}">
+                  <span class="button_custom" style="background-color: {{ block.settings.button_background_color }} !important; color: {{ block.settings.button_color }};">
+                    {{ block.settings.button_cus | escape }}
+                  </span>
+                </a>
+              </div>
+
+              {% endunless %}
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      {% endif %}
+
+
+
+
+
+
+      {% comment %}
+      <div class="slideshow__slide test slideshow__slide--{{ block.id }}{% if is_background_video %} slideshow__slide--background-video{% endif %}" {{ block.shopify_attributes }}>
+        {% if block.settings.link != blank %}
+        <a href="{{ block.settings.link }}" class="slideshow__link"> 
+          {% endif %}
+
+          {% if block.settings.image != blank %}
+          {% endif %}
+
+          {% if block.type == 'video' %}
+          {% if block.settings.video_id != blank %}
+          <div class="video-loader"></div>
+          {% endif %}
+          {% unless block.settings.video_type == 'background' %}
+          <button type="button" class="text-link slideshow__video-control slideshow__video-control--close" data-controls="SlideshowVideo-{{ block.id }}">
+            {% include 'icon-close' %}
+            <span class="icon__fallback-text">{{ 'sections.slideshow.close_video' | t }}</span>
+          </button>
+          {% endunless %}
+          {% if block.settings.video_id != blank %}
+          <div id="SlideshowVideo-{{ block.id }}" class="slideshow__video {% if is_background_video %}slideshow__video--background{% endif %} slideshow__video--{{ block.settings.video_type }}"
+               data-id="{{ block.settings.video_id }}"
+               data-type="{{ block.settings.video_type }}"
+               data-slideshow="Slideshow-{{ section.id }}"></div>
+          {% endif %}
+          {% endif %}
+
+          <div class="slideshow__image tests slideshow__image--{{ block.id }}">
+
+            {% if block.settings.image == blank %}
+
+            <img src="{{ 'place-holder2.png' |  asset_img_url: '2048x2048' }}" alt="place_holder_image">
+
+            {% else %}
+            <img src="{{ block.settings.image | img_url: '2x' }}" alt="{{ block.settings.image.alt | escape }}" >
+
+            {% endif %}
+          </div>
+          <div class="slideshow__text-wrap{% if block.settings.title != blank or block.settings.subheading != blank %} slideshow__overlay{% endif %}">
+            <div class="slideshow__text-content">
+
+              <div class="page-width arrows">
+
+                {% unless block.settings.title == blank %}
+                <h2 class="h1 mega-title slideshow__title{% if settings.link != blank %} slideshow__title--has-link{% endif %}{% if section.settings.text_size == 'large' %} mega-title--large{% endif %}">
+                  {{ block.settings.title | escape }}
+                </h2>
+                {% endunless %}
+                {% unless block.settings.subheading == blank %}
+                <span class="mega-subtitle slideshow__subtitle{% if section.settings.text_size == 'large' %} mega-subtitle--large{% endif %}">
+                  {{ block.settings.subheading | escape }}
+                </span>
+                {% endunless %}
+                {% unless block.settings.button_cus == blank %}
+
+                <div class="button_container{{ block.id }}">
+                  <a href="{{ block.settings.link_butt }}">
+                    <span class="button_custom">
+                      {{ block.settings.button_cus | escape }}
+                    </span>
+                  </a>
+                </div>
+
+                {% endunless %}
+
+                {% if block.type == 'video' %}
+                {% unless block.settings.video_type == 'background' %}
+                <div class="slideshow__video-control--play-wrapper{% if block.settings.title != blank or block.settings.subheading != blank %} slideshow__video-control--play-wrapper--push{% endif %}">
+                  <button type="button" class="text-link slideshow__video-control slideshow__video-control--play" data-controls="SlideshowVideo-{{ block.id }}">
+                    {% include 'icon-play-video' %}
+                    <span class="icon__fallback-text">{{ 'sections.slideshow.play_video' | t }}</span>
+                  </button>
+                </div>
+                {% endunless %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          {% if block.settings.link != blank %}
+        </a>
+        {% endif %}
+
+        <div class="slideshow__text-content">
+          {% if section.blocks.size > 1 %}
+          <div class="custom_buttons">
+            <div class="left_button">
+              <span class="left_btn"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> </span>
+            </div>
+            <div class="right_button">
+              <span class="right_btn"> <i class="fa fa-chevron-circle-right" aria-hidden="true"></i> </span>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+      </div>
+      {% endcomment %}
+      {% endfor %}
+
+    </div>
+  </div>
+  {% endif %}
+
+  {% if section.blocks.size == 0 %}
+  <div class="placeholder-noblocks">
+    {{ 'homepage.onboarding.no_content' | t }}
+  </div>
+  {% endif %}
+</div>
+<style>
+  .slideshow__slide--background-video .slideshow__image.tests {
+    display: none;
+  }
+  .button_container a:focus {
+    outline: none;
+  }
+  {% for block in section.blocks %}
+  
+  span.button_custom {
+    color: {{ block.settings.button_color }};
+    text-transform: uppercase;
+    font-size: {{ block.settings.button_text }};
+    font-weight: bold;
+    background-color: {{ block.settings.button_background_color }};
+    padding: 5px 10px;
+    border-radius: 10px;
+  } 
+  {% endfor %}
+
+  .button_container a {
+    opacity: 1 !important;
+  }  
+  .button_container {
+    padding-top: 50px;
+  }
+  ul.slick-dots li button{
+    outline: none !important;
+  }
+
+  .slideshow-wrapper:hover .custom_buttons {
+    opacity: 1;
+  }
+  .custom_buttons {
+    transition: all 0.5s ease 0s;
+    opacity: 0;
+  }
+  .left_button {
+    position: absolute;
+    left: 0%;
+    top:26%;
+    width: 20px;
+    font-size: 2.1875em;
+    color: #B3B3B3;
+
+  } 
+  .right_button{
+    position: absolute;
+    right: 0%;
+    top:26%;
+    width: 20px;
+    font-size: 2.1875em;
+    color: #B3B3B3;    
+  }
+  .page-width.arrows {
+    padding-bottom: 4%;
+  }
+  .left_button:hover {
+    cursor:pointer;
+  }  
+  .right_button:hover {
+    cursor:pointer;
+  } 
+  .left_button {
+    margin-left: 10px;
+  }
+  .right_button {
+    margin-right: 20px;
+  }  
+  	/********banner background*********/ 
+ .index_banner .slideshow--large .slideshow__image.box {
+    height: 100%;
+    width: auto;
+}
+.index_banner .slideshow--medium .slideshow__image.box {
+    height: 100%;
+}
+  iframe.background_banner_vdeo {
+    width: 100%;
+    height: 100%;
+}
+  
+ /*************video*****************/
+.bg_video_iframe {
+  position: relative;
+  height: 0;
+}
+
+.bg_video_iframe iframe {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+}
+.slideshow--large .slick-list.draggable {
+    height: 500px !important;
+}
+  .slideshow--medium .slick-list.draggable {
+    height: 700px !important;
+}
+button.text-link.play_bg_video {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+}
+
+ 		/********end banner background*********/ 
+
+@media screen and (min-width:320px) and (max-width:767px){
+  .page-width.arrows {
+    padding-bottom: 0%;
+  }
+  .button_container {
+    padding-top: 0px;
+  }
+  ul.slick-dots {
+    display: none;
+  }
+
+  .left_button {
+    position: absolute;
+    left: 0%;
+    width: 20px;
+    bottom: -15px;
+    font-size: 0.875em;
+    color: #fff;
+    background-color: #000;
+  }
+  .right_button {
+    position: absolute;
+    right: 0%;
+    width: 20px;
+    bottom: -15px;
+    font-size: 0.875em;
+    color: #fff;
+    background-color: #000;
+  }  
+  .slideshow--large .slick-list.draggable {
+    height: 350px !important;
+  }
+  .slideshow--medium .slick-list.draggable {
+    height: 500px !important;
+  }
+  .index_banner .slideshow--medium .slideshow__image.box {
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .index_banner .slideshow--large .slideshow__image.box {
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
+  .slideshow.slideshow--medium {
+    height: 100%;
+  }
+
+</style>
+<script>
+  $('.right_btn-{{ section.id }}').click(function(){
+    var ab = $("#shopify-section-{{ section.id }}").find(".slick-dots").find('.slick-active').next('li').trigger('click');
+    });
+  $('.left_btn-{{ section.id }}').click(function(){
+    var ab = $("#shopify-section-{{ section.id }}").find(".slick-dots").find('.slick-active').prev('li').trigger('click');
+    });
+
+  $('.right_btn').click(function(){
+    var ab = $(".slick-dots").find('.slick-active').next('li').trigger('click');
+  });
+  $('.left_btn').click(function(){
+    var ab = $(".slick-dots").find('.slick-active').prev('li').trigger('click');
+  });
+
+</script>
+{% schema %}
+  {
+    "name": "Slideshow",
+    "class": "index-section index-section--flush index_banner",
+    "max_blocks": 10,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Auto-rotate slides",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "autoplay_speed",
+        "label": "Change slides every",
+        "options": [
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "7000"
+      },
+      {
+        "type": "select",
+        "id": "slideshow_height",
+        "label": "Section height",
+        "default": "medium",
+        "options": [
+          {
+            "label": "Large",
+            "value": "medium"
+          },
+          {
+            "label": "Medium",
+            "value": "large"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "text_size",
+        "label": "Text size",
+        "default": "medium",
+        "options": [
+          {
+            "label": "Medium",
+            "value": "medium"
+          },
+          {
+            "label": "Large",
+            "value": "large"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "select",
+            "id": "alignment",
+            "label": "Image alignment only for desktop",
+            "default": "top",
+            "options": [
+              {
+                "value": "top",
+                "label": "Top"
+              },
+              {
+                "value": "center",
+                "label": "Middle"
+              },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Image slide"
+          },
+          {
+            "type": "text",
+            "id": "subheading",
+            "label": "Subheading",
+            "default": "Tell your brand's story through video and images"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Slide link"
+          },
+           {
+             "type": "header",
+             "content": "Custom Button"
+           },
+          {
+            "type": "text",
+            "id": "button_cus",
+            "label": "Button",
+            "default": "Button dummy"
+          },
+          {
+            "type": "url",
+            "id": "link_butt",
+            "label": "Button link"
+          },
+          {
+        "type": "radio",
+        "id": "button_positiong",
+        "label": "Left\/Right\/Center",
+        "options": [
+          {
+            "value": "left_cus",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right_cus",
+            "label": "Right"
+          }
+        ]
+      },
+          {
+            "type": "text",
+            "id": "button_text",
+            "label": "Text"   
+          },
+          {
+            "type": "color",
+            "id": "button_color",
+            "label": "Button Text Color"
+          },
+          {
+            "type": "color",
+            "id": "button_background_color",
+            "label": "Background Color"
+          }
+         
+        ]
+      },
+      {
+        "type": "video",
+        "name": "Video slide",
+        "settings": [
+          {
+            "type": "text",
+            "id": "video_id",
+            "label": "YouTube video ID",
+            "default": "_9VUPq3SxOc",
+            "info": "[Find your YouTube video ID](https://docs.joeworkman.net/rapidweaver/stacks/youtube/video-id)."
+          },
+          {
+            "type": "select",
+            "id": "video_type",
+            "label": "Style",
+            "options": [
+              {
+                "value": "chrome",
+                "label": "Image with play button"
+              },
+              {
+                "value": "background-chrome",
+                "label": "Background video with play button"
+              },
+              {
+                "value": "background",
+                "label": "Background video"
+              }
+            ]
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "Fallback when autoplaying video is not supported on mobile devices"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Video slide"
+          },
+          {
+            "type": "text",
+            "id": "subheading",
+            "label": "Subheading",
+            "default": "Tell your brand's story through video and images"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Slideshow",
+      "category": "Section",
+      "settings": {
+        "autoplay": true,
+        "autoplay_speed": "5000"
+      },
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }]
+  }
+{% endschema %}
+<style>
+  .page-width.arrows.left_cus {
+    float: left;
+}
+  .page-width.arrows.right_cus {
+    float: right;
+}
+  .btn-play-video {
+    position: absolute;
+    z-index: 9999999999999;
+    bottom: 50%;
+    left: 50%;
+    background-color: #fff;
+    padding: 10px 15px 12px;
+    border-radius: 100px;
+    line-height: 28px;
+    box-shadow: 0px 0px 13px 1px black;
+}
+button.play_bg_video:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.2);
+  width: 100%;
+  height: 100%;
+}  
+
+@media only screen and (max-width: 1024px){
+
+.template-index .slideshow-wrapper .image_before_video{
+height: 100%;
+width: 100%;
+} 
+
+.template-index .slideshow-wrapper .image_before_video img{
+height: 100%;
+width: 100%;
+object-fit: cover;
+object-position: center center;
+}
+
+.template-index .slideshow-wrapper .btn-play-video{
+transform: translate(-50%, -50%);
+}
+}
+
+.template-index .slideshow-wrapper .iframe_video,
+.template-index .slideshow-wrapper .iframe_video iframe,
+.template-index .slideshow-wrapper .bg_video_iframe,
+.template-index .slideshow-wrapper .bg_video_iframe iframe,
+.template-index .slideshow-wrapper .image_before_video,
+.template-index .slideshow-wrapper .image_before_video img{
+
+min-height: 100% !important;
+height: 100% !important;
+min-width: 100% !important;
+}
+
+.template-index .slideshow-wrapper .iframe_video,
+.template-index .slideshow-wrapper .bg_video_iframe,
+.template-index .slideshow-wrapper .image_before_video{
+
+padding-bottom: 1rem;
+}
+
+.template-index .slideshow-wrapper .btn-play-video{
+transform: translate(-50%, -50%);
+}  
+  
+</style>

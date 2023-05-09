@@ -1,0 +1,571 @@
+<div data-section-id="{{ section.id }}" data-section-type="header-section" >
+  <div class="site-header__container">
+    {% include 'mobile-nav' %}
+    {% if settings.enable_cookie_bar != blank %}
+      <div class="cookie-bar">
+        <div class="cross_icon" id="cookie-bar__close">
+          <img class="lazyload" alt="close button for the cookie policy bar" data-src="{{ "cross.png" | asset_url }}"> 
+        </div>
+        <span class="cookie-bar__message">
+          {{ settings.cookie_bar_text }}&nbsp;<a href="{{ settings.cookie_bar_link_url }}">{{ settings.cookie_bar_link_text }}</a>
+        </span>
+      </div>
+    {% endif %}
+    <div class="site-header__main-container border-bottom logo--left" role="banner">
+      {% unless linklists[section.settings.main_linklist] == blank %}
+        <div id="site-header__mobile-nav" class="btn--link mobile-nav--open">
+          {% include 'icon-hamburger' %}
+          {% include 'icon-close' %}
+          <span class="icon__fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
+        </div>
+      {% endunless %}  
+      <div class="site-header__logo" itemscope itemtype="http://schema.org/Organization">
+        {% if section.settings.logo %}
+          <a href="{{ shop.url }}" itemprop="url">
+            {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+            <img src="{{ section.settings.logo | img_url : 'master' }}"
+                alt="{{ section.settings.logo.alt | default: shop.name }}"
+                id="toplogo"
+                class="site-header__logo-image" itemprop="logo"> 
+          </a>
+        {% else %}
+          <a class="site-header__logo-link" href="{{ shop.url }}" itemprop="url">{{ shop.name }}</a>
+        {% endif %}
+      </div>
+      <nav id="site-header__desktop-nav" role="navigation">
+        {% include 'desktop-nav' %}
+      </nav>
+      <div class="site-header__icons">
+        <div class="site-header__search">
+          {% include 'search-form' %}
+        </div>
+        {% if shop.customer_accounts_enabled %}
+          {% if customer %}
+            <a href="/account" class="site-header__account">
+              {% include 'icon-login' %}
+              <span class="icon__fallback-text">{{ 'layout.customer.account' | t }}</span>
+            </a>
+          {% else %}
+            <a href="/account/login" class="site-header__account">
+              {% include 'icon-login' %}
+              <span class="icon__fallback-text">{{ 'layout.customer.log_in' | t }}</span>
+            </a>
+          {% endif %}
+        {% endif %}
+        <a href="/cart" class="site-header__cart">
+          {% include 'icon-cart' %}
+          <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
+          <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
+          <div id="CartCount" class="site-header__cart-count {% if cart.item_count == 0 %} hidden-count {% endif %}">
+            {{ cart.item_count }}
+          </div>
+        </a>
+      </div>
+    </div>
+    {% if section.settings.message %}
+      <div class="announcement-bar">
+        <div class="cross_icon" id="announcement-bar__close">
+          <img class="lazyload" alt="close button the free shipping announcement bar" data-src="{{ "cross.png" | asset_url }}"> 
+        </div>
+          <div class="announcement-bar__slider-container">
+            {% assign messages = section.settings.message_text_1 | append: "||" | append: section.settings.message_text_2 | append: "||" | append: section.settings.message_text_3 | append: "||" | append: section.settings.message_text_4 | append: "||" | append: section.settings.message_text_5 %}
+            {% assign messages = messages | split: "||"  | compact %}
+            {% if messages.size > 1 %}
+              <button class="slick-prev-btn slick-prev slick-arrow" aria-label="Previous" type="button">
+                  <img class="lazyload" data-src="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+              </button>
+              <div class="slick-slider__carousel" id="announcement-bar__carousel">
+                {% for message_text in messages %}
+                  {% if message_text != blank %}
+                    <div class="slick-slider__item">
+                      <div class="slick-slider__card" tabindex="-1">
+                        <span class="announcement-bar__message">
+                          {{ message_text }}
+                        </span>   
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <button class="slick-next-btn slick-next slick-arrow" aria-label="Next" type="button">
+                <img class="lazyload" data-src="{{ settings.scroll_top_img | img_url: "78x46" }}"/>
+              </button>
+            {% elsif messages[0] != blank %}
+              <span class="announcement-bar__message">
+                {{ messages[0] }}
+              </span>   
+            {% endif %}
+          </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  @media screen and (max-width: 800px) {
+    .announcement-bar { 
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  var cookieClass = 'cookie-hidden';
+  var announcementClass = 'announcement-hidden';
+  var hideBothClass = 'both-hidden';
+  function adjustHeader() {
+    let feraPromoBar = $('.fera-promoBar');
+    let cookieBar = $('.cookie-bar');
+    let announcementBar = $('.announcement-bar');
+    let mainContainer = $('.main-content');
+    let mainBar = $('.site-header__main-container');
+    var promoBarHeight = 0;
+    if (feraPromoBar)
+      promoBarHeight = feraPromoBar.is(':visible') ? feraPromoBar.innerHeight() : 0;
+    var cookieBarHeight = cookieBar.is(':visible') ? cookieBar.height() : 0;
+    var announcementBarHeight = announcementBar.is(':visible') ? announcementBar.height() : 0;
+    var mainBarHeight = mainBar.is(':visible') ? mainBar.height() : 0;
+    var totalHeight = promoBarHeight + cookieBarHeight + announcementBarHeight + mainBarHeight;
+    //$('.main-content').css('padding-top', totalHeight + 'px');
+    try {
+    $('#announcement-bar__carousel').slick("refresh");
+    } catch (err) { }
+  }
+  $(document).ready(function() {
+    var cookieBar = $('.cookie-bar');
+    var announcementBar = $('.announcement-bar');
+    var mainContainer = $('.main-content');
+    var mainBar = $('.site-header__main-container');
+    if (readCookie('hidecookiepolicy')) {
+      mainContainer.addClass(cookieClass);
+      cookieBar.hide();
+    } else
+      cookieBar.show();
+    if (readCookie('hideannouncement')) {
+      if (mainContainer.hasClass(cookieClass)) {
+        mainContainer.addClass(hideBothClass);
+        mainContainer.removeClass(cookieClass);
+      }
+      else
+        mainContainer.addClass(announcementClass);
+      announcementBar.hide();
+    } else
+      $('#announcement-bar__carousel').slick({
+        dots: false,
+        infinite: true,
+        speed: 400,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        touchThreshold: 8,
+        autoplay: true,
+        pauseOnFocus: true,
+        pauseOnHover: true,
+        pauseOnDotsHover: true,
+        autoplaySpeed: 4000,
+        arrows: false
+      });
+
+    adjustHeader();
+
+    $('#cookie-bar__close').click(function() {
+      cookieBar.slideUp("slow");
+      createCookie('hidecookiepolicy', true, 3);
+      adjustContainerPadding(1);
+      return false;
+    });
+    $('#announcement-bar__close').click(function() {
+      announcementBar.slideUp("slow");
+      createCookie('hideannouncement', true, {{ section.settings.days_till_hide_expires }});
+      adjustContainerPadding(2);
+      return false;
+    });
+  });
+  
+  /*
+  * Mobile Nav
+  */
+  $(function() {
+    var overlay = $('#page-overlay');
+    var openClass = 'mobile-nav--open';
+    var closeClass = 'mobile-nav--close';
+    var navButton = $('#site-header__mobile-nav');
+    var header = $('.site-header__container');
+    var page = $('#PageContainer');
+    var closeNav = function () {
+      header.removeClass(openClass);
+      page.removeClass(openClass);
+      $('body').removeClass(openClass);
+      $('html').removeClass(openClass);
+      $('.scrollup').removeClass('hide');
+      overlay.hide();
+    };
+    overlay.click(function() {
+      if (navButton.hasClass(closeClass)) {
+        closeNav();
+        navButton.toggleClass(openClass);
+        navButton.toggleClass(closeClass);
+      }
+    });
+    navButton.click(function() {
+      if ($(window).outerWidth() < 1024) {
+        if (navButton.hasClass(openClass)) { // Opening the nav
+          var scrollTop = $(document).scrollTop();
+
+          header.addClass(openClass);
+          page.addClass(openClass);
+          $('body').addClass(openClass);
+          $('html').addClass(openClass);
+          $('.scrollup').addClass('hide');
+          overlay.show();
+          
+        } else if (navButton.hasClass(closeClass)) { // Closing the nav
+          closeNav();
+        }  
+
+        navButton.toggleClass(openClass);
+        navButton.toggleClass(closeClass);
+      }
+    });
+  });
+
+  function adjustContainerPadding(action) {
+    var mainContainer = $('.main-content');
+    var cookieBar = $('.cookie-bar');
+    var announcementBar = $('.announcement-bar');
+    var mainBar = $('.site-header__main-container');
+    var feraPromoBar = $('.fera-promoBar');
+    var promoBarHeight = 0;
+    if (feraPromoBar)
+      promoBarHeight = feraPromoBar.is(':visible') ? feraPromoBar.innerHeight() : 0;
+
+    switch (action) {
+      case 1: // Cookie bar is now hidden
+        if (mainContainer.hasClass(announcementClass)) {
+          adjustContainerPadding(3);
+          return;
+        }
+        if (!mainContainer.hasClass(cookieClass)) {
+          mainContainer.addClass(cookieClass);
+          //$('.main-content').animate( { 'padding-top': promoBarHeight + announcementBar.height() + mainBar.height() + 'px' }, "slow");
+        }
+        break;
+      case 2: // Announcement bar is now hidden
+        if (mainContainer.hasClass(cookieClass)) {
+          adjustContainerPadding(3);
+          return;
+        }
+        if (!mainContainer.hasClass(announcementClass)) {
+          mainContainer.addClass(announcementClass);
+          //$('.main-content').animate( { 'padding-top':promoBarHeight + cookieBar.height() + mainBar.height() + 'px' }, "slow");
+        }
+        break;
+      case 3: // Both are now hidden
+        if (mainContainer.hasClass(cookieClass))
+          mainContainer.removeClass(cookieClass);
+        if (mainContainer.hasClass(announcementClass))
+          mainContainer.removeClass(announcementClass);
+        if (!mainContainer.hasClass(hideBothClass))
+          mainContainer.addClass(hideBothClass);
+          //$('.main-content').animate( { 'padding-top': promoBarHeight + mainBar.height() + 'px' }, "slow");
+        break;
+      default:
+        console.error('Invalid action was passed to adjustContainerPadding');
+        break;
+    }
+  }
+
+  // ---
+  // And some generic cookie logic
+  // ---
+  function createCookie(name,value,days) {
+    var ron = {{ section.settings.seconds_till_hide_expires }};
+    if (name !== 'hideannouncement') {
+      ron = 0;
+    } else if (days == 0) {
+      days = 1/(86400*1000);
+    }
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime()+((days*86400*1000) + (ron*1000)));
+      var expires = ";Secure;SameSite=Strict; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+  }
+
+  function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+  } 
+
+  function eraseCookie(name) {
+    createCookie(name,"",-1);
+  }
+</script>
+
+<style>
+  .announcement-bar {
+    background-color: {{ section.settings.color_bg }};
+  }
+  .announcement-bar__message {
+    color: {{ section.settings.color_text }};
+  }
+  div.desktop-nav__dropdown {
+    z-index: 9999;
+  }
+  {% if section.settings.logo != blank %}
+    .site-header__logo-image {
+      max-width: {{ section.settings.logo_max_width }}px !important;
+      margin-top: {{ section.settings.logo_vertical_adjustment }};
+    }
+  {% endif %}
+  {% unless shop.customer_accounts_enabled %}
+    .lefts {
+      right: 70px;
+    } 
+  {% endunless %}
+  {% unless section.settings.cross %}
+    .cross_icon {
+      display: none;
+    }
+  {% endunless %} 
+  span.announcement-bar__message {
+    font-size:  {{ section.settings.message_text_font_size }} !important;
+  }
+  nav#site-header__desktop-nav ul li a {
+    color: {{ section.settings.menu_font_color }};
+  }
+  header.site-header.border-bottom.logo--left {
+    border-bottom: 0px;
+  }  
+  svg:not(:root) {
+    fill:{{ section.settings.Svg }};
+  }
+  {% if section.settings.header_divider  %}
+    header.site-header.border-bottom.logo--left {
+        border-bottom: 1px solid {{ section.settings.header_divider_color }} ;
+    }
+  {% else %}
+    header.site-header.border-bottom.logo--left {
+      border-bottom: 0px solid #000;
+    }
+  {% endif %} 
+  /* -------------------  header background----------------------- */
+  .whole_header {
+    position: fixed;
+    width: 100vw;
+    z-index: 1000;
+  } 
+  span.announcement-bar__message {
+    width: 100%;
+    margin: 0 auto;
+    max-width: {{ section.settings.announcement_text_width }}px;
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "text",
+        "id": "logo_max_width",
+        "label": "Custom logo width (in pixels)",
+        "default": "100"
+      },
+      {
+        "type": "text",
+        "id": "logo_vertical_adjustment",
+        "label": "Vertical adjustment",
+        "default": "-4px"
+      },
+      {
+        "type": "header",
+        "content": "Header Menu"
+      },  
+      {
+        "type": "link_list",
+        "id": "main_linklist",
+        "label": "Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "text",
+        "id": "menu_font_size",
+        "label": "Font Size"
+      },
+      {
+        "type": "text",
+        "id": "menu_font_weight",
+        "label": "Font Weight",
+        "default": "100"
+      },
+      {
+        "type": "color",
+        "id": "menu_font_color",
+        "label": "Font Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "menu_background_color",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+		  {
+        "type": "color",
+        "id": "Svg",
+        "label": "Svg color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Announcement"
+      },  
+      {
+        "type": "checkbox",
+        "id": "message",
+        "label": "Show announcement",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "cross",
+        "label": "Show \"X\" button",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "days_till_hide_expires",
+        "label": "Days until announcement reappears",
+        "default": "0"
+      },
+      {
+        "type": "text",
+        "id": "seconds_till_hide_expires",
+        "label": "Seconds until announcement reappears",
+        "default": "0"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Announcement color",
+        "default": "#7796A8"
+      },
+      {
+        "type": "header",
+        "content": "Announcement Messages"
+      },
+      {
+        "type": "text",
+        "id": "announcement_text_width",
+        "label": "Announcement text width"
+      },
+      {
+        "type": "text",
+        "id": "message_text_font_size",
+        "label": "Font size"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Announcement text color",
+        "default": "#fff"
+      },
+      {
+        "type": "text",
+        "id": "message_text_1",
+        "label": "Announcement text",
+        "default": "Announce something here"
+      },
+      {
+        "type": "text",
+        "id": "message_text_2",
+        "label": "Announcement text"
+      },
+      {
+        "type": "text",
+        "id": "message_text_3",
+        "label": "Announcement text"
+      },
+      {
+        "type": "text",
+        "id": "message_text_4",
+        "label": "Announcement text"
+      },
+      {
+        "type": "text",
+        "id": "message_text_5",
+        "label": "Announcement text"
+      },
+      {
+        "type": "header",
+        "content": "Divider"
+      },       
+      {
+        "type": "checkbox",
+        "id": "header_divider",
+        "label": "Enable divider",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "header_divider_color",
+        "label": "Font Color"
+      },
+      {
+        "type": "header",
+        "content": "Desktop Navigation"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_left_image",
+        "label": "Enable left image",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "left_image",
+        "label": "Left Image"
+      },
+      {
+        "type": "text",
+        "id": "left_image_url",
+        "label": "Left Image URL",
+        "default": "#"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_right_image",
+        "label": "Enable right image",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "right_image",
+        "label": "Right Image"
+      },
+      {
+        "type": "text",
+        "id": "right_image_url",
+        "label": "Right Image URL",
+        "default": "#"
+      }
+    ]
+  }
+{% endschema %}
